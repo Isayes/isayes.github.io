@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 对 Android 应用被强杀重回应用的优化处理（重走应用流程） | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 对 Android 应用被强杀重回应用的优化处理（重走应用流程）"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 用来笔记一下</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/more">分类</a></li>
+    
+      <li><a href="/works">作品</a></li>
+    
+      <li><a href="http://blog.csdn.net/heartyhu">博客</a></li>
+    
+      <li><a href="http://weibo.com/khufly">微博</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"># 对 Android 应用被强杀重回应用的优化处理（重走应用流程）</h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2016-04-30T15:39:53.000Z">2016-04-30</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p>关键词：强杀 / home 键 / static 导致的 NullPointerException / BaseActivity</p>
+<p>背景：Android 编程中我们经常会使用到 static 变量，static 变量属于类本身，所有实例调用的静态变量的值都是一样的，如果在某一个类里改变了一个静态变量的值，其它所有的实例在调用这个值的时候也全都会发生了变化。static 在虚拟机中单独占用内存，在不同的包和类中都能使用，很方便。但是当应用被强杀后，若应用较长时间处于后台，会导致 NullPointerException 的异常产生。<a id="more"></a></p>
+<p>解释：因为按下 Android 的 home 键，如果位于后台较长时间，或者由于内存不足应用被强杀，应用依然会保持 activity 的栈信息（activity 栈没有被清空，比如说 A -&gt; B -&gt; C -&gt; D 这个栈还保存了，只是 ABCD 这几个 activity 实例没有了。所以回到 App 时，显示的还是 D 页面），当我们选择 “最近打开的应用” 回到前台的时候，该 activity 会重新执行 onCreate() 进行初始化操作（也包括 application 的初始化），如果操作中包含了对其他类的静态变量的引用，而应用被强杀后该静态变量的实例已被虚拟机回收，这样便引发了空指针。<br>那么问题来了，我们理应重新走应用的流程，如何改善这种情况而避免这种异常的发生呢，既然 App 都被强杀了，干嘛不重新走第一次启动的流程呢，别让 App 回到 D 而是再启动 A，这样所有的变量都是按正常的流程去初始化，也就不会空指针了。需要判断是否被强杀，如果是，就强制重新走应用的开始流程。通过在有心课堂的学习，进行了这个过程的模仿并梳理了思路。</p>
+<p>参考：<a href="http://notes.stay4it.com/2016/02/26/how-to-handle-app-force-killed/" target="_blank" rel="external">应用被强杀了怎么办 http://notes.stay4it.com/2016/02/26/how-to-handle-app-force-killed/</a></p>
+<h2 id="流程梳理"><a href="#流程梳理" class="headerlink" title="流程梳理 #"></a>流程梳理 #</h2><p>自定义了一个 CustomApplication，用来初始化全局变量<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ArrayList&lt;String&gt; mTestNullPointer;</span><br><span class="line">    <span class="comment">// 我们把 -1 模拟表示被强杀</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> mAppStatus = -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>做了一个父类 BaseActivity ，让每一个 Activity 都继承自 BaseActivity，各 Activity 要么会执行 protectApp() 方法，要么会执行 setupData() 方法，前者是由于强杀，后者是正常情况下的初始化操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 判断如果被强杀，就回到 HomeActivity 中去，否则可以初始化</span></span><br><span class="line">        <span class="keyword">if</span> (CustomApplication.mAppStatus == -<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// 重走应用流程</span></span><br><span class="line">            protectApp();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            setupData();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 在这里做初始化操作</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">setupData</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用 protected 让子类可以重写该方法</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">protectApp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 重新走应用的流程是一个正确的做法，因为应用被强杀了还保存 Activity 的栈信息是不合理的</span></span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, HomeActivity.class);</span><br><span class="line">        intent.putExtra(<span class="string">"action"</span>, <span class="string">"force_kill"</span>);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面是模拟强杀并且进行优化处理的做法流程</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/a53846c3gw1f3t1mrml02j20pa0dwt9f.jpg" alt="对 Android 应用被强杀重回应用的优化处理（重走应用流程）"></p>
+<p>图中各 Activity 对应的代码如下</p>
+<p>1、WelcomeActivity</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WelcomeActivity</span> <span class="keyword">extends</span> <span class="title">BaseActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 把状态变为 0 能使父类不会走 protectApp()</span></span><br><span class="line">        CustomApplication.mAppStatus = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">setupData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        setContentView(R.layout.activity_welcome);</span><br><span class="line">        handler.sendEmptyMessageDelayed(<span class="number">0</span>, <span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Handler handler = <span class="keyword">new</span> Handler() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>.handleMessage(msg);</span><br><span class="line">            startActivity(<span class="keyword">new</span> Intent(WelcomeActivity.<span class="keyword">this</span>, LoginActivity.class));</span><br><span class="line">            finish();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、LoginActivity</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginActivity</span> <span class="keyword">extends</span> <span class="title">BaseActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_login);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        startActivity(<span class="keyword">new</span> Intent(<span class="keyword">this</span>, HomeActivity.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、HomeActivity</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * HomeActivity 的启动模式为 "singleTask"</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HomeActivity</span> <span class="keyword">extends</span> <span class="title">BaseActivity</span> <span class="keyword">implements</span> <span class="title">View</span>.<span class="title">OnClickListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Button mHomeProfileBtn;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化操作</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">setupData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        setContentView(R.layout.activity_home);</span><br><span class="line">        mHomeProfileBtn = $(R.id.id_mHomeProfileBtn);</span><br><span class="line">        mHomeProfileBtn.setOnClickListener(<span class="keyword">this</span>);</span><br><span class="line">        CustomApplication.mTestNullPointer = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        CustomApplication.mTestNullPointer.add(<span class="string">"profile"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onNewIntent</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onNewIntent(intent);</span><br><span class="line">        String action = intent.getStringExtra(<span class="string">"action"</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"force_kill"</span>.equals(action)) &#123;</span><br><span class="line">            <span class="comment">// 在 ProfileActivity 被强杀了就重新走应用的流程</span></span><br><span class="line">            protectApp();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">protectApp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 回到 WelcomeActivity</span></span><br><span class="line">        startActivity(<span class="keyword">new</span> Intent(<span class="keyword">this</span>, WelcomeActivity.class));</span><br><span class="line">        finish();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        startActivity(<span class="keyword">new</span> Intent(<span class="keyword">this</span>, ProfileActivity.class));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">    <span class="keyword">private</span> &lt;T&gt; T $(<span class="keyword">int</span> resId) &#123;</span><br><span class="line">        <span class="keyword">return</span> (T) findViewById(resId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、ProfileActivity</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProfileActivity</span> <span class="keyword">extends</span> <span class="title">BaseActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> TextView mProfileLabel;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        <span class="comment">// 让所有继承于 BaseActivity 的子类的 onCreate() 都直接交给父类 BaseActivity 去操作，</span></span><br><span class="line">        <span class="comment">// 让父类进行一系列的先判断，不让子类随随便便地进行初始化</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">setupData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        setContentView(R.layout.activity_profile);</span><br><span class="line">        mProfileLabel = $(R.id.id_mProfileLabel);</span><br><span class="line">        mProfileLabel.setText(CustomApplication.mTestNullPointer.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">    <span class="keyword">private</span> &lt;TT&gt; TT $(<span class="keyword">int</span> resId) &#123;</span><br><span class="line">        <span class="keyword">return</span> (TT) findViewById(resId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>End.</p>
+<p>Note by <a href="http://isayes.github.io" target="_blank" rel="external">HF</a>.<br>Learn from 有心课堂</p>
+<hr>
+<p>本文标签：<a href="http://isayes.github.io/categories/android" target="_blank" rel="external">Android</a></p>
+
+      
+    </div>
+    <footer>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+
+  
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

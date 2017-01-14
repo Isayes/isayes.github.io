@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 读 Android 开发艺术探索 &amp;7 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 读 Android 开发艺术探索 &amp;7"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 用来笔记一下</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/more">分类</a></li>
+    
+      <li><a href="/works">作品</a></li>
+    
+      <li><a href="http://blog.csdn.net/heartyhu">博客</a></li>
+    
+      <li><a href="http://weibo.com/khufly">微博</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"># 读 Android 开发艺术探索 &amp;7</h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2016-05-07T05:48:06.000Z">2016-05-07</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p>关键词：自定义 View</p>
+<p>自定义 View 是一个综合的技术体系，涉及 View 的层次结构、事件分发机制、View 的工作原理等技术细节。面对陌生的自定义 View 的时候，运用以下思想去快速的解决问题：首先掌握了基本功比如 View 的弹性滑动、滑动冲突、绘制原理等；熟练掌握了基本功之后，在面对新的自定义 View 的时候，要能对其进行分类并选择合适的实现思路；平时多积累一些自定义 View 相关的经验，并逐渐做到融会贯通。</p>
+<a id="more"></a>
+<h2 id="1-自定义-View-的分类"><a href="#1-自定义-View-的分类" class="headerlink" title="1. 自定义 View 的分类 #"></a>1. 自定义 View 的分类 #</h2><ul>
+<li>继承 View 重写 onDraw 方法。用于实现一些不规则的效果，需要自己支持 wrap_content 和 padding；</li>
+<li>继承 ViewGroup 派生特殊的 Layout。用于自定义的布局，重新定义一种新布局，需要合适地处理 ViewGroup 的测量、布局这两个过程，并同时处理子元素的测量和布局过程；</li>
+<li>继承特定的 View 比如 TextView。用于拓展某种已有的 View 的功能；</li>
+<li>继承特定的 ViewGroup 比如 LinearLayout。几种 View 组合在一起的效果；</li>
+</ul>
+<h2 id="2-自定义-View-需要知道的几点"><a href="#2-自定义-View-需要知道的几点" class="headerlink" title="2. 自定义 View 需要知道的几点 #"></a>2. 自定义 View 需要知道的几点 #</h2><ul>
+<li>让 View 支持 wrap_content。对于直接继承自 View 的控件，如果不对 wrap_content 做特殊处理，那么就相当于使用 match_parent。需要指定一个 wrap_content 模式的默认宽高即可；</li>
+<li>如果有必要，让 View 支持 padding。直接继承 View 和 ViewGroup 的控件，padding 是默认无法生效的，需要自己处理；（中心思想就是要考虑到 View 四周的空白）</li>
+<li>尽量不要在 View 中使用 Handler，没必要；View 本身就提供了 post 系列的方法，完全替代 Handler 的作用；</li>
+<li>View 中如果有线程或动画需要停止的时候，那么 View#onDetachedFromWindow 是一个很好的时机；</li>
+<li>处理冲突</li>
+</ul>
+<p>End.</p>
+<p>Note by <a href="http://isayes.github.io" target="_blank" rel="external">HF</a>.<br>Learn from 《Android 开发艺术探索》</p>
+<hr>
+<p>本文标签：<a href="http://isayes.github.io/categories/android" target="_blank" rel="external">Android</a></p>
+
+      
+    </div>
+    <footer>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+
+  
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

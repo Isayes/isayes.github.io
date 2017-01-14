@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># Python 进阶&amp;2 模块 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# Python 进阶&amp;2 模块"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 用来笔记一下</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/more">分类</a></li>
+    
+      <li><a href="/works">作品</a></li>
+    
+      <li><a href="http://blog.csdn.net/heartyhu">博客</a></li>
+    
+      <li><a href="http://weibo.com/khufly">微博</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"># Python 进阶&amp;2 模块</h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2016-04-02T00:45:33.000Z">2016-04-02</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p>关键词：</p>
+<p>代码越来越多的时候 ，将所有代码放入同一个 py 文件：无法维护。如果将代码拆分放入到多个 py 文件，好处有：同一个名字的变量互不影响。<br><a id="more"></a><br>模块的名字就是 py 文件的文件名</p>
+<p>[ 应用其他的模块：]</p>
+<pre><code># test.py                 —— 自身的模块名
+import math                  —— 引用的 math 模块
+print math.pow(2,10)      —— 调用 math 模块的函数
+</code></pre><p>[ 解决模块名冲突：]</p>
+<p>同名模块放入到不同的包中，同名模块的 <strong>完整模块名</strong> 不同</p>
+<pre><code># test.py
+import p1.util
+print p1.util.f(2,10)
+</code></pre><p>在文件系统中：    </p>
+<ul>
+<li>包就是文件夹  </li>
+<li>模块就是 xxx.py 文件</li>
+<li>包也可以是有多级  </li>
+</ul>
+<p>[ 如何区分一个包和普通目录：]  </p>
+<p>包下面必须有一个 <code>__init__.py</code>，每层都必须有这个文件即使该层是空的，只有这样 Python 才能把这个文件夹当成包来使用。</p>
+<h2 id="导入模块"><a href="#导入模块" class="headerlink" title="# 导入模块"></a># 导入模块</h2><p>要使用一个模块，我们必须首先导入该模块。Python 使用 import 语句导入一个模块。例如，导入系统自带的模块 math：</p>
+<pre><code>import math
+</code></pre><p>你可以认为 math 就是一个指向已导入模块的变量，通过该变量，我们可以访问 math 模块中所定义的所有公开的函数、变量和类：</p>
+<pre><code>&gt;&gt;&gt; math.pow(2, 0.5) # pow是函数
+1.4142135623730951
+
+&gt;&gt;&gt; math.pi # pi是变量
+3.141592653589793
+</code></pre><p>如果我们 <strong>只希望导入用到的 math 模块的某几个函数</strong>，而不是所有函数，可以用下面的语句：</p>
+<pre><code>from math import pow, sin, log
+</code></pre><p>这样，可以直接引用 pow, sin, log 这3个函数，但 math 的其他函数没有导入进来：</p>
+<pre><code>&gt;&gt;&gt; pow(2, 10)
+1024.0
+&gt;&gt;&gt; sin(3.14)
+0.0015926529164868282
+</code></pre><p>如果遇到名字冲突怎么办？比如 math 模块有一个 log 函数，logging 模块也有一个 log 函数，如果同时使用，如何解决名字冲突？</p>
+<p>如果使用 import 导入模块名，由于必须通过模块名引用函数名，因此不存在冲突：</p>
+<pre><code>import math, logging
+print math.log(10)   # 调用的是math的log函数
+logging.log(10, &apos;something&apos;)   # 调用的是logging的log函数
+</code></pre><p>如果使用 from…import 导入 log 函数，势必引起冲突。这时，可以给函数起个“别名”来避免冲突：</p>
+<pre><code>from math import log
+from logging import log as logger   # logging的log现在变成了logger
+print log(10)   # 调用的是math的log
+logger(10, &apos;import from logging&apos;)   # 调用的是logging的log
+</code></pre><p>例子：<br>Python 的 os.path 模块提供了 isdir() 和 isfile() 函数，请导入该模块，并调用函数判断指定的目录和文件是否存在。<br>注意:可以在本机上测试是否存在相应的文件夹和文件。</p>
+<pre><code>import os
+print os.path.isdir(r&apos;C:\Windows&apos;)  # r表示的是raw字符串，即r&apos;&apos;单引号里的某些特殊字符就不必转义了
+print os.path.isfile(r&apos;C:\Windows\notepad.exe&apos;)
+</code></pre><h2 id="动态导入模块"><a href="#动态导入模块" class="headerlink" title="# 动态导入模块"></a># 动态导入模块</h2><p>如果导入的模块不存在，Python 解释器会报 ImportError 错误：</p>
+<pre><code>&gt;&gt;&gt; import something
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+ImportError: No module named something
+</code></pre><p>有的时候，两个不同的模块提供了相同的功能，比如 StringIO 和 cStringIO 都提供了 StringIO 这个功能。<br>这是因为 Python 是动态语言，解释执行，因此 Python 代码运行速度慢。<br>如果要提高 Python 代码的运行速度，最简单的方法是把某些关键函数用 C 语言重写，这样就能大大提高执行速度。<br>同样的功能，StringIO 是纯 Python 代码编写的，而 cStringIO 部分函数是 C 写的，因此 cStringIO 运行速度更快。<br>利用 ImportError 错误，我们经常在 Python 中动态导入模块：</p>
+<pre><code>try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+</code></pre><p>上述代码先尝试从 cStringIO 导入，如果失败了（比如 cStringIO 没有被安装），再尝试从 StringIO 导入。这样，如果 cStringIO 模块存在，则我们将获得更快的运行速度，如果 cStringIO 不存在，则顶多代码运行速度会变慢，但不会影响代码的正常执行。<br>try 的作用是捕获错误，并在捕获到指定错误时执行 except 语句。</p>
+<p>例子：<br>利用 import … as …，还可以动态导入不同名称的模块。<br>Python 2.6/2.7 提供了 json 模块，但 Python 2.5 以及更早版本没有 json 模块，不过可以安装一个 simplejson 模块，这两个模块提供的函数签名和功能都一模一样。<br>试写出导入 json 模块的代码，能在 Python 2.5/2.6/2.7 都正常运行。<br>答案：  </p>
+<pre><code>try:
+    import json
+except ImportError:
+    import simplejson as json
+
+print json.dumps({&apos;python&apos;:2.7})
+</code></pre><h2 id="使用-future"><a href="#使用-future" class="headerlink" title="# 使用  future"></a># 使用 <strong> future</strong></h2><p>Python 的新版本会引入新的功能，但是，实际上这些功能在上一个老版本中就已经存在了。要 “试用” 某一新的特性，就可以通过导入 <code>__future__</code> 模块的某些功能来实现。</p>
+<p>例如，Python 2.7 的整数除法运算结果仍是整数：</p>
+<pre><code>&gt;&gt;&gt; 10 / 3
+3
+</code></pre><p>但是，Python 3.x 已经改进了整数的除法运算，“/” 除将得到浮点数，“//” 除才仍是整数：</p>
+<pre><code>&gt;&gt;&gt; 10 / 3
+3.3333333333333335
+&gt;&gt;&gt; 10 // 3
+3
+</code></pre><p>要在 Python 2.7 中引入 3.x 的除法规则，导入 <code>__future__</code> 的 <code>division</code>：</p>
+<pre><code>&gt;&gt;&gt; from __future__ import division
+&gt;&gt;&gt; print 10 / 3
+3.3333333333333335
+</code></pre><p>当新版本的一个特性与旧版本不兼容时，该特性将会在旧版本中添加到 <code>__future__</code> 中，以便旧的代码能在旧版本中测试新特性。</p>
+<p>例子：<br>在 Python 3.x 中，字符串统一为 unicode，不需要加前缀 u，而以字节存储的 str 则必须加前缀 b。请利用 <code>__future__</code> 的 unicode_literals 在 Python 2.7 中编写 unicode 字符串。<br>答案：  </p>
+<pre><code>from __future__ import unicode_literals
+
+s = &apos;am I an unicode?&apos;
+print isinstance(s, unicode)
+</code></pre><p>Note by <a href="http://isayes.github.io" target="_blank" rel="external">HF</a>.  </p>
+<hr>
+
+      
+    </div>
+    <footer>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+
+  
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

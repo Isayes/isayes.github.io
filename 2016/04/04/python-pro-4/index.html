@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># Python 进阶&amp;4 类的继承 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# Python 进阶&amp;4 类的继承"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 用来笔记一下</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/more">分类</a></li>
+    
+      <li><a href="/works">作品</a></li>
+    
+      <li><a href="http://blog.csdn.net/heartyhu">博客</a></li>
+    
+      <li><a href="http://weibo.com/khufly">微博</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"># Python 进阶&amp;4 类的继承</h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2016-04-04T01:52:16.000Z">2016-04-04</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p>关键词：Python / 继承 / 多态 /</p>
+<a id="more"></a>
+<h2 id="1-什么是继承"><a href="#1-什么是继承" class="headerlink" title="1. 什么是继承 #"></a>1. 什么是继承 #</h2><ul>
+<li>新类不必从头编写</li>
+<li>新类从现有的类继承，就自动拥有了现有类的所有功能</li>
+<li>新类只需要编写现有类缺少的新功能</li>
+</ul>
+<p>[ 继承的好处：]</p>
+<ul>
+<li>复用已有代码</li>
+<li>自动拥有了现有类的所有功能</li>
+<li>只需要编写缺少的新能</li>
+</ul>
+<p>[ 父类和子类：]</p>
+<p>父类，基类，超类<br>子类，派生类，继承类</p>
+<p>[ 继承树：]</p>
+<pre><code>                        object
+               /                         \
+            Person                   School
+          /        \              /         \
+       Teacher  Student    PrimarySchool   MiddleSchool
+     /      \
+MathTeacher  PhysicalTeacher
+</code></pre><p><strong>[ 继承的特点：]</strong></p>
+<p>子类和父类是 is-A 的关系</p>
+<p>PS：还一种叫作 has 关系，has 关系应该用组合而不是继承 Student has Book<br>Student 类和 Book 类是 has 关系：(Book 类应该作为 Student 类的属性来出现)</p>
+<pre><code>class Student(Person):
+    def __init__(self, bookName):
+        self.book = Book(bookName)
+</code></pre><p><strong>[ Python继承的特点：]</strong></p>
+<p>总是从某个类继承， <code>class MyClass(object):pass</code></p>
+<p>不要忘记调用 super().<strong>init</strong> 用来初始化父类，确保父类的属性被正确的初始化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, args)</span>:</span></span><br><span class="line">	super(SubClass, self).__init__(args)</span><br><span class="line">	<span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-继承一个类"><a href="#2-继承一个类" class="headerlink" title="2. 继承一个类 #"></a>2. 继承一个类 #</h2><p>如果已经定义了 Person 类，需要定义新的 Student 和 Teacher 类时，可以直接从 Person 类继承：</p>
+<pre><code>class Person(object):
+    def __init__(self, name, gender):
+        self.name = name
+        self.gender = gender
+</code></pre><p>定义 Student 类时，只需要把额外的属性加上，例如 score：</p>
+<pre><code>class Student(Person):
+    def __init__(self, name, gender, score):
+        super(Student, self).__init__(name, gender)
+        self.score = score
+</code></pre><p>一定要用 <code>super(Student, self).__init__(name, gender)</code> 去<strong>初始化父类</strong>，否则，继承自 Person 的 Student 将没有 name 和 gender。</p>
+<p>函数 super(Student, self) 将返回当前类继承的父类，即 Person ，然后调用 <code>__init__()</code> 方法，注意 self 参数已在 super() 中传入，在 <code>__init__()</code> 中将隐式传递，不需要写出（<strong>也不能写</strong>）。</p>
+<h2 id="3-判断类型"><a href="#3-判断类型" class="headerlink" title="3. 判断类型 #"></a>3. 判断类型 #</h2><p>函数 isinstance() 可以判断一个变量的类型，既可以用在 Python 内置的数据类型如 str、list、dict，也可以用在我们自定义的类，它们本质上都是数据类型。</p>
+<p>假设有如下的 Person、Student 和 Teacher 的定义及继承关系如下：</p>
+<pre><code>class Person(object):
+    def __init__(self, name, gender):
+        self.name = name
+        self.gender = gender
+
+class Student(Person):
+    def __init__(self, name, gender, score):
+        super(Student, self).__init__(name, gender)
+        self.score = score
+
+class Teacher(Person):
+    def __init__(self, name, gender, course):
+        super(Teacher, self).__init__(name, gender)
+        self.course = course
+
+p = Person(&apos;Tim&apos;, &apos;Male&apos;)
+s = Student(&apos;Bob&apos;, &apos;Male&apos;, 88)
+t = Teacher(&apos;Alice&apos;, &apos;Female&apos;, &apos;English&apos;)
+</code></pre><p>当我们拿到变量 p、s、t 时，可以使用 isinstance 判断类型：</p>
+<pre><code>&gt;&gt;&gt; isinstance(p, Person)
+True    # p是Person类型
+&gt;&gt;&gt; isinstance(p, Student)
+False   # p不是Student类型
+&gt;&gt;&gt; isinstance(p, Teacher)
+False   # p不是Teacher类型
+</code></pre><p>这说明在继承链上，<strong>一个父类的实例不能是子类类型</strong>，因为子类比父类多了一些属性和方法。</p>
+<p>我们再考察 s ：</p>
+<pre><code>&gt;&gt;&gt; isinstance(s, Person)
+True    # s是Person类型
+&gt;&gt;&gt; isinstance(s, Student)
+True    # s是Student类型
+&gt;&gt;&gt; isinstance(s, Teacher)
+False   # s不是Teacher类型
+</code></pre><p>s 是 Student 类型，不是 Teacher 类型，这很容易理解。但是，s 也是 Person 类型，因为 Student 继承自 Person，虽然它比 Person 多了一些属性和方法，但是，把 s 看成 Person 的实例也是可以的。</p>
+<p>这说明在一条继承链上，一个实例可以看成它本身的类型，也可以看成它父类的类型。</p>
+<h2 id="4-多态"><a href="#4-多态" class="headerlink" title="4. 多态 #"></a>4. 多态 #</h2><p>类具有继承关系，并且子类类型可以向上转型看做父类类型，如果我们从 Person 派生出 Student 和 Teacher ，并都写了一个 whoAmI() 方法：</p>
+<pre><code>class Person(object):
+    def __init__(self, name, gender):
+        self.name = name
+        self.gender = gender
+    def whoAmI(self):
+        return &apos;I am a Person, my name is %s&apos; % self.name
+
+class Student(Person):
+    def __init__(self, name, gender, score):
+        super(Student, self).__init__(name, gender)
+        self.score = score
+    def whoAmI(self):
+        return &apos;I am a Student, my name is %s&apos; % self.name
+
+class Teacher(Person):
+    def __init__(self, name, gender, course):
+        super(Teacher, self).__init__(name, gender)
+        self.course = course
+    def whoAmI(self):
+        return &apos;I am a Teacher, my name is %s&apos; % self.name
+</code></pre><p>在一个函数中，如果我们接收一个变量 x，则无论该 x 是 Person、Student 还是 Teacher，都可以正确打印出结果：</p>
+<pre><code>def who_am_i(x):
+    print x.whoAmI()
+
+p = Person(&apos;Tim&apos;, &apos;Male&apos;)
+s = Student(&apos;Bob&apos;, &apos;Male&apos;, 88)
+t = Teacher(&apos;Alice&apos;, &apos;Female&apos;, &apos;English&apos;)
+
+who_am_i(p)
+who_am_i(s)
+who_am_i(t)
+</code></pre><p>运行结果：</p>
+<pre><code>I am a Person, my name is Tim
+I am a Student, my name is Bob
+I am a Teacher, my name is Alice
+</code></pre><p>这种行为称为多态。也就是说，方法调用将作用在 x 的实际类型上。s 是 Student 类型，它实际上拥有自己的 whoAmI() 方法以及从 Person 继承的 whoAmI 方法，但调用 s.whoAmI() 总是先查找它自身的定义，如果没有定义，则顺着继承链向上查找，直到在某个父类中找到为止。</p>
+<p>由于 Python 是动态语言，所以，传递给函数 who_am_i(x) 的参数 x 不一定是 Person 或 Person 的子类型。任何数据类型的实例都可以，只要它有一个 whoAmI() 的方法即可：</p>
+<pre><code>class Book(object):
+    def whoAmI(self):
+        return &apos;I am a book&apos;
+</code></pre><p>这是动态语言和静态语言（例如 Java ）最大的差别之一。动态语言调用实例方法，不检查类型，只要方法存在，参数正确，就可以调用。</p>
+<p><strong>例子：</strong><br>Python 提供了 open() 函数来打开一个磁盘文件，并返回 File 对象。File对象有一个 read() 方法可以读取文件内容：<br>例如，<strong>从文件读取内容并解析为JSON结果</strong>：  </p>
+<pre><code>import json
+f = open(&apos;/path/to/file.json&apos;, &apos;r&apos;)
+print json.load(f)
+</code></pre><p>由于 Python 的动态特性，json.load() 并不一定要从一个 File 对象读取内容。任何对象，只要有 read() 方法，就称为 <code>File-like Object</code>，都可以传给 json.load()。<br>尝试编写一个 <code>File-like Object</code>，把一个字符串 r’[“Tim”, “Bob”, “Alice”]’ 包装成 File-like Object 并由 json.load() 解析。<br>答案：<br>只要为Students类加上 read()方法，就变成了一个File-like Object。  </p>
+<pre><code>import json
+
+class Students(object):
+    def read(self):
+        return r&apos;[&quot;Tim&quot;, &quot;Bob&quot;, &quot;Alice&quot;]&apos;
+
+s = Students()
+
+print json.load(s)
+</code></pre><h2 id="5-多重继承"><a href="#5-多重继承" class="headerlink" title="5. 多重继承 #"></a>5. 多重继承 #</h2><p>除了从一个父类继承外，Python 允许从多个父类继承，称为多重继承。多重继承的继承链就不是一棵树了，它像这样：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,a)</span>:</span></span><br><span class="line">		<span class="keyword">print</span> <span class="string">'init A...'</span></span><br><span class="line">		self.a = a</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,a)</span>:</span></span><br><span class="line">		super(B,self).__init__(a)</span><br><span class="line">		<span class="keyword">print</span> <span class="string">'init B...'</span></span><br><span class="line">		</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(A)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,a)</span>:</span></span><br><span class="line">		super(C,self).__init__(a)</span><br><span class="line">		<span class="keyword">print</span> <span class="string">'init_ C...'</span></span><br><span class="line">		</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span><span class="params">(B,C)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,a)</span>:</span></span><br><span class="line">		super(D,self).__init__(a)</span><br><span class="line">		<span class="keyword">print</span> <span class="string">'init D...'</span></span><br></pre></td></tr></table></figure>
+<p>如下图：</p>
+<pre><code>  A
+/   \
+B   C
+\   /
+  D
+</code></pre><p>D可以同时继承自B和C，也就是D拥有了A、B、C的全部功能。多重继承通过 super() 调用 <code>__init__()</code> 方法时，A 虽然被继承了两次，但 <code>__init__()</code> 只调用一次：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;d = D(<span class="string">'d'</span>)</span><br><span class="line">init A...</span><br><span class="line">init C...</span><br><span class="line">init B...</span><br><span class="line">init D...</span><br></pre></td></tr></table></figure>
+<p>多重继承的目的是：从两种继承树中分别选择并继承出子类，以便组合功能使用。<br>Eg: Python 的网络服务器有 TCPServer、UDPServer、UnixStreamServer、UnixDatagramServer，而服务器运行模式有 <strong>多进程 ForkingMixin</strong> 和 <strong>多线程 ThreadingMixin</strong> 两种。</p>
+<p>要创建多进程模式的 TCPServer：  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">class MyTCPServer(TCPServer,ForkingMixin pass)</span><br><span class="line">	pass</span><br></pre></td></tr></table></figure>
+<p>要创建多线程模式的 UDPServer：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyUDPServer</span><span class="params">(UDPServer,ThreadingMixin)</span>:</span></span><br><span class="line">	<span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p>如果没有多重继承，要实现上述所有可能的组合需要 4x2=8 个子类</p>
+<p>举个例子：<br>+-Person<br> +-Student<br> +-Teacher<br>是一类继承树；<br>+-SkillMixin<br> +-BasketballMixin<br> +-FootballMixin<br>是一类继承树。</p>
+<p>通过多重继承，请定义“会打篮球的学生”和“会踢足球的老师”    </p>
+<p>Note by <a href="http://isayes.github.io" target="_blank" rel="external">HF</a>.  </p>
+<hr>
+
+      
+    </div>
+    <footer>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+
+  
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

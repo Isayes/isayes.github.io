@@ -1,0 +1,340 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 读 Android 开发艺术探索 &amp;1 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 读 Android 开发艺术探索 &amp;1"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 用来笔记一下</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/more">分类</a></li>
+    
+      <li><a href="/works">作品</a></li>
+    
+      <li><a href="http://blog.csdn.net/heartyhu">博客</a></li>
+    
+      <li><a href="http://weibo.com/khufly">微博</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"># 读 Android 开发艺术探索 &amp;1</h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2016-05-01T01:06:42.000Z">2016-05-01</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p>关键词：Activity / 生命周期 / 启动模式 / IntentFilter   </p>
+<p>Activity 是界面，除了 Window / Dialog /  Toast 我们见到的就只有 Activity 了。 本次梳理主要包括：Activity 生命周期、启动模式、IntentFilter 匹配规则。<a id="more"></a></p>
+<h2 id="1-Activity-生命周期"><a href="#1-Activity-生命周期" class="headerlink" title="1. Activity 生命周期 #"></a>1. Activity 生命周期 #</h2><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一. 典型情况下的生命周期：</td>
+<td>被用户参与的生命周期的改变</td>
+</tr>
+<tr>
+<td>二. 异常情况下的生命周期：</td>
+<td>被系统回收或由于当前设备的 Configuration 发生改变，导致 Activity 被销毁重建</td>
+</tr>
+</tbody>
+</table>
+<p>【一. 典型情况下的生命周期】</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>onCreate：</td>
+<td>做一些初始化的工作（setContentView 加载界面布局资源、初始化 Activity 所需的数据）</td>
+</tr>
+<tr>
+<td>onStart：</td>
+<td>正在启动，Activity 已经可见但是没有出现在前台，无法与用户交互，还处于后台</td>
+</tr>
+<tr>
+<td>onResume：</td>
+<td>Activity 已经可见而且开始活动，可以与用户交互，已处于前台</td>
+</tr>
+<tr>
+<td>onPause：</td>
+<td>正在停止，紧接着调用 onStop</td>
+</tr>
+<tr>
+<td>onStop：</td>
+<td>就要即将停止，做不太耗时的重量级的回收工作</td>
+</tr>
+<tr>
+<td>onRestart：</td>
+<td>由不可见到重新可见，用户行为导致 onPause → onStop → 回到该 Activity</td>
+</tr>
+<tr>
+<td>onDestroy：</td>
+<td>即将被销毁，生命周期的最后一个回调，回收和最终资源的释放</td>
+</tr>
+</tbody>
+</table>
+<p><img src="http://ww1.sinaimg.cn/mw690/a53846c3gw1f3o417zfoij20jq08cq43.jpg" alt="Activity 生命周期切换的过程"></p>
+<p>对此需要知道的几种情况 ↓</p>
+<ol>
+<li>用户按下 back 键返回时，回调 onPause → onStop → onDestroy</li>
+<li>用户打开新的 Activity 或切换到桌面，回调 onPause → onStop ，如果新 Activity 采用的是透明主题，就不会回调 onStop 了</li>
+<li>第一次启动，回调 onCreate → onStart → onResume ； 再次回到 Activity，回调 onRestart → onStart → onResume</li>
+<li>就整个生命周期而言，onCreate 和 onDestroy 只会被回调一次</li>
+<li>onStart 和 onStop 是从 Activity 是否可见的角度来设计回调的，onResume 和 onPause 是从 Activity 是否位于前台的角度来回调的</li>
+<li>当前为 Activity A ，这时用户打开了 Activity B，过程是：A 先 onPause，然后 B onResume（对于 Android 运行的机制在不同的 Android 版本上具有延续性，各个版本应该都是这个顺序）</li>
+<li>不同在 onPause 中做重量级的操作，因为必须执行完 onPause ，新的 Activity 才能 onResume，应该尽量在 onStop 中做操作，从而使新的 Activity 能够尽快的显示出来并切换到前台</li>
+</ol>
+<p>【二. 异常情况下的生命周期】</p>
+<table>
+<thead>
+<tr>
+<th>有两种情况：</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 资源相关的系统配置发生改变导致 Activity 被杀死并重新创建</td>
+</tr>
+<tr>
+<td>2. 资源不足导致优先级较低的 Activity 被杀死</td>
+</tr>
+</tbody>
+</table>
+<p>关于第 1 种情况需要知道的几点 ↓</p>
+<ol>
+<li>当应用程序启动时，系统会根据当前的设备情况去加载合适的 Resources 资源</li>
+<li>如果系统配置发生了改变，比如，竖屏切换至横屏，而我们的 Activity 没有做特殊的处理，就会被销毁并重新创建，参考图2</li>
+<li>看图2就知道，在异常情况下终止的 Activity，系统会调用 onSaveInstanceState 来保存当前的 Activity 状态，onSaveInstanceState 方法的调用时机是在 onStop 之前（该方法只会出现在 Activity 被异常终止的情况下，正常情况下不会回调该方法）</li>
+<li>而当 Activity 被重新创建的时候，系统会调用 onRestoreInstanceState 方法，Activity 销毁时 onSaveInstanceState 方法所保存的 Bundle 对象作为参数传给 onRestoreInstanceState 和 onCreate 方法</li>
+<li>有个区别： onRestoreInstanceState 一旦被调用，其参数 Bundle saveInstanceState 是一定有值的，而 onCreate 是正常启动的话，其参数 Bundle saveInstanceState 为 null，要额外判断是否为空</li>
+<li>通过 onRestoreInstanceState 和 onCreate 方法可以判断 Activity 是否被重建了，如果是的，就取出之前保存的数据并且进行恢复</li>
+<li>onRestoreInstanceState 的调用时机发生在 onStart 之后（从时序上说）</li>
+<li>在 onSaveInstanceState 和 onRestoreInstanceState 方法中系统自动为我们做了一些恢复工作，比如文本框用户输入的数据、ListView 滚动的位置这些 View 相关的状态</li>
+</ol>
+<p><img src="http://ww1.sinaimg.cn/mw690/a53846c3gw1f3o419jakmj20jq07iaau.jpg" alt="异常情况下的 Activity 的重建过程"></p>
+<p>PS：关于保存和恢复 View 层次结构<br>系统的工作流程是一种典型的委托思想，上层委托下层，父容器委托子元素去处理一件事情（View 的绘制，事件的分发也都是采用类似的思想）。<br>过程大概是：</p>
+<ol>
+<li>Activtiy 被意外终止，会调用 onSaveInstanceState 去保存数据</li>
+<li>Activity 会委托 Window 去保存数据</li>
+<li>Window 再委托它上面的顶级容器去保存数据（顶级容器是一个 ViewGroup，一般说很可能是 DecorView）</li>
+<li>顶级容器再去一一通知它的子元素来保存数据，至此整个数据保存过程就完成了</li>
+</ol>
+<p>关于第 2 种情况需要知道的几点 ↓</p>
+<ol>
+<li>数据存储与恢复过程与情况一完全一致</li>
+<li>Activity 的优先级：前台 Activity &gt; 可见但非前台 Actiivty &gt; 后台 Activity</li>
+<li>前台 Activity 正在和用户交互，优先级最高</li>
+<li>可见但非前台 Activity 比如弹有对话框的 Activity</li>
+<li>后台 Activity 被暂停的 Activity 比如执行了 onStop 优先级最低</li>
+<li>一般将后台工作放在 Service 中以保证具有一定的优先级，就不会轻易被系统杀死，如果一个进程中没有四大组件在执行，很快便会被系统杀死</li>
+</ol>
+<p>PS：让 Activity 在屏幕旋转的时候不重新创建：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:configuration=<span class="string">"orientation|screenSize"</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="2-Activity-启动模式"><a href="#2-Activity-启动模式" class="headerlink" title="2. Activity 启动模式 #"></a>2. Activity 启动模式 #</h2><p>【目前有四种启动模式】</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>中文名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>standard：</td>
+<td>标准模式</td>
+</tr>
+<tr>
+<td>singleTop：</td>
+<td>栈顶复用模式</td>
+</tr>
+<tr>
+<td>singleTask：</td>
+<td>站内复用模式</td>
+</tr>
+<tr>
+<td>singleInstance：</td>
+<td>单实例模式</td>
+</tr>
+</tbody>
+</table>
+<p>在默认情况下，多次启动同一个 Activity 的时候，系统会创建多个实例并把它们一一放入任务栈中，单击 back 键的时候，这些 Activity 会回退。任务栈“后进先出”的栈结构，栈中没有 Activity 的时候系统会回收这个任务栈。</p>
+<ol>
+<li>standard 模式：<br>系统默认模式。谁启动了这个 Activity， 这个 Activity 就进入谁的任务栈中。比如，A 启动了 B（B是标准模式），则 B 会进入 A 所在的任务栈中。</li>
+<li>singleTop 模式：<br>新 Activity 已经位于栈顶，则不会被重新创建，onNewIntent 方法被回调；若实例已存在但不位于栈顶，那么新的 Activity 仍然会重新重建。</li>
+<li>singleTask 模式：<br>单实例模式。对于 Activity A 是 singleTask 模式，系统会首先寻找是否存在 A 想要的任务栈，如果不存在，就创建一个任务栈，然后创建 A 的实例之后把 A 放在栈中。如果存在 A 需要的任务栈，就再看是否存在 A 的实例在栈中，如果有实例存在就把 A 调到栈顶并调用它的 onNewIntent 方法（站内复用原则），如果实例不存在就创建 A 的实例并把 A 压入栈中。</li>
+<li>singleInstance 模式：<br>单实例模式。singleTask 的加强版。加强的一点：这种 Activity 只能单独的位于一个任务栈中（创建新的任务栈）。</li>
+</ol>
+<p>举有个小板栗：目前站内的情况是 ABCD，A 是栈底，D 在栈顶。如果 D 的启动模式为 singleTop 那么站内的情况仍然是 ABCD；如果 D 的启动模式为 standard，那么由于 D 被重新创建。导致站内的情况变为 ABCDD；</p>
+<p>PS：什么是所谓的 Activity 需要的任务栈？  </p>
+<ul>
+<li>任务栈有一个参数：TaskAffinity，任务相关性。TaskAffinity 标识了一个 Activity 所需要的任务栈的名字。默认为应用的包名。也可单独指定自定义 TaskAffinity 属性。TaskAffinity 主要和 singleTask 或者 allowTaskPeparenting 属性配对使用，否则没有意义；</li>
+<li>任务栈分为 前台任务栈 和 后台任务栈（Activity 位于暂停状态，用户通过切换将后台任务栈再次调用到前台）；</li>
+</ul>
+<p>【给 Activity 指定启动模式的两种方式】</p>
+<p>方式一：AndroidManifest.xml<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity</span><br><span class="line">    android:name=<span class="string">"io.github.isayes.MainActivity"</span></span><br><span class="line">    android:configuration=<span class="string">"screenLayout"</span></span><br><span class="line">    android:launchMode=<span class="string">"singleTask"</span></span><br><span class="line">    android:label=<span class="string">"@string/app_name"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>方式二：在 Intent 中设置标志位<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent();</span><br><span class="line">intent.setClass(MainActivity.<span class="keyword">this</span>, SecondActivity.class);</span><br><span class="line">intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); <span class="comment">// 实际上就是 singleTask 模式</span></span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure></p>
+<p>对此需要知道的以下几点 ↓</p>
+<ol>
+<li>第二种方式的优先级要高于第一种，如果两种同时使用，则方式二覆盖方式一</li>
+<li>第一种方式直接为 Activity 设定 FLAG_ACTIVITY_CLEAR_TOP 标识</li>
+<li>第二种方式无法为 Activity 指定 singleInstance 模式</li>
+<li>singleTask 模式的 Activity 切换到栈顶会导致它上面的栈内的 Activity 出栈</li>
+</ol>
+<p>【 Activity 的 Flags】</p>
+<p>大部分情况下，我们不需要为 Activity 指定标记位</p>
+<ul>
+<li>FLAG_ACTIVITY_NEW_TASK = XML singleTask</li>
+<li>FLAG_ACTIVITY_SINGLE_TOP = XML singleTop</li>
+<li>FLAG_ACTIVITY_CLEAR_TOP 一般和 singleTask 模式一起出现，当它启动时，在同一个任务栈中所有位于它上面的 Activity 都要出栈</li>
+<li>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS = XML <code>android:excludeFromRecents=&quot;true&quot;</code></li>
+</ul>
+<h2 id="3-IntentFilter-匹配原则"><a href="#3-IntentFilter-匹配原则" class="headerlink" title="3. IntentFilter 匹配原则 #"></a>3. IntentFilter 匹配原则 #</h2><table>
+<thead>
+<tr>
+<th>启动 Activity 分为两种：</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 显示调用</td>
+</tr>
+<tr>
+<td>2. 隐式调用</td>
+</tr>
+</tbody>
+</table>
+<p>显示调用需要明确地指定被启动对象的组件信息，包括包名类名；<br>隐式调用不需要明确指定组件信息；</p>
+<p>隐式调用需要 Intent 能够匹配目标组件的 IntentFilter 中设置的过滤信息，如果不匹配将无法启动目标 Activity。IntentFilter 中过滤的信息有 action / category / data</p>
+<p>关于 action 所要知道的几点 ↓</p>
+<ol>
+<li>我们可以自定义</li>
+<li>匹配规则：Intent 中的 action 必须能够和过滤规则中的 action 匹配（action 字符串完全一样）</li>
+<li>区分大小写</li>
+</ol>
+<p>关于 category 所要知道的几点 ↓</p>
+<ol>
+<li>是一个字符串</li>
+<li>系统中预定义了，但是我们也可以自定义</li>
+<li>action 要求 Intent 中必须有一个 action 与过滤规则中的某个 action 相同，而 category 要求  Intent 中可以没有 category，而一旦有就需要有匹配</li>
+</ol>
+<p>关于 data 所需要知道的几点 ↓</p>
+<ol>
+<li>如果过滤规则中定义了 data ，则 Intent 中必须也要定义可匹配的 data。</li>
+<li><p>data 的语法：两部分组成，URI + mimeType</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;data android:scheme=<span class="string">"string"</span>  </span><br><span class="line">      android:host=<span class="string">"string"</span></span><br><span class="line">      android:port=<span class="string">"string"</span></span><br><span class="line">      android:path=<span class="string">"string"</span></span><br><span class="line">      android:pathPattern=<span class="string">"string"</span></span><br><span class="line">      android:pathPrefix=<span class="string">"string"</span></span><br><span class="line">      android:mimeType=<span class="string">"string"</span> /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mimeType 媒体类型比如 image/jpeg、 audio/mpeg4-generic 和 video 等</p>
+</li>
+<li>URI <code>&lt;scheme&gt;://&lt;host&gt;:&lt;port&gt;/[&lt;path&gt;|&lt;pathPrefix&gt;|&lt;pathPattern&gt;]</code></li>
+</ol>
+<p>End.</p>
+<p>Note by HF.<br>Learn from 《Android 开发艺术探索》</p>
+<hr>
+<p>本文分类：<a href="http://isayes.github.io/categories/android" target="_blank" rel="external">Android</a></p>
+
+      
+    </div>
+    <footer>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+
+  
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

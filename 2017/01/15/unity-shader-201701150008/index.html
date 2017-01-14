@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># Unity Shader 一个最简单的顶点/片元着色器 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# Unity Shader 一个最简单的顶点/片元着色器"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 用来笔记一下</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/more">分类</a></li>
+    
+      <li><a href="/works">作品</a></li>
+    
+      <li><a href="http://blog.csdn.net/heartyhu">博客</a></li>
+    
+      <li><a href="http://weibo.com/khufly">微博</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"># Unity Shader 一个最简单的顶点/片元着色器</h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2017-01-14T16:08:33.000Z">2017-01-15</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p>关键词：Unity / Shader / 实践笔记 /</p>
+<p>我的 <a href="https://github.com/Isayes/Unity-Practice/tree/master/UnityShader" target="_blank" rel="external">GitHub → 一个最简单的顶点&amp;片元着色器</a><br><a id="more"></a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Shader "Custom/Chapter5-SimpleShader" &#123;</span><br><span class="line"></span><br><span class="line">	SubShader &#123;</span><br><span class="line">		Pass&#123;</span><br><span class="line">			CGPROGRAM</span><br><span class="line"></span><br><span class="line">      // 两条非常重要的编译指令</span><br><span class="line">			#pragma vertex vert // 定点着色器</span><br><span class="line">			#pragma fragment frag // 片元着色器</span><br><span class="line"></span><br><span class="line">      // 这一步是把顶点坐标从模型空间转换到裁剪空间</span><br><span class="line">			float4 vert(float4 v : POSITION) : SV_POSITION &#123;</span><br><span class="line">				return mul(UNITY_MATRIX_MVP, v);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			fixed4 frag() : SV_Target&#123;</span><br><span class="line">				return fixed4(1.0,1.0,1.0,1.0);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			ENDCG</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>vert , 顶点着色器代码, 逐顶点执行, 函数的输入 v 包含了这个顶点的位置, 返回值是该顶点在裁剪空间中的位置, POSITION : 把模型的顶点坐标填充到输入参数中, SV_POSITION : 顶点着色器的输出是裁剪空间中的顶点坐标</li>
+<li>frag , SV_Target : 把用户的输出颜色存储到一个渲染目标中, 这里将输出到默认的帧缓存中, 片元着色器输出的颜色的每个分量范围是[0,1].</li>
+</ol>
+<p>使用结构体来定义顶点着色器的输入参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct a2v &#123;</span><br><span class="line">    float4 vertex : POSITION;</span><br><span class="line">    float3 normal : NORMAL;</span><br><span class="line">    float4 texcoord : TEXCOORD0;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>使用 POSITION 语义得到了模型的顶点位置坐标;</li>
+<li>使用  NORMAL 表示是模型空间的法线方向;</li>
+<li>使用 TEXCOORD0 表示模型空间的第一套纹理;</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">SubShader &#123;</span><br><span class="line">		Pass&#123;</span><br><span class="line">			CGPROGRAM</span><br><span class="line"></span><br><span class="line">			#pragma vertex vert</span><br><span class="line">			#pragma fragment frag</span><br><span class="line"></span><br><span class="line">      //  a2v 把数据从应用阶段传到顶点着色器</span><br><span class="line">			struct a2v&#123;</span><br><span class="line">				float4 vertex : POSITION;</span><br><span class="line">				float3 normal : NORMAL;</span><br><span class="line">				float4 texcoord : TEXCOORD0;</span><br><span class="line">			&#125;;</span><br><span class="line"></span><br><span class="line">			float4 vert(a2v v) : SV_POSITION &#123;</span><br><span class="line">				return mul(UNITY_MATRIX_MVP, v.vertex);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			fixed4 frag() : SV_Target&#123;</span><br><span class="line">				return fixed4(1.0,1.0,1.0,1.0);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			ENDCG</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>填充到 POSITION / TANGENT / NORMAL 这些语句中的数据是从哪里来的呢? 在 Unity 中, 它们是由使用该材质 Mesh Render 组件提供的, 在每帧调用 Draw Call 的时候, Mesh Render 组件会把它负责渲染的模型数据发送给 Unity Shader.</p>
+<p>一个模型通常包括了一组三角面片, 每个三角面片由三个顶点组成, 每个顶点又包含了一些数据, 例如顶点位置 / 法线 / 切线 / 纹理坐标 / 顶点颜色等</p>
+<h2 id="顶点着色器和片元着色器之间的通信"><a href="#顶点着色器和片元着色器之间的通信" class="headerlink" title="顶点着色器和片元着色器之间的通信 #"></a>顶点着色器和片元着色器之间的通信 #</h2><p>我们希望从顶点着色器中输出一些数据传递给片元着色器, 比如模型的法线 / 纹理坐标等数据, 这就涉及到顶点/片元着色器之间的通信.<br>我们可以再定义一个结构体用来定义顶点着色器的输出</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">Shader "Custom/Shader002" &#123;</span><br><span class="line"></span><br><span class="line">	SubShader &#123;</span><br><span class="line">		Pass&#123;</span><br><span class="line">			CGPROGRAM</span><br><span class="line"></span><br><span class="line">			#pragma vertex vert</span><br><span class="line">			#pragma fragment frag</span><br><span class="line"></span><br><span class="line">			struct a2v&#123;</span><br><span class="line">				float4 vertex : POSITION;</span><br><span class="line">				float3 normal : NORMAL;</span><br><span class="line">				float4 texcoord : TEXCOORD0;</span><br><span class="line">			&#125;;</span><br><span class="line"></span><br><span class="line">			// 使用一个结构体来定义顶点着色器的输出</span><br><span class="line">			struct v2f &#123;</span><br><span class="line">				// SV_POSITION 语义告诉 Unity , pos 里包括了顶点在裁剪空间的位置信息</span><br><span class="line">				float4 pos : SV_POSITION;</span><br><span class="line">				// COLOR0 语义告诉 Unity 用于存储颜色信息</span><br><span class="line">				fixed3 color : COLOR0;</span><br><span class="line">			&#125;;</span><br><span class="line"></span><br><span class="line">			v2f vert(a2v v) &#123;</span><br><span class="line">				// 生命输出结构</span><br><span class="line">				v2f o;</span><br><span class="line">				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);</span><br><span class="line">				o.color = v.normal * 0.5 + fixed3(0.5,0.5,0.5);</span><br><span class="line">				return o;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			fixed4 frag(v2f i) : SV_Target&#123;</span><br><span class="line">				// 将插值后的 i.color 显示到屏幕上</span><br><span class="line">				return fixed4(i.color, 1.0);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			ENDCG</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww3.sinaimg.cn/large/a53846c3gw1fbfuwjwksrj20sk0fwt9p.jpg" alt=""></p>
+<p>Note by <a href="http://isayes.github.io" target="_blank" rel="external">HF</a>.  </p>
+<hr>
+
+      
+    </div>
+    <footer>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+
+  
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

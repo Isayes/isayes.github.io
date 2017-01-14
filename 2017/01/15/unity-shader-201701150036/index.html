@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># Unity Shader 用鼠标绘制自由多边形 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# Unity Shader 用鼠标绘制自由多边形"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 用来笔记一下</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/more">分类</a></li>
+    
+      <li><a href="/works">作品</a></li>
+    
+      <li><a href="http://blog.csdn.net/heartyhu">博客</a></li>
+    
+      <li><a href="http://weibo.com/khufly">微博</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"># Unity Shader 用鼠标绘制自由多边形</h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2017-01-14T16:16:56.000Z">2017-01-15</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p>关键词：Unity / Shader / 实践笔记 /</p>
+<p>我的 <a href="https://github.com/Isayes/Unity-Practice/tree/master/UnityShader" target="_blank" rel="external">GitHub → 用鼠标绘制自由多边形</a><br><a id="more"></a></p>
+<p>实现 : 支持在 Plane 上用鼠标点击，确定多边形顶点，并且绘制多边形的边，在内部填充颜色 ;</p>
+<p>Plane 带有碰撞体 , 使用鼠标选取位置的时候涉及到碰撞检测 .</p>
+<p>ScriptShader005.cs 脚本实现鼠标点击和向 Shader 传递信息的功能 .<br>Shader005.shader 实现多边形的绘制功能 . <a href="https://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html" target="_blank" rel="external">传送门 → 绘制多边形的函数</a></p>
+<p>效果图 :  </p>
+<p><img src="http://ww1.sinaimg.cn/mw690/a53846c3gw1fbkgb7czs6g20bb0c7jyp.gif" alt=""></p>
+<p>MainCamera 关联的脚本 ScriptShader005.cs :</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"></span><br><span class="line">[ExecuteInEditMode]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ScriptShader005</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 绑定材质</span></span><br><span class="line">	<span class="keyword">public</span> Material mat;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 存储获取的 3D 坐标</span></span><br><span class="line">	Vector3[] worldPos;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 存储待绘制的多边形顶点屏幕坐标</span></span><br><span class="line">	Vector4[] screenPos;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 多边形顶点总数</span></span><br><span class="line">	<span class="keyword">int</span> maxPointNum = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 当前已经获得的顶点数</span></span><br><span class="line">	<span class="keyword">int</span> currentPointNum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 传递顶点数量给 Shader</span></span><br><span class="line">	<span class="keyword">int</span> pointNum2Shader = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 是否处于顶点获取过程</span></span><br><span class="line">	<span class="keyword">bool</span> InSelection = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Start</span> (<span class="params"></span>)</span><br><span class="line">	</span>&#123;</span><br><span class="line">		worldPos = <span class="keyword">new</span> Vector3[maxPointNum];</span><br><span class="line">		screenPos = <span class="keyword">new</span> Vector4[maxPointNum];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Update</span> (<span class="params"></span>)</span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="comment">// 传递顶点屏幕位置信息给 shader</span></span><br><span class="line">		mat.SetVectorArray (<span class="string">"Value"</span>, screenPos);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 传递顶点数量给 shader</span></span><br><span class="line">		mat.SetInt (<span class="string">"PointNum"</span>, pointNum2Shader);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 使用摄像机发射一条射线 , 以获取要选择的 3D 位置</span></span><br><span class="line">		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);</span><br><span class="line">		RaycastHit hit;</span><br><span class="line">		<span class="keyword">if</span> (Physics.Raycast (ray, <span class="keyword">out</span> hit, <span class="number">100</span>)) &#123;</span><br><span class="line">			Debug.DrawLine (ray.origin, hit.point, Color.red);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 利用鼠标点击来获取位置信息</span></span><br><span class="line">		<span class="keyword">if</span> (Input.GetMouseButtonDown (<span class="number">0</span>) &amp;&amp; InSelection) &#123;</span><br><span class="line">			<span class="keyword">if</span> (currentPointNum &lt; maxPointNum) &#123;</span><br><span class="line">				currentPointNum++;</span><br><span class="line">				pointNum2Shader++;</span><br><span class="line">				worldPos [currentPointNum - <span class="number">1</span>] = hit.point;</span><br><span class="line">				Vector3 v3 = Camera.main.WorldToScreenPoint (worldPos [currentPointNum - <span class="number">1</span>]);</span><br><span class="line">				screenPos [currentPointNum - <span class="number">1</span>] = <span class="keyword">new</span> Vector4 (v3.x, v3.y, v3.z, <span class="number">0</span>);</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="comment">// 超过了多边形顶点总数就不能继续获取</span></span><br><span class="line">				InSelection = <span class="literal">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 实时更新已选择的 3D 点的屏幕位置</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; maxPointNum; i++) &#123;</span><br><span class="line">			Vector3 v3 = Camera.main.WorldToScreenPoint (worldPos [i]);</span><br><span class="line">			screenPos [i] = <span class="keyword">new</span> Vector4 (v3.x, v3.y, v3.z, <span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 检测是否有 3D 点移动到了摄像机后面 , 如果有 , 则停止绘制</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; currentPointNum; i++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (Vector3.Dot (worldPos [i] - Camera.main.transform.position, Camera.main.transform.forward) &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">				pointNum2Shader = <span class="number">0</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			pointNum2Shader = currentPointNum;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 抓取当前的渲染图像进行处理</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">OnRenderImage</span> (<span class="params">RenderTexture src, RenderTexture dest</span>)</span><br><span class="line">	</span>&#123;</span><br><span class="line">		Graphics.Blit (src, dest, mat);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww3.sinaimg.cn/mw690/a53846c3gw1fbkgblh6n5j20me0g2q58.jpg" alt=""></p>
+<p>Shader005.shader :</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line">Shader "Custom/Shader005" &#123;</span><br><span class="line"></span><br><span class="line">	Properties &#123;</span><br><span class="line">		// 定义基本属性 , 可以从编辑器中进行设置的变量</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	CGINCLUDE</span><br><span class="line"></span><br><span class="line">	// 从应用程序传入顶点函数的数据结构定义</span><br><span class="line">	struct a2v &#123;</span><br><span class="line">		float4 vertex : POSITION;</span><br><span class="line">		float2 uv : TEXCOORD0;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	// 从顶点函数传入片元函数的数据结构定义</span><br><span class="line">	struct v2f &#123;</span><br><span class="line">		float2 uv : TEXCOORD0;</span><br><span class="line">		float4 vertex : SV_POSITION;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	// 定义贴图变量</span><br><span class="line">	sampler2D _MainTex;</span><br><span class="line"></span><br><span class="line">	// 定义与脚本进行通信的变量 , 10 个顶点</span><br><span class="line">	vector Value[10];</span><br><span class="line"></span><br><span class="line">	int PointNum = 0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	// 计算两点之间的距离的函数</span><br><span class="line">	float Dis(float4 v1, float4 v2) &#123;</span><br><span class="line">		return sqrt(pow(v1.x - v2.x,2) + pow(v1.y - v2.y,2));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	// 绘制线段</span><br><span class="line">	bool DrawLineSegment(float4 p1, float4 p2, float lineWidth, v2f i) &#123;</span><br><span class="line">		float4 center = float4((p1.x + p2.x)/2, (p1.y + p2.y)/2, 0, 0);</span><br><span class="line">		// 计算点到直线的距离</span><br><span class="line">		float d = abs((p2.y - p1.y) * i.vertex.x +</span><br><span class="line">			(p1.x - p2.x) * i.vertex.y +</span><br><span class="line">			p2.x * p1.y - p2.y * p1.x) / sqrt(pow(p2.y - p1.y, 2) + pow(p1.x - p2.x, 2));</span><br><span class="line">		// 小于或者等于线宽的一般的时候就属于直线的范围</span><br><span class="line">		float lineLength = sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));</span><br><span class="line">		if(d &lt;= lineWidth/2 &amp;&amp; Dis(i.vertex, center) &lt; lineLength/2) &#123;</span><br><span class="line">			return true;</span><br><span class="line">		&#125;</span><br><span class="line">		return false;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	// 绘制多边形</span><br><span class="line">	bool pnpoly(int nvert, float4 vert[10], float testx, float testy) &#123;</span><br><span class="line">		int i, j;</span><br><span class="line">		bool c = false;</span><br><span class="line">		float vertx[10];</span><br><span class="line">		float verty[10];</span><br><span class="line"></span><br><span class="line">		for(int n=0; n&lt;nvert; n++) &#123;</span><br><span class="line">			vertx[n] = vert[n].x;</span><br><span class="line">			verty[n] = vert[n].y;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		for(i=0,j=nvert-1; i&lt;nvert; j=i++)&#123;</span><br><span class="line">			if(((verty[i] &gt; testy) != (verty[j] &gt; testy)) &amp;&amp; (testx &lt; (vertx[j] - vertx[i]) * (testy - verty[i]) / (verty[j] - verty[i]) + vertx[i])) &#123;</span><br><span class="line">				c = !c;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return c;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	v2f vert (a2v v) &#123;</span><br><span class="line">		v2f o;</span><br><span class="line">		// 将物体顶点从模型空间转换到摄像机裁剪空间</span><br><span class="line">		// 简写方式 : o.vertex = UnityObjectToClipPos(v.vertex);</span><br><span class="line">		o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);</span><br><span class="line">		// 2D UV 坐标变换 , 简写方式 : o.uv = TRANSFORM_TEX(v.uv, _MainTex);</span><br><span class="line">		// o.uv = v.uv.xy * _MainTex_ST.xy + _MainTex_ST.zw</span><br><span class="line">		return o;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fixed4 frag(v2f i) : SV_Target &#123;</span><br><span class="line">		// 绘制多边形顶点</span><br><span class="line">		for(int j=0; j&lt; PointNum; j++) &#123;</span><br><span class="line">			if(Dis(i.vertex, Value[j]) &lt; 10/2) &#123;</span><br><span class="line">				return fixed4(1,0,0,0.5);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		// 绘制多边形的边</span><br><span class="line">		for(int k=0; k&lt;PointNum; k++) &#123;</span><br><span class="line">			if(k == PointNum - 1) &#123;</span><br><span class="line">				if(DrawLineSegment(Value[k], Value[0], 2,i)) &#123;</span><br><span class="line">					return fixed4(1, 1, 0, 0.5);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				if(DrawLineSegment(Value[k], Value[k+1], 2, i)) &#123;</span><br><span class="line">					return fixed4(1, 1, 0, 0.5);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		// 填充多边形的内部</span><br><span class="line">		if(pnpoly(PointNum, Value, i.vertex.x, i.vertex.y)) &#123;</span><br><span class="line">			return fixed4(0, 1, 0, 0.3);</span><br><span class="line">		&#125;</span><br><span class="line">		return fixed4(0, 0, 0, 0);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	ENDCG</span><br><span class="line"></span><br><span class="line">	SubShader &#123;</span><br><span class="line">		Tags &#123; "RenderType"="Opaque" &#125;</span><br><span class="line">		LOD 200</span><br><span class="line"></span><br><span class="line">		Pass &#123;</span><br><span class="line">			// 选取 Alpha 混合方式</span><br><span class="line">			Blend SrcAlpha OneMinusSrcAlpha</span><br><span class="line">			// 在 CGPROGRAM 代码块中写自己的处理过程</span><br><span class="line">			CGPROGRAM</span><br><span class="line">			// 定义顶点函数和片元函数的入口分别为 vert 和 frag</span><br><span class="line">			#pragma vertex vert</span><br><span class="line">			#pragma fragment frag</span><br><span class="line">			#include "UnityCG.cginc"</span><br><span class="line">			ENDCG</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>点到直线距离公式 :</p>
+<p><img src="http://ww2.sinaimg.cn/mw690/a53846c3gw1fbkgbdae2og204n01a3y9.gif" alt=""></p>
+<blockquote>
+<p>参考 : <a href="http://blog.csdn.net/zzlyw/article/details/53992048" target="_blank" rel="external">http://blog.csdn.net/zzlyw/article/details/53992048</a></p>
+</blockquote>
+<p>End.</p>
+<p>Note by <a href="http://isayes.github.io" target="_blank" rel="external">HF</a>.  </p>
+<hr>
+
+      
+    </div>
+    <footer>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+
+  
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

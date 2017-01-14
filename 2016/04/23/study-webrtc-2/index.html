@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 研究 WebRTC &amp;2 关于几个问题 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 研究 WebRTC &amp;2 关于几个问题"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 用来笔记一下</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/more">分类</a></li>
+    
+      <li><a href="/works">作品</a></li>
+    
+      <li><a href="http://blog.csdn.net/heartyhu">博客</a></li>
+    
+      <li><a href="http://weibo.com/khufly">微博</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"># 研究 WebRTC &amp;2 关于几个问题</h1>
+  
+
+      
+        <p class="published">
+          Published: <time datetime="2016-04-23T09:44:18.000Z">2016-04-23</time>
+        </p>
+      
+    </header>
+    <div class="entry">
+      
+        <p>关键词：<a href="https://webrtc.org/faq/" target="_blank" rel="external">FAQ</a> / 翻译</p>
+<p><strong>Q：What is WebRTC?</strong>  // 什么是 WebRTC？</p>
+<p>A：WebRTC is an open framework for the web that enables Real Time Communications in the browser. It includes the fundamental building blocks for high-quality communications on the web, such as network, audio and video components used in voice and video chat applications.<br>These components, when implemented in a browser, can be accessed through a JavaScript API, enabling developers to easily implement their own RTC web app.  <a id="more"></a><br>The WebRTC effort is being standardized on an API level at the W3C and at the protocol level at the IETF.<br>//<br>WebRTC 是一个能够在浏览器上进行实时通信的 web 开源框架。它为在 web 上进行高质量通信提供了的基本构建的基石，例如，用于音视频通信应用的网络音视频组件。这些组件在浏览器中实现的时候，能够接入一套 JavaScript API，让开发者轻松地实现属于他们自己的基于 WebRTC 的 web 应用。WebRTC 的成果已经被 W3C 进行了 API 的标准化以及被 IETF 进行了协议的标准化。（如果翻译的不好，请见谅）</p>
+<p><strong>Q：Why should I use WebRTC?</strong>  // 我们为什么使用 WebRTC？  </p>
+<p>A：We think you’ll want to build your next video-chat style application using WebRTC. Here’s why:</p>
+<ul>
+<li>A key factor in the success of the web is that its core technologies – such as HTML, HTTP, and TCP/IP – are open and freely implementable. Currently, there is no free, high-quality, complete solution available that enables communication in the browser. WebRTC enables this.</li>
+<li>Already integrated with best-of-breed voice and video engines that have been deployed on millions of endpoints over the last 8+ years. Google does not charge royalties for WebRTC.</li>
+<li>Includes and abstracts key NAT and firewall traversal technology, using STUN, ICE, TURN, RTP-over-TCP and support for proxies.</li>
+<li>Builds on the strength of the web browser: WebRTC abstracts signaling by offering a signaling state machine that maps directly to PeerConnection. Web developers can therefore choose the protocol of choice for their usage scenario (for example, but not limited to, SIP, XMPP/Jingle, et al.).<br>//<br>我们相信你将会决定你的下一个视频通话功能的应用是使用的 WebRTC，下面是原因：  </li>
+<li>当今互联网的成功的一个关键因素就是，像 HTML、HTTP、TCP/IP 这样的核心技术是开发和免费实现的。而目前，在浏览器通信领域还没有免费、高质量、完整的解决方案，WebRTC 可以做到。</li>
+<li>该技术的使用已经超过了 8 年以上，已经集成了最佳的音频、视频引擎，并被部署到数以百万的终端中。Google 不为 WebRTC 收取任何费用。</li>
+<li>该技术包含了使用 STUN、ICE、TURN、RTP-over-TCP 的关键 NAT 和防火墙穿透技术，并支持代理。</li>
+<li>通过浏览器，WebRTC 把通讯双方的信令状态直接映射到 PeerConnection 里面来抽象信令处理，这样，开发人员就可以按不同的应用场景选择不同的会话协议，比如但不限于 SIP、XMPP/Jingle 等等）</li>
+</ul>
+<p><strong>Q：What is the Opus audio codec?</strong>  // 什么是 Opus 音频编解码器？</p>
+<p>A：<a href="http://opus-codec.org/" target="_blank" rel="external">Opus</a> is a royalty-free audio codec defined by IETF RFC 6176. It supports constant and variable bitrate encoding from 6 kbit/s to 510 kbit/s, frame sizes from 2.5 ms to 60 ms, and various sampling rates from 8 kHz (with 4 kHz bandwidth) to 48 kHz (with 20 kHz bandwidth, where the entire hearing range of the human auditory system can be reproduced).<br>//<br><a href="http://opus-codec.org/" target="_blank" rel="external">Opus</a> 是一个由 IETF RFC 6176 定义的免税版音频编解码器。它支持范围从 6 kbit/s 到 510 kbit/s 的固定和可变的比特编码，也支持范围从 2.5 ms 到 60 ms 的帧大小，和支持从 8 千赫（4 kHz 带宽）到 48 千赫（20 kHz 带宽，在人类的听觉系统的整个听觉范围都可以转载）</p>
+<p><strong>Q：What is the iSAC audio codec?</strong>  // 什么是 iSAC 音频编解码器？</p>
+<p>A：iSAC is a robust, bandwidth-adaptive, wideband and super-wideband voice codec developed by Global IP Solutions, and is used in many Voice over IP (VoIP) and streaming audio applications. iSAC is used by industry leaders in hundreds of millions of VoIP endpoints. This codec is included as part of the WebRTC project.<br>//<br>iSAC 是由 GIPS 公司研发的一款强大的自适应带宽，宽带和超宽带的语音编解码器，被广泛用于基于 IP（VoIP）和音频流的应用里。iSAC 被工业领导者使用于数亿台的 VoIP 终端里。该编解码器是 WebRTC 项目的一部分。</p>
+<p><strong>Q：What is the iLBC audio codec?</strong>   // 什么是 iLBC 音频编解码器？</p>
+<p>A：iLBC is a free narrowband voice codec that was developed by Global IP Solutions, and is used in many Voice over IP (VoIP) and streaming audio applications. In 2004, the final IETF RFC versions of the iLBC codec specification and the iLBC RTP Profile draft became available. This codec is included as part of the WebRTC project.<br>//<br>iLBC 是 GIPS 公司研发的一款免费的窄带音频编解码器，被广泛用于基于 IP（VoIP）和音频流的应用里。2004 年，iLBC 编解码器规范的 IETF RFC 最终版本和 RTP 草稿面世。该编解码器是 WebRTC 项目的一部分。</p>
+<p><strong>Q：What is the VP8 video codec?</strong>  // 什么是 VP8 视频编解码器？</p>
+<p>A：VP8 is a highly-efficient video compression technology developed by the WebM Project. It is the video codec included with WebRTC.<br>//<br>VP8 是 WebM 项目研发的一种高效的视频压缩技术，是 WebRTC 所包含的视频编解码器。</p>
+<p><strong>Q：What other components are included in the WebRTC package?</strong>   // WebRTC 还包括了其它哪些组件？<br>A：</p>
+<ul>
+<li>Audio<br>WebRTC offers a complete stack for voice communications. It includes not only the necessary codecs, but other components necessary to great user experiences. This includes software-based acoustic echo cancellation (AEC), automatic gain control (AGC), noise reduction, noise suppression, and hardware access and control across multiple platforms.</li>
+<li>Video<br>The WebRTC project builds on the VP8 codec, introduced in 2010 as part of the WebM Project. It includes components to conceal packet loss and clean up noisy images, as well as capture and playback capabilities across multiple platforms.</li>
+<li>Network<br>Dynamic jitter buffers and error concealment techniques are included for audio and video, which help mitigate the effects of packet loss and unreliable networks. Also included are components for establishing a peer-to-peer connection using ICE / STUN / Turn / RTP-over-TCP and support for proxies.<br>//   </li>
+<li>音频<br>WebRTC 为语音通信提供了一个完整的解决方案。它不仅包括必要的编解码器，也包括有着友好用户体验的其它组件。这包括了基于软件的回声消除（AEC）、自动增益控制（AGC）、噪声降低、噪声抑制以及跨多个平台的硬件访问和控制。</li>
+<li>视频<br>WebRTC 项目基于在 2010 年作为 WebM 项目的一部分而引入的 VP8 编解码器。它包括用来隐藏数据包丢失和清理图片噪声的组件，还有可以跨多个平台进行捕获和回放功能的相关组件。</li>
+<li>网络<br>对音视频的处理包括动态抖动缓冲器和错误隐藏技术，有助于减轻数据包丢失和不可靠的网络影响。为了建立使用 ICE/STUN/Turn/RTP-over-TCP 的对等连接并且支持代理，也存在着相应的组件。</li>
+</ul>
+<p><strong>Q：How do I access the WebRTC code?</strong>  // 如何接入 WebRTC 的源码？</p>
+<p>A：Go to <a href="https://chromium.googlesource.com/external/webrtc" target="_blank" rel="external">https://chromium.googlesource.com/external/webrtc</a></p>
+<p><strong>Q：How can I test the quality of WebRTC components?</strong>   // 我怎么测试 WebRTC 的组件的质量？</p>
+<p>A：We have put sample applications <a href="https://webrtc.org/native-code/development/" target="_blank" rel="external">here</a>. // 有相关的应用案例<a href="https://webrtc.org/native-code/development/" target="_blank" rel="external">进这里</a></p>
+<p><strong>Q：Are WebRTC components subject to change?</strong>   // WebRTC 的组件会不会变？</p>
+<p>A：WebRTC is based on a API that is still under development through efforts at WHATWG, W3C and IETF. We hope to get to a stable API once a few browser vendors have implementations ready for testing. Once the API is stable, our goal will be to offer backwards compatibility and interoperability. The WebRTC API layer will be our main focus for stability and interoperability. The components under it may be modified to improve quality, performance and feature set.<br>//<br>WebRTC 的一套 API 是基于 WHATWG, W3C 和 IETF 组织进行开发的，规范还在开发中。只要有几个浏览器供应商能为测试实现做好准备，我们希望能够得到一个稳定的 API。只要 API 稳定，我们就会进行提供向后兼容和互操作性。WebRTC 的 API 层将是我们要考虑稳定性和互操作性的核心，其下的组件可以被修改以提高质量、性能和功能集。</p>
+<p><strong>Q：How can I implement my own renderer or add my own hooks in the WebRTC Platform?</strong><br>// 如何在 WebRTC 平台里实现自己的渲染器或者添加自己的 hook ？</p>
+<p>A：Please take a look at the <a href="https://chromium.googlesource.com/external/webrtc" target="_blank" rel="external">external renderer API</a>. // 可以查看<a href="https://chromium.googlesource.com/external/webrtc" target="_blank" rel="external">外部渲染 API</a></p>
+<p><strong>Q：WebRTC components are open-source. How do I get the source and contribute code?</strong><br>// WebRTC 组件是开源资源，如何获取其源码并且做出代码贡献？</p>
+<p>A：Please see <a href="https://webrtc.org/native-code/development/" target="_blank" rel="external">Getting Started</a> and <a href="https://webrtc.org/contributing/" target="_blank" rel="external">Contributing bug fixes</a> for more information.  </p>
+<p><strong>Q：To be a Contributor, do I need to sign any agreements?</strong>   // 作为代码贡献者是否需要进行协议的签署？</p>
+<p>A：Yes, each Contributor must sign and return the <a href="https://developers.google.com/open-source/cla/individual?hl=en" target="_blank" rel="external">Contributor License Agreement</a>.</p>
+<p><strong>Q：Do I have to be a programmer to use WebRTC?</strong>   // 要想使用 WebRTC 必须是开发者吗？</p>
+<p>A：Yes, to build WebRTC support into a software application or contribute improvements, programming skills are required. However, usage of the JavaScript APIs that call WebRTC in the browsers will only require typical web development skills.<br>//<br>是的，要想在软件中使用 WebRTC 的支持，或者贡献源码对 WebRTC 的改进，编程技能是被需要的。然而，在浏览器中调用 WebRTC 对 JavaScript APIs 的使用，只需要掌握传统的 web 开发技能就足够了。</p>
+<p><strong>Q：Is the WebRTC project owned by Google or is it independent?</strong>   // WebRTC 是自己独立的还是被 Google 所持有？</p>
+<p>A：WebRTC is an open-source project supported by Google, Mozilla and Opera. The API and underlying protocols are being developed jointly at the W3C and IETF.<br>//  WebRTC 是由 Google, Mozilla 和 Opera 支持的开源项目，它的 API 和底层协议由 W3C 和 IETF 共同研发。</p>
+<p><strong>Q：Are the WebRTC components from Google’s acquisition of Global IP Solutions?</strong>  //  WebRTC 的组件是来自 Google 收购的 GIPS 吗？</p>
+<p>A：Yes. Some components, such as VoiceEngine, VideoEngine, NetEQ, AEC, et al. all stem from the GIPS acquisition.<br>//<br>是的，一些组件，比如，VoiceEngine, VideoEngine, NetEQ, AEC 等等都是来自收购的　GIPS。</p>
+<p><strong>Q：What codecs are supported in WebRTC?</strong>   // WebRTC 支持哪些编解码？</p>
+<p>A：The currently supported voice codecs are G.711, G.722, iLBC, and iSAC, and VP8 is the supported video codec. The list of supported codecs may change in the future.<br>//<br>目前所支持的音频编解码有：G.711, G.722, iLBC, 和 iSAC；视频编解码器是 VP8；在将来可能会有所变化。</p>
+<p><strong>Q：Please explain how WebRTC is free of charge?</strong>   // 请解释 WebRTC 是如何免费使用的？</p>
+<p>A：Some software frameworks, voice and video codecs require end-users, distributors and manufacturers to pay patent royalties to use the intellectual property within the software technology and/or codec. Google is not charging royalties for WebRTC and its components including the codecs it supports (VP8 for video and iSAC and iLBC for audio). For more information, see the License page.<br>//<br>有些软件框架，语音和视频编解码器需要终端用户、分销商和制造商支付专利使用费，因为涉及到某些软件技术或编解码器利用的知识产权。Google 自己不征收与 WebRTC 组件的版税，包括它所支持的比如用于视频的 VP8 和用于音频的 iSAC 和 iLBC。了解更多信息，可以<a href="https://webrtc.org/license/" target="_blank" rel="external">查看许可证页面</a>。</p>
+<p><strong>Q：What does this license let me do?</strong>   // 这些许可证可以许可我做什么？</p>
+<p>A：Like most BSD licenses, this license allows you to use the WebRTC code with a minimum of restrictions on your use. You can use the code in proprietary software as well as open source software.<br>//<br>像大多数的 BSD 许可证一样，这个许可证允许你去使用 WebRTC 的源代码并且尽可能小的对你的使用进行限制，你可以将代码使用在商用软件里，就像使用开源软件一样。</p>
+<p><strong>Q：Do I need to release the source if I make changes?</strong>  // 如果我贡献了代码做了改变需要公布吗？</p>
+<p>A：No, the license does not require you to release source if you make changes. However, we would love to see any changes you make and possibly incorporate them, so if you want to participate please visit the code review page and submit some patches.<br>//<br>不需要。如果做了改变，许可证并不要求你公开代码。然而，我们希望看到看到有任何改变，并且可能会将它们合并。因此，如果你想参与进来不妨去代码的 review 页面并提交一些补丁。</p>
+<p><strong>Q：Why is there a separate patent grant?</strong>  // 为什么会有单独的专利许可？</p>
+<p>A：In order to decouple patents from copyright, thus preserving the pure BSD nature of the copyright license, the license and the patent grant are separate. This means we are using a standard (BSD) open source copyright license, and the patent grant can exist on its own. This makes WebRTC compatible with all major license scenarios.<br>//<br>把许可证和专利授权独立开来，是为了实现专利授权的同时能保护版权许可的纯粹性，这就意味着，我们正在使用标准 BSD 开源资源的版权许可，其本身实际上也存在专利授权的方面。这使得 WebRTC 与所有主流的许可方案兼容。</p>
+<p><strong>Q：What if someone gets the code from Google and gives it to me without changes. Do I have a patent grant from Google?</strong><br>// 如果某人从 Google 得到了源码并且原封不动不做任何改变的给了我，我还有 Google 的专利授权吗？</p>
+<p>A：Yes, you still have the right to redistribute and you still have a patent license for Google’s patents that cover the code that Google released.<br>//<br>是的，你仍然有权进行重新分配，依然拥有谷歌的专利许可，并且涵盖了谷歌发布的代码的专利许可。</p>
+<p><strong>Q：What if someone makes a change to the code and gives it to me. Do I have a patent license from Google for that change?</strong><br>// 如果某人从 Google 得到了源码并且做了修改给了我，对于那种修改我还有 Google 的专利授权吗？</p>
+<p>A：You still have the right to redistribute but no patent license for the changes (if there are any patents covering it). We can’t give patent licenses for changes people make after we distribute the code, as we have no way to predict what those changes will be. Other common licenses take the same approach, including the Apache license.<br>//<br>你仍然有权进行重新分配，但是对于修改过的部分没有专利许可证的变化（除非有任何专利涉及它）。当我们分发了代码之后无法给人们修改过的的代码授予专利许可，因为我们没有办法预测这些改变会是什么。其它常见的许可我们采用同样的做法，包括 Apache 许可证。</p>
+<p><strong>Q：What if Google receives or buys a patent that covers the code I receive sometime after I receive the code. Do I have a patent grant for that patent?</strong>    // 如果 Google 收到或购买了一项专利，该专利涵盖了我之前某个时候收到的代码，我的那个专利许可还在吗？</p>
+<p>A：Yes, you still have the right to redistribute and you still have a patent license for Google’s patents that cover the code that Google released.<br>// 还在，你依然有权利进行重新分配，有专利许可证覆盖 Google 发布的代码的那个版本。</p>
+<p>End.</p>
+<p>Note by <a href="http://isayes.github.io" target="_blank" rel="external">HF</a>.  </p>
+<hr>
+
+      
+    </div>
+    <footer>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+
+  
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
