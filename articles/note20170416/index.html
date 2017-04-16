@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">U3D</a></li>
+    
+      <li><a href="/pages/gamedev">游戏开发</a></li>
+    
+      <li><a href="/pages/internet">网络</a></li>
+    
+      <li><a href="/pages/graphics">图形学</a></li>
+    
+      <li><a href="/pages/programming">编程</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/articles/note20170416/index.html"></a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <h1 id="对-Unity-3D-手游优化技术的调研"><a href="#对-Unity-3D-手游优化技术的调研" class="headerlink" title="对 Unity 3D 手游优化技术的调研"></a>对 Unity 3D 手游优化技术的调研</h1><p>学习自网络以及蛮牛教育公开课</p>
+<p>与 PC 平台相比，移动平台有其瓶颈：体积小，功耗小，带宽小；因此在开发移动平台的游戏时，可以借助一些性能优化方法来提高游戏性能，改善画面质量。</p>
+<p>用户可在以下方面进行优化：资源方面、引擎方面、代码方面；</p>
+<h2 id="资源方面"><a href="#资源方面" class="headerlink" title="资源方面 #"></a>资源方面 #</h2><p>动态物体：</p>
+<p>对游戏主角，怪物，NPC 控制面片数量 300-2000 面片；<br>控制 Skinned Mesh Render 为 1 个；<br>控制材质数量 1-3 个；控制骨骼数量 &lt; 30 根；</p>
+<p>静态物体：</p>
+<p>一般静态物体控制网格顶点数 &lt; 500 个；<br>标记为 Static；<br>Static Batching 优化；</p>
+<p>美术资源方面：</p>
+<p>自带地形 控制地形的分辨率 地形高度图尺寸小于 257；地形纹理中尽量使用少的混合纹理数目，尽量不要超过 4 个；</p>
+<p>纹理数据 纹理格式尽量采取压缩格式；纹理尺寸 长宽小于 1024，同时应该尽量小，够用即可；建议使用 Mipmap，虽然有可能会增加程序的大小，但会提高渲染效率；</p>
+<p>音频数据 播放时间长的音乐如背景音乐 可以使用 .ogg 或 .mp3 的压缩文件格式；播放时间短的音乐如枪声 可以使用 .wav 或 .aif 格式的未压缩格式;</p>
+<h2 id="引擎方面"><a href="#引擎方面" class="headerlink" title="引擎方面 #"></a>引擎方面 #</h2><p>光源设置：</p>
+<p>在满足效果的前提下，控制场景中光源的个数，不要添加冗余光源；<br>控制 Important 光源的数目，尽量 1 个或干脆没有，个数越多 DrawCall 越多；<br>Pixel Light Count 1~2 个；</p>
+<p>相机设置：</p>
+<p>设置合理的剪切平面，可根据不同的场景进行不同的修改；</p>
+<p>粒子效果：</p>
+<p>屏幕上的粒子总数建议小于 200 个粒子，每个粒子发射器所发射的粒子总数建议不超过 50 个；<br>粒子大小 size 应该尽量的小，对于非常小的粒子，在其粒子纹理中可以去除 Alpha 通道；</p>
+<p>物理引擎优化：</p>
+<p>尽可能使用 Sphere Collider 和 Box Collider，尽量避免使用 Mesh Collider，因为希望计算量比较小；</p>
+<p>渲染优化：</p>
+<p>尽可能的避免使用 Alpha Test 和 Alpha Blend；<br>移动平台上 Alpha Test 的性价比比较低，可能的话，使用 Alpha Blend 来替代 Alpha Test；<br>将使用 Alpha Test 和 Alpha Blend 的像素数将至最低。</p>
+<p>DrawCall Batching：Unity 在渲染时，可以将一些物体合并，从而可以使用一个 DrawCall 来渲染他们，这称为 DrawCall Batching；理论上讲，Unity Batching 的物体越多，则会得到更好的渲染性能。</p>
+<p>Static Batching 针对静态物体进行 Batching，对几何数据的大小没有限制；原理：静态 VertexBuffer + 动态 IndexBuffer，将同种材质的物体合并在一个大的 VertexBuffer 中，在运行时，通过视锥剪切来动态的改变 IndexBuffer；注意：使用 Static Batching 后会额外的增加内存开销来存储 Batch 后的数据。</p>
+<p>Dynamic Batching：对于相同材质的动态物体，Unity 会自动对其进行 Batching；原理：动态 VertexBuffer + 动态 IndexBuffer；注意：目前仅支持小于 900 顶点的网格物体；如果 Shade 里使用 Position、Normal、UV 三种属性，则只能 Batch 300 顶点以下的物体，如果使用 Position、Normal、UV、UV1、Tangent  等属性，则只能 Batch 180 顶点以下的物体； 缩放物体无法与非缩放物体进行 Batch。</p>
+<p>纹理合并 Texture Patching</p>
+<p>遮挡剔除 Occlusion Culling</p>
+<h2 id="代码方面"><a href="#代码方面" class="headerlink" title="代码方面 #"></a>代码方面 #</h2><p>通过编程的方式提高代码运行性能；</p>
+<p>举几个例子</p>
+<p>对于有的函数，可以每隔几帧执行一次</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="comment">// 每隔 6 帧执行一次 DoSomething()</span></span><br><span class="line">  <span class="keyword">if</span> (Time.frameCount % <span class="number">6</span> == <span class="number">0</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    DoSomething();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过使用 InvokeRepeating 函数实现定时重复调用，比如，启动 0.5 秒后每隔 1 秒执行一次 DoSomething 函数：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">  InvokeRepeating(<span class="string">"DoSomething"</span>, <span class="number">0.5</span>f, <span class="number">1.0</span>f);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>尽量少使用临时变量，特别是在 Update OnGUI 等实时调用的函数中</p>
+<p>不好的案例：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">  Vector3 pos;</span><br><span class="line">  pos = transform.position;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>应该写成：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Vector3 pos;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">  pos = transform.position;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定时进行垃圾回收</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(Time.frameCount % <span class="number">50</span> == <span class="number">0</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    System.GC.Collection();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>优化数学运算，尽量避免使用 float，而使用 int，特别是在手机游戏中，尽量少用复杂的数学函数，比如 sin、cos 等函数；除法 / 改用成乘法 <em> ：使用 x </em> 0.5f 而不是 x / 2.0f；</p>
+<p>End</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
