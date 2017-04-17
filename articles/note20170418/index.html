@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>学会 Lua 之第一天 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="学会 Lua 之第一天"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">U3D</a></li>
+    
+      <li><a href="/pages/gamedev">游戏开发</a></li>
+    
+      <li><a href="/pages/internet">网络</a></li>
+    
+      <li><a href="/pages/graphics">图形学</a></li>
+    
+      <li><a href="/pages/programming">编程</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/articles/note20170418/index.html">学会 Lua 之第一天</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p>Lua 的目的是为了嵌入应用程序中，从而为应用程序提供灵活的扩展和定制功能。</p>
+<p>特点是轻量级、可扩展、面向过程编程和函数式编程、自动内存管理、语言内置模式匹配、闭包(closure)、函数也可以看做一个值、提供多线程（协同进程，并非操作系统所支持的线程）支持、通过闭包和 table 可以支持面向对象编程：数据抽象，虚函数，继承和重载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(&quot;Hello World!&quot;)</span><br></pre></td></tr></table></figure>
+<p>两个减号是单行注释: –<br>多行注释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">--[[</span><br><span class="line"> 多行注释</span><br><span class="line"> 多行注释</span><br><span class="line"> --]]</span><br></pre></td></tr></table></figure></p>
+<p>Lua 是一个区分大小写的编程语言。</p>
+<p>Lua 的保留关键字有：<br>and    break    do    else<br>elseif    end    false    for<br>function    if    in    local<br>nil    not    or    repeat<br>return    then    true    until<br>while</p>
+<p>在默认情况下，变量总是认为是全局的。<br>全局变量不需要声明，给一个变量赋值后即创建了这个全局变量，访问一个没有初始化的全局变量也不会出错，只不过得到的结果是：nil。<br>如果你想删除一个全局变量，只需要将变量赋值为nil。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">b = nil</span><br><span class="line">print(b)      --&gt; nil</span><br></pre></td></tr></table></figure>
+<p>当且仅当一个变量不等于nil时，这个变量即存在。</p>
+<p>Lua 是动态类型语言，变量不要类型定义,只需要为变量赋值。 值可以存储在变量中，作为参数传递或结果返回。<br>Lua 中有 8 个基本类型分别为：nil、boolean、number、string、userdata (表示任意存储在变量中的 C 数据结构)、function (由 C 或 Lua 编写的函数)、thread (表示执行的独立线路，用于执行协同程序) 和 table (是一个”关联数组”（associative arrays），数组的索引可以是数字或者是字符串。)。</p>
+<p>Lua 默认只有一种 number 类型 – double（双精度）类型。<br>字符串由一对双引号或单引号来表示。<br>也可以用 2 个方括号 “[[]]” 来表示”一块”字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">html = [[</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;a href=&quot;http://www.w3cschool.cc/&quot;&gt;w3cschool菜鸟教程&lt;/a&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line">]]</span><br><span class="line">print(html)</span><br></pre></td></tr></table></figure>
+<p>在对一个数字字符串上进行算术操作时，Lua 会尝试将这个数字字符串转成一个数字:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; print(&quot;2&quot; + 6)</span><br><span class="line">8.0</span><br><span class="line">&gt; print(&quot;2&quot; + &quot;6&quot;)</span><br><span class="line">8.0</span><br><span class="line">&gt; print(&quot;2 + 6&quot;)</span><br><span class="line">2 + 6</span><br></pre></td></tr></table></figure>
+<p>字符串连接使用的是 ..<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; print(&quot;a&quot; .. &apos;b&apos;)</span><br><span class="line">ab</span><br></pre></td></tr></table></figure></p>
+<p>使用 # 来计算字符串的长度，放在字符串前面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; len = &quot;www.w3cschool.cc&quot;</span><br><span class="line">&gt; print(#len)</span><br><span class="line">16</span><br></pre></td></tr></table></figure>
+<hr>
+<p>在 Lua 里，table 的创建是通过”构造表达式”来完成，最简单构造表达式是{}，用来创建一个空表。也可以在表里添加一些数据，直接初始化表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-- 创建一个空的 table</span><br><span class="line">local tbl1 = &#123;&#125;</span><br><span class="line"></span><br><span class="line">-- 直接初始表</span><br><span class="line">local tbl2 = &#123;&quot;apple&quot;, &quot;pear&quot;, &quot;orange&quot;, &quot;grape&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>Lua 中的表（table）其实是一个”关联数组”（associative arrays），数组的索引可以是数字或者是字符串。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a[&quot;key&quot;] = &quot;value&quot;</span><br><span class="line">a[10] = 100</span><br></pre></td></tr></table></figure></p>
+<p>不同于其他语言的数组把 0 作为数组的初始索引，在 Lua 里表的默认初始索引一般以 1 开始。<br>table 不会固定长度大小，有新数据添加时 table 长度会自动增长，没初始的 table 都是 nil。</p>
+<hr>
+<p>在 Lua 中，函数是被看作是”第一类值（First-Class Value）”，函数可以存在变量里</p>
+<hr>
+<p>线程跟协程的区别：线程可以同时多个运行，而协程任意时刻只能运行一个，并且处于运行状态的协程只有被挂起（suspend）时才会暂停。</p>
+<hr>
+<p>userdata 是一种用户自定义数据，用于表示一种由应用程序或 C/C++ 语言库所创建的类型，可以将任意 C/C++ 的任意数据类型的数据（通常是 struct 和 指针）存储到 Lua 变量中调用</p>
+<hr>
+<p>Lua 变量有三种类型：全局变量、局部变量、表中的域。Lua 中的变量全是全局变量，那怕是语句块或是函数里，除非用 local 显式声明为局部变量。局部变量的作用域为从声明位置开始到所在语句块结束。变量的默认值均为 nil。</p>
+<p>Lua可以对多个变量同时赋值，变量列表和值列表的各个元素用逗号分开，赋值语句右边的值会依次赋给左边的变量。</p>
+<p>遇到赋值语句Lua会先计算右边所有的值然后再执行赋值操作，所以我们可以这样进行交换变量的值：<code>x, y = y, x -- swap &#39;x&#39; for &#39;y&#39;</code>；变量个数 &gt; 值的个数 按变量个数补足 nil；变量个数 &lt; 值的个数 多余的值会被忽略</p>
+<hr>
+<p>循环</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while( true )</span><br><span class="line">do</span><br><span class="line">   print(&quot;循环将永远执行下去&quot;)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>–</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for var=exp1,exp2,exp3 do  </span><br><span class="line">    &lt;执行体&gt;  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>–</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">repeat</span><br><span class="line">   statements</span><br><span class="line">until( condition )</span><br></pre></td></tr></table></figure>
+<p>var从exp1变化到exp2，每次变化以exp3为步长递增var，并执行一次 “执行体”。exp3是可选的，如果不指定，默认为1。</p>
+<hr>
+<p>Lua认为false和nil为假，true和非nil为真<br>Lua中 0 为 true</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if(0)</span><br><span class="line">then</span><br><span class="line">    print(&quot;0 为 true&quot;)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<hr>
+<p>逻辑运算符</p>
+<p>`and    逻辑与操作符。 若 A 为 false，则返回 A，否则返回 B。<br>or    逻辑或操作符。 若 A 为 true，则返回 A，否则返回 B。<br>not    逻辑非操作符。与逻辑运算结果相反，如果条件为 true，逻辑非为 false。<br>..    连接两个字符串。</p>
+<h1 id="一元运算符，返回字符串或表的长度。。"><a href="#一元运算符，返回字符串或表的长度。。" class="headerlink" title="一元运算符，返回字符串或表的长度。。`"></a>一元运算符，返回字符串或表的长度。。`</h1><hr>
+<p>Lua 语言中字符串可以使用以下三种方式来表示：<br>单引号间的一串字符。<br>双引号间的一串字符。<br>[[和]]间的一串字符。</p>
+<p>string.upper(argument):<br>字符串全部转为大写字母。</p>
+<p>string.lower(argument):<br>字符串全部转为小写字母。</p>
+<p>string.gsub(mainString,findString,replaceString,num)<br>在字符串中替换,mainString为要替换的字符串， findString 为被替换的字符，replaceString 要替换的字符，num 替换次数（可以忽略，则全部替换）</p>
+<p>string.strfind (str, substr, [init, [end]])<br>在一个指定的目标字符串中搜索指定的内容(第三个参数为索引),返回其具体位置。不存在则返回 nil。</p>
+<p>string.reverse(arg)<br>字符串反转</p>
+<p>string.format(…)<br>返回一个类似printf的格式化字符串</p>
+<p>string.char(arg) 和 string.byte(arg[,int])<br>char 将整型数字转成字符并连接， byte 转换字符为整数值(可以指定某个字符，默认第一个字符)。</p>
+<p>string.len(arg)<br>计算字符串长度。</p>
+<p>string.rep(string, n))<br>返回字符串string的n个拷贝</p>
+<p>..<br>链接两个字符串</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
