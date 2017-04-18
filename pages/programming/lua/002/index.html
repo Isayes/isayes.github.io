@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">U3D</a></li>
+    
+      <li><a href="/pages/gamedev">游戏开发</a></li>
+    
+      <li><a href="/pages/internet">网络</a></li>
+    
+      <li><a href="/pages/graphics">图形学</a></li>
+    
+      <li><a href="/pages/programming">编程</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/pages/programming/lua/002/index.html"></a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <h1 id="学会-Lua-之第二天"><a href="#学会-Lua-之第二天" class="headerlink" title="学会 Lua 之第二天"></a>学会 Lua 之第二天</h1><p>数组，就是相同数据类型的元素按一定顺序排列的集合，可以是一维数组和多维数组。<br>在 Lua 索引值是以 1 为起始，但你也可以指定 0 开始。<br>除此外我们还可以以负数为数组索引值。</p>
+<p>多维数组即数组中包含数组或一维数组的索引键对应一个数组。</p>
+<p>迭代器是用于遍历集合或容器中元素的一种结构。在 Lua 语言中，集合往往指的是可以用来创建各种数据结构的表。比如，数组就是用表来创建的。<br>通用迭代器可以访问集合中的键值对，Lua 提供默认迭代器函数 ipairs。</p>
+<p>无状态迭代器，这一类的迭代器函数中不会保存任何中间状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function square(iteratorMaxCount,currentNumber)</span><br><span class="line">   if currentNumber&lt;iteratorMaxCount</span><br><span class="line">   then</span><br><span class="line">      currentNumber = currentNumber+1</span><br><span class="line">   return currentNumber, currentNumber*currentNumber</span><br><span class="line">   end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function squares(iteratorMaxCount)</span><br><span class="line">   return square,iteratorMaxCount,0</span><br><span class="line">end  </span><br><span class="line"></span><br><span class="line">for i,n in squares(3)</span><br><span class="line">do</span><br><span class="line">    print(i,n)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>有状态迭代器，在 Lua 中可以使用闭包来存储当前元素的状态。闭包通过函数调用得到变量的值。为了创建一个新的闭包，我们需创建两个函数，包括闭包函数本身和一个工厂函数，其中工厂函数用于创建闭包。</p>
+<h2 id="nbsp"><a href="#nbsp" class="headerlink" title="&nbsp;"></a>&nbsp;</h2><p>在 Lua 语言中，表是唯一可以用来创建不同数据类型的数据结构，比如常见的数组和字典都是用表来创建的。表没有固定的大小，当数据量增加时表会自动增大。表被称之为对象，它既不是值也不是变量。Lua 用构造表达式 {} 创建一个空表。需要注意的是，在存储表的变量和表本身之间没有什么固定的对应关系（译注：一个表可以被不同的变量引用，一个变量也可以随时改变其所引用的表对象）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">--简单的表初始化</span><br><span class="line">mytable = &#123;&#125;</span><br><span class="line"></span><br><span class="line">--简单的表赋值</span><br><span class="line">mytable[1]= &quot;Lua&quot;</span><br><span class="line"></span><br><span class="line">--移除引用</span><br><span class="line">mytable = nil</span><br><span class="line">-- lua 的垃圾回收机制负责回收内存空间</span><br></pre></td></tr></table></figure>
+<p>当我们有一个拥有一系列元素的表时，如果我们将其赋值给 b。那么 a 和 b 都会引用同一个表对象(a 先引用该表)，指向相同的内存空间。而不会再单独为 b 分配内存空间。即使给变量 a 赋值 nil，我们仍然可以用变量 b 访问表本身。如果已经没有变量引用表时，Lua　语言垃圾回收机制负责回收不再使用的内存以被重复使用。</p>
+<p>下面的示例代码使用到了上面提到的表的特性。　　</p>
+<p>Lua 语言内置的表操作函数：</p>
+<p>table.concat(table[, sep [, i[,j]]]): 根据指定的参数合并表中的字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fruits = &#123;&quot;banana&quot;,&quot;orange&quot;,&quot;apple&quot;&#125;</span><br><span class="line"></span><br><span class="line">-- 返回表中字符串连接后的结果 bananaorangeapple</span><br><span class="line">print(&quot;Concatenated string &quot;,table.concat(fruits))</span><br><span class="line"></span><br><span class="line">--用字符串连接 banana, orange, apple</span><br><span class="line">print(&quot;Concatenated string &quot;,table.concat(fruits,&quot;, &quot;))</span><br><span class="line"></span><br><span class="line">--基于索引连接 orange, apple</span><br><span class="line">print(&quot;Concatenated string &quot;,table.concat(fruits,&quot;, &quot;, 2,3))</span><br></pre></td></tr></table></figure>
+<p>table.insert(table,[pos,]value)：在表中指定位置插入一个值。<br>table.maxn(table)：返回表中最大的数值索引。<br>table.remove(table[,pos])：从表中移出指定的值。<br>table.sort(table[,comp])：根据指定的（可选）比较方法对表进行排序操作。</p>
+<p>sort 函数默认使用字母表对表中的元素进行排序（可以通过提供比较函数改变排序策略）。</p>
+<h2 id="nbsp-1"><a href="#nbsp-1" class="headerlink" title="&nbsp;"></a>&nbsp;</h2><p>Lua 中的模块与库的概念相似，每个模块都有一个全局唯一名字，并且每个模块都包含一个表。使用一个模块时，可以使用 require 加载模块。模块中可以包括函数和变量，所有这些函数和变量被表存储于模块的表中。模块中的表的功能类似于命名空间，用于隔离不同模块中的相同的变量名。在使用模块的时候，我们应该遵守模块定义的规范，在 require 加载模块时返回模块中的包含函数和变量的表对象。</p>
+<p>模块中表的使用使得我们可在绝大多数情况下可以像操作其它表一样操作模块。由于 Lua 语言允许对模块本身进行操作，所以 Lua 也就具备了许多其它语言需要特殊机制才能实现的特殊性质。例如，这种自由的表操作机制使得编程人员可以用多种方法调用模块中的函数。下面的例子演示了其中的一些方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-- 方法 1</span><br><span class="line">require &quot;printFormatter&quot;</span><br><span class="line">printFormatter.simpleFormat(&quot;test&quot;)</span><br><span class="line"></span><br><span class="line">-- 方法 2</span><br><span class="line">local formatter = require &quot;printFormatter&quot;</span><br><span class="line">formatter.simpleFormat(&quot;test&quot;)</span><br><span class="line"></span><br><span class="line">-- 方法 3</span><br><span class="line">require &quot;printFormatter&quot;</span><br><span class="line">local formatterFunction = printFormatter.simpleFormat</span><br><span class="line">formatterFunction(&quot;test&quot;)</span><br></pre></td></tr></table></figure>
+<p>Lua 提供了一个高层次抽象的函数 require，使用这个函数可以加载所有需要的模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">local mymath =  &#123;&#125;</span><br><span class="line">function mymath.add(a,b)</span><br><span class="line">   print(a+b)</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function mymath.sub(a,b)</span><br><span class="line">   print(a-b)</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function mymath.mul(a,b)</span><br><span class="line">   print(a*b)</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function mymath.div(a,b)</span><br><span class="line">   print(a/b)</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">return mymath</span><br></pre></td></tr></table></figure>
+<p>在另一个文件　moduletutorial.lua 文件中访问这个模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mymathmodule = require(&quot;mymath&quot;)</span><br><span class="line">mymathmodule.add(10,20)</span><br><span class="line">mymathmodule.sub(30,20)</span><br><span class="line">mymathmodule.mul(10,20)</span><br><span class="line">mymathmodule.div(30,20)</span><br></pre></td></tr></table></figure>
+<p>注意的几点：<br>把模块和待运行的文件放在相同的目录下；<br>模块的名称与文件名称相同；<br>为 require 函数返回模块（在模块中使用 return 命令返回存储了函数和变量的表）。尽管有其它的模块实现的方式，但是建议您使用上面的实现方法；</p>
+<h2 id="nbsp-2"><a href="#nbsp-2" class="headerlink" title="&nbsp;"></a>&nbsp;</h2><p>可以通过设置元表的键和相关方法来改变表的行为。元方法的功能十分强大，使用元方法可以实现很多的功能：修改表的操作符功能或为操作符添加新功能（实现操作的重载）、使用元表中的 <code>__index</code> 方法，我们可以实现在表中查找键不存在时转而在元表中查找键值的功能；</p>
+<p>Lua 提供了两个十分重要的用来处理元表的方法：setmetatable(table,metatable)：此方法用于为一个表设置元表； getmetatable(table)：此方法用于获取表的元表对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- 将一个表设置为另一个表的元表</span><br><span class="line">mytable = &#123;&#125;</span><br><span class="line">mymetatable = &#123;&#125;</span><br><span class="line">setmetatable(mytable, mytatable)</span><br></pre></td></tr></table></figure>
+<p>简写成一行代码：mytable = setmetatable({}, {})</p>
+<h2 id="nbsp-3"><a href="#nbsp-3" class="headerlink" title="&nbsp;"></a>&nbsp;</h2><p>协程具有协同的性质，它允许两个或多个方法以某种可控的方式协同工作。在任何一个时刻，都只有一个协程在运行，只有当正在运行的协程主动挂起时它的执行才会被挂起（暂停）。当我们使用 resume 函数调用一个协程时，协程才开始执行。当在协程调用 yield 函数时，协程挂起执行。再次调用 resume 函数时，协程再从上次挂起的地方继续执行。这个过程一直持续到协程执行结束为止。</p>
+<p>协程与线程的区别在于协程不能并发，任意时刻只会有一个协程执行，而线程允许并发的存在。</p>
+<p>Lua 为支持协程提供的函数和功能：</p>
+<p>coroutine.create(f): 用函数 f 创建一个协程，返回 thread 类型对象。<br>coroutine.resume(co[,val1,…]): 传入参数（可选），重新执行协程 co。此函数返回执行状态，也可以返回其它值。<br>coroutine.running(): 返回正在运行的协程，如果在主线程中调用此函数则返回 nil。<br>coroutine.status(co): 返回指定协程的状态，状态值允许为：正在运行(running)，正常(normal)，挂起(suspended)，结束(dead)。<br>coroutine.wrap(f): 与前面 coroutine.create 一样，coroutine.wrap 函数也创建一个协程，与前者返回协程本身不同，后者返回一个函数。当调用该函数时，重新执行协程。<br>coroutine.yield(…): 挂起正在执行的协程。为此函数传入的参数值作为执行协程函数 resume 的额外返回值（默认会返回协程执行状态）。</p>
+<h2 id="nbsp-4"><a href="#nbsp-4" class="headerlink" title="&nbsp;"></a>&nbsp;</h2><p>Lua 的文件 IO 库用于读取或操作文件。Lua IO 库提供两类文件操作，它们分别是隐式文件描述符(implict file descriptors)和显式文件描述符(explicit file descriptors)。</p>
+<p>简单的打开文件操作：file = io.open (filename [, mode])</p>
+<p>隐式文件描述符使用标准输入输出模式或者使用单个输入文件和输出文件。使用隐匿文件描述符的示例代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">-- 只读模式打开文件</span><br><span class="line">file = io.open(&quot;test.lua&quot;, &quot;r&quot;)</span><br><span class="line"></span><br><span class="line">-- 将 test.lua 设置为默认输入文件</span><br><span class="line">io.input(file)</span><br><span class="line"></span><br><span class="line">--打印输出文件的第一行</span><br><span class="line">print(io.read())</span><br><span class="line"></span><br><span class="line">-- 关闭打开的文件</span><br><span class="line">io.close(file)</span><br><span class="line"></span><br><span class="line">-- 以追加模式打开文件</span><br><span class="line">file = io.open(&quot;test.lua&quot;, &quot;a&quot;)</span><br><span class="line"></span><br><span class="line">-- 将 test.lua 设置为默认的输出文件</span><br><span class="line">io.output(file)</span><br><span class="line"></span><br><span class="line">-- 将内容追加到文件最后一行</span><br><span class="line">io.write(&quot;-- End of the test.lua file&quot;)</span><br><span class="line"></span><br><span class="line">-- 关闭打开的文件</span><br><span class="line">io.close(file)</span><br></pre></td></tr></table></figure>
+<p>我们也会经常用到显示文件描述符，因为它允许我们同时操作多个文件。这些函数与隐式文件描述符非常相似，只不过我们在这儿使用 file:function_name 而不是使用 io.function_name 而已。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">-- 只读模式打开文件</span><br><span class="line">file = io.open(&quot;test.lua&quot;, &quot;r&quot;)</span><br><span class="line"></span><br><span class="line">-- 输出文件的第一行</span><br><span class="line">print(file:read())</span><br><span class="line"></span><br><span class="line">-- 关闭打开的文件</span><br><span class="line">file:close()</span><br><span class="line"></span><br><span class="line">-- 以追加模式打开文件</span><br><span class="line">file = io.open(&quot;test.lua&quot;, &quot;a&quot;)</span><br><span class="line"></span><br><span class="line">-- 添加内容到文件的尾行</span><br><span class="line">file:write(&quot;--test&quot;)</span><br><span class="line"></span><br><span class="line">-- 关闭打开的文件</span><br><span class="line">file:close()</span><br></pre></td></tr></table></figure>
+<h2 id="nbsp-5"><a href="#nbsp-5" class="headerlink" title="&nbsp;"></a>&nbsp;</h2><p>为什么需要错误处理机制，在真实的系统中程序往往非常复杂，它们经常涉及到文件操作、数据库事务操作或网络服务调用等，这个时候错误处理就显得非常重要。不关注错误处理可能在处理诸如涉密或金融交易这些业务时造成重大的损失。<br>无论什么时候，程序开发都要求小心地做好错误处理工作。在 Lua 中错误可以被分为两类：语法错误、运行时错误；</p>
+<p>对于运行时错误，虽然程序也能成功运行，但是程序运行过程中可能因为错误的输入或者错误的使用函数而导致运行过程中产生错误。</p>
+<p>我们经常用到 assert 和 error 两个函数处理错误。下面是一个简单的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">local function add(a,b)</span><br><span class="line">   assert(type(a) == &quot;number&quot;, &quot;a is not a number&quot;)</span><br><span class="line">   assert(type(b) == &quot;number&quot;, &quot;b is not a number&quot;)</span><br><span class="line">   return a+b</span><br><span class="line">end</span><br><span class="line">add(10)</span><br></pre></td></tr></table></figure>
+<p>在 Lua 中，为了避免使用抛出错误和处理错误，我们需要用到 pcall 和 xpcall 函数来处理异常。<br>使用 pcall(f,arg1,…) 函数可以使用保护模式调用一个函数。如果函数 f 中发生了错误， 它并不会抛出一个错误，而是返回错误的状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function myfunction ()</span><br><span class="line">   n = n/nil</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">if pcall(myfunction) then</span><br><span class="line">   print(&quot;Success&quot;)</span><br><span class="line">else</span><br><span class="line">    print(&quot;Failure&quot;)</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>xpcall(f,err) 函数调用函数 f 同时为其设置了错误处理方法 err，并返回调用函数的状态。任何发生在函数 f 中的错误都不会传播，而是由 xpcall 函数捕获错误并调用错误处理函数 err，传入的参数即是错误对象本身。xpcall 的使用示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function myfunction ()</span><br><span class="line">   n = n/nil</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function myerrorhandler( err )</span><br><span class="line">   print( &quot;ERROR:&quot;, err )</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">status = xpcall( myfunction, myerrorhandler )</span><br><span class="line">print( status)</span><br></pre></td></tr></table></figure>
+<h2 id="nbsp-6"><a href="#nbsp-6" class="headerlink" title="&nbsp;"></a>&nbsp;</h2><p>Lua 调试库提供了创建自己的调试器所需要的所有原语函数，Lua 没有内置调试器，但是有不少开源调试器。<a href="http://wiki.jikexueyuan.com/project/lua/debugging.html" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/lua/debugging.html</a></p>
+<h2 id="nbsp-7"><a href="#nbsp-7" class="headerlink" title="&nbsp;"></a>&nbsp;</h2><p>Lua 通过特定算法的垃圾回收机制实现自动内存管理。由于自动内存管理机制的存在，作为程序开发人员：</p>
+<p>不需要关心对象的内存分配问题。<br>不再使用对象时，除了将引用它的变量设为 nil，不需要主动释放对象。<br>Lua 的垃圾回收器会不断运行去收集不再被 Lua 程序访问的对象。</p>
+<p><a href="http://wiki.jikexueyuan.com/project/lua/garbage-collection.html" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/lua/garbage-collection.html</a></p>
+<h2 id="nbsp-8"><a href="#nbsp-8" class="headerlink" title="&nbsp;"></a>&nbsp;</h2><p>在游戏开发领域，Lua 语言因其结构和语法的简洁性而在各类游戏引擎中被广泛使用。游戏对图形画面要求非常苛刻，这无疑需消耗大量的内存空间，而这些内存空间的管理是非常棘手的问题。Lua 语言有自动的垃圾回收机制，这种自动化的内存管理机制也使得 Lua 受到游戏引擎开发者的青睐。</p>
+<h2 id="nbsp-9"><a href="#nbsp-9" class="headerlink" title="&nbsp;"></a>&nbsp;</h2><p>Lua 标准库利用 C 语言 API 实现并提供了丰富的函数，它们内置于 Lua 语言中。该标准库不仅可以提供 Lua 语言内服务，还能提供外部服务，比如文件或数据库的操作。</p>
+<p>这些标准库使用标准的 C API 接口实现，它们作为独立的 C 语言模块提供给使用者。主要包括以下的内容：</p>
+<p>基本库，包括协程子库<br>模块库<br>字符串操作<br>表操作<br>数学计算库<br>文件输入与输出<br>操作系统工具库<br>调试工具库</p>
+<p>End.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
