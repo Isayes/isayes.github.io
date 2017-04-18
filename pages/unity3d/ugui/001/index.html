@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 学会 UGUI 之 Canvas | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 学会 UGUI 之 Canvas"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">U3D 游戏开发</a></li>
+    
+      <li><a href="/pages/internet">网络</a></li>
+    
+      <li><a href="/pages/graphics">图形学</a></li>
+    
+      <li><a href="/pages/programming">程序</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/pages/unity3d/ugui/001/index.html"># 学会 UGUI 之 Canvas</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p>Unity 官方文档<br><a href="https://docs.unity3d.com/Manual/UICanvas.html" target="_blank" rel="external">https://docs.unity3d.com/Manual/UICanvas.html</a></p>
+<h2 id="Canvas"><a href="#Canvas" class="headerlink" title="Canvas #"></a>Canvas #</h2><p>The Canvas is the area that all UI elements should be inside. The Canvas is a Game Object with a Canvas component on it, and all UI elements must be children of such a Canvas.<br>Canvas 是用来放置所有 UI 元素的地方。 Canvas 是一个含有 Canvas 组件的 GameObject，所有的 UI 元素必须是这样一个 Canvas 的子对象。</p>
+<p>Creating a new UI element, such as an Image using the menu GameObject &gt; UI &gt; Image, automatically creates a Canvas, if there isn’t already a Canvas in the scene. The UI element is created as a child to this Canvas.<br>如果场景中还没有 Canvas 对象，新创建 UI 元素比如当你用菜单 GameObject-&gt;UI-&gt;Image 创建新的 Image 元素时就会自动添加 Canvas, Image 成为这个 Canvas 的子对象。</p>
+<p>The Canvas area is shown as a rectangle in the Scene View. This makes it easy to position UI elements without needing to have the Game View visible at all times.<br>Canvas 在场景窗口中显示为一个矩形。这会方便你进行 UI 元素的位置安放，而不用到游戏运行窗口中去调整。</p>
+<p>Canvas uses the EventSystem object to help the Messaging System.<br>Canvas 使用 EventSystem 对象来辅助消息系统。</p>
+<h2 id="Draw-order-of-elements-元素的绘制顺序"><a href="#Draw-order-of-elements-元素的绘制顺序" class="headerlink" title="Draw order of elements 元素的绘制顺序 #"></a>Draw order of elements 元素的绘制顺序 #</h2><p>UI elements in the Canvas are drawn in the same order they appear in the Hierarchy. The first child is drawn first, the second child next, and so on. If two UI elements overlap, the later one will appear on top of the earlier one.<br>UI 元素的绘制顺序和在层级窗口中显示的顺序是一致的。第一个子对象最先绘制，第二个子对象次之，等等。如果两个 UI 元素重叠，后面的会绘制到之前的那个上面。</p>
+<p>To change which element appear on top of other elements, simply reorder the elements in the Hierarchy by dragging them. The order can also be controlled from scripting by using these methods on the Transform component: SetAsFirstSibling, SetAsLastSibling, and SetSiblingIndex.<br>只要通过拖拽改变 UI 对象在层级窗口中的顺序就进可以让任何一个元素绘制到最上面。这个顺序也可以通过 Transform 组件中相关的脚本接口改变：SetAsFirstSibling, SetAsLastSibling 和 SetSiblingIndex。</p>
+<h2 id="Render-Modes-渲染模式"><a href="#Render-Modes-渲染模式" class="headerlink" title="Render Modes 渲染模式 #"></a>Render Modes 渲染模式 #</h2><p>The Canvas has a Render Mode setting which can be used to make it render in screen space or world space.<br>Canvas 拥有相关的渲染模式，可以设置在屏幕或世界空间中渲染。</p>
+<h3 id="Screen-Space-Overlay-屏幕空间-覆盖"><a href="#Screen-Space-Overlay-屏幕空间-覆盖" class="headerlink" title="Screen Space - Overlay 屏幕空间 - 覆盖"></a>Screen Space - Overlay 屏幕空间 - 覆盖</h3><p>This render mode places UI elements on the screen rendered on top of the scene. If the screen is resized or changes resolution, the Canvas will automatically change size to match this.<br>这个模式将 UI 元素放到场景的最上面渲染。如果屏幕缩放或改变了分辨率，Canvas 会自动改变尺寸去匹配。</p>
+<p><img src="http://wx2.sinaimg.cn/mw690/a53846c3ly1ferawlb77cj21e40ks4qp.jpg" alt=""></p>
+<h3 id="Screen-Space-Camera-屏幕空间-摄像机"><a href="#Screen-Space-Camera-屏幕空间-摄像机" class="headerlink" title="Screen Space - Camera 屏幕空间 - 摄像机"></a>Screen Space - Camera 屏幕空间 - 摄像机</h3><p>This is similar to Screen Space - Overlay, but in this render mode the Canvas is placed a given distance in front of a specified Camera. The UI elements are rendered by this camera, which means that the Camera settings affect the appearance of the UI. If the Camera is set to Perspective, the UI elements will be rendered with perspective, and the amount of perspective distortion can be controlled by the Camera Field of View. If the screen is resized, changes resolution, or the camera frustum changes, the Canvas will automatically change size to match as well.<br>这个和 Screen Space - Overlay 模式类似，但在这个渲染模式下，Canvas 是被放在一个指定摄像机前面一定的距离上。UI 元素是被这个摄像机渲染的，也就意味着摄像机相关的设置会影响 UI 的显示。如果摄像机设置为透视模式，UI 元素就会渲染为透视，而透视后的扭曲程度由摄像机的视域决定。如果屏幕改变了大小或者改变了分辨率，或者摄像机的视景体改变了，Canvas 都会自动改变尺寸去匹配。</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/a53846c3ly1ferawn2qc5j21e60ko4qp.jpg" alt=""></p>
+<h3 id="World-Space-世界空间"><a href="#World-Space-世界空间" class="headerlink" title="World Space 世界空间"></a>World Space 世界空间</h3><p>In this render mode, the Canvas will behave as any other object in the scene. The size of the Canvas can be set manually using its Rect Transform, and UI elements will render in front of or behind other objects in the scene based on 3D placement. This is useful for UIs that are meant to be a part of the world. This is also known as a “diegetic interface”.<br>这种渲染模式会将 Canvas 当作场景中任何的其它对象一样对待。Canvas 的尺寸可以用 Rect Transform 进行手动调整，UI 元素的遮挡效果由 3D 位置决定。对于需要将 UI 作为场景中的一部分或者作为剧情化界面的情况非常有用。</p>
+<p><img src="http://wx2.sinaimg.cn/mw690/a53846c3ly1ferawp4iibj21e20ko4qp.jpg" alt=""></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

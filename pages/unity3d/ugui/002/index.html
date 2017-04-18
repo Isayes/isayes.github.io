@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 学会 UGUI 之 Basic Layout | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 学会 UGUI 之 Basic Layout"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">U3D 游戏开发</a></li>
+    
+      <li><a href="/pages/internet">网络</a></li>
+    
+      <li><a href="/pages/graphics">图形学</a></li>
+    
+      <li><a href="/pages/programming">程序</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/pages/unity3d/ugui/002/index.html"># 学会 UGUI 之 Basic Layout</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p>Unity 官方文档<br><a href="https://docs.unity3d.com/Manual/UIBasicLayout.html" target="_blank" rel="external">https://docs.unity3d.com/Manual/UIBasicLayout.html</a></p>
+<h2 id="Basic-Layout"><a href="#Basic-Layout" class="headerlink" title="Basic Layout #"></a>Basic Layout #</h2><p>In this section we’ll look at how you can position UI elements relative to the Canvas and each other. If you want to test yourself while reading, you can create an Image using the menu GameObject -&gt; UI -&gt; Image.<br>在这一节我们会看到 UI 元素相对于画布的位置是怎样的。如果你想要自己在阅读时测试，可以创建Image，使用游戏菜单中的GameObject &gt; UI &gt; Image。</p>
+<h2 id="The-Rect-Tool"><a href="#The-Rect-Tool" class="headerlink" title="The Rect Tool #"></a>The Rect Tool #</h2><p>Every UI element is represented as a rectangle for layout purposes. This rectangle can be manipulated in the Scene View using the Rect Tool in the toolbar. The Rect Tool is used both for Unity’s 2D features and for UI, and in fact can be used even for 3D objects as well.<br>每个 UI 元素被表示为一个矩形布局。在场景视图中使用工具栏中的 Rect Tool，可以操纵此矩形。Rect Tool 用于 unity2D 的 UI 功能特性，事实上甚至也可以用于 3D 对象。</p>
+<p><img src="/pages/unity3d/ugui/002/001.png" alt=""></p>
+<p>The Rect Tool can be used to move, resize and rotate UI elements. Once you have selected a UI element, you can move it by clicking anywhere inside the rectangle and dragging. You can resize it by clicking on the edges or corners and dragging. The element can be rotated by hovering the cursor slightly away from the corners until the mouse cursor looks like a rotation symbol. You can then click and drag in either direction to rotate.<br>Rect Tool 可以用于移动、调整 UI 元素大小和对其进行旋转。一旦你选择（有时候我们要在对象列表中选中）了一个 UI 元素，您可以通过在该矩形内的任意位置单击并拖动来移动它。你可以通过在边缘或对角上单击并拖动来调整其大小。该元素可以通过悬停光标稍微离开角落，直到鼠标光标指示旋转符号旋转。然后，您可以单击并拖动任一方向旋转。</p>
+<p>Just like the other tools, the Rect Tool uses the current pivot mode and space, set in the toolbar. When working with UI it’s usually a good idea to keep those set to Pivot and Local.<br>就像其他工具，Rect Tool 使用当前的 pivot 模式和空间，当处理 UI 工作的时候在工具栏中设置 Pivot 和 Local 通常是一个很好的主意。</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/a53846c3ly1ferazxhrudj21dy02yt8y.jpg" alt=""></p>
+<h2 id="Rect-Transform"><a href="#Rect-Transform" class="headerlink" title="Rect Transform #"></a>Rect Transform #</h2><p>The Rect Transform is a new transform component that is used for all UI elements instead of the regular Transform component.<br>Rect Transform 是一个新的 transform 组件，用于所有的 UI 元素，替代了对常规变换组件的使用。</p>
+<p><img src="http://wx2.sinaimg.cn/mw690/a53846c3ly1ferazxubucj21e40ci42q.jpg" alt=""></p>
+<p>Rect Transforms have position, rotation, and scale just like regular Transforms, but it also has a width and height, used to specify the dimensions of the rectangle.<br>Rect Transforms 有位置 position、旋转 rotation 和缩放 scale 的属性，就像常规变换一样，但是它也有一个宽度和高度属性，用来指定矩形的尺寸。 PS：高宽和缩放 scale 的关系是：通常UI元素都是有图片的，那么图片的原像素尺寸我们就设置为这个高宽，缩放就是在这个基础上进行呗。</p>
+<h2 id="Resizing-Versus-Scaling"><a href="#Resizing-Versus-Scaling" class="headerlink" title="Resizing Versus Scaling #"></a>Resizing Versus Scaling #</h2><p>When the Rect Tool is used to change the size of an object, normally for Sprites in the 2D system and for 3D objects it will change the local scale of the object. However, when it’s used on an object with a Rect Transform on it, it will instead change the width and the height, keeping the local scale unchanged. This resizing will not affect font sizes, border on sliced images, and so on.<br>当 Rect Tool 用来更改对象的大小时，通常在 2D 系统中的精灵和 3D 对象,它会改变对象的 local scale。然而，当它在一个对象上用上 Rect Transform，它反而会改变宽度 width 和高度 height，,local scale 保持不变。此大小调整不会影响字体大小，切片图像的边界等等。</p>
+<h2 id="Pivot"><a href="#Pivot" class="headerlink" title="Pivot #"></a>Pivot #</h2><p>Rotations, size, and scale modifications occur around the pivot so the position of the pivot affects the outcome of a rotation, resizing, or scaling. When the toolbar Pivot button is set to Pivot mode, the pivot of a Rect Transform can be moved in the Scene View.<br>旋转Rotations、尺寸大小 size 和缩放scale的修改都是围绕着这个轴 pivot，所以这个轴的位置，就会影响旋转、调整大小或缩放的效果了。当工具栏Pivot按钮设置到Pivot mode时，在场景视图中就可以移动一个Rect Transform的枢纽Pivot了，来设置Pivot的位置。</p>
+<p><img src="http://wx4.sinaimg.cn/mw690/a53846c3ly1ferazy2jfyj21e40c4goh.jpg" alt=""></p>
+<h2 id="Anchors"><a href="#Anchors" class="headerlink" title="Anchors #"></a>Anchors #</h2><p>Rect Transforms include a layout concept called anchors. Anchors are shown as four small triangular handles in the Scene View and anchor information is also shown in the Inspector.<br>Rect Transforms 包括一个称为 anchors 锚点的布局概念。锚点如下所示在场景视图中的四个小三角形手柄和锚点的信息也显示在Inspector检查器。</p>
+<p>If the parent of a Rect Transform is also a Rect Transform, the child Rect Transform can be anchored to the parent Rect Transform in various ways. For example, the child can be anchored to the center of the parent, or to one of the corners.<br>如果父对象的Rect Transform也是一个Rect Transform，那么子对象可以以各种方式把自己的Rect Transform锚定到父对象的 Rect Transform上。例如，子对象可以锚定到父对象的中心，或到一个角落。锚定还允许子对象拉伸到相对于父宽度或高度的一定比例。</p>
+<p><img src="http://wx2.sinaimg.cn/mw690/a53846c3ly1ferazybh12g20fa0b4ab0.gif" alt=""></p>
+<p><img src="http://wx4.sinaimg.cn/mw690/a53846c3ly1ferazyijzrg20fa0b40tt.gif" alt=""></p>
+<p><img src="http://wx2.sinaimg.cn/mw690/a53846c3ly1ferazyoi0kg20fa0b4jsg.gif" alt=""></p>
+<p><img src="http://wx4.sinaimg.cn/mw690/a53846c3ly1ferazyz9png20fa0b40ts.gif" alt=""></p>
+<p><img src="http://wx4.sinaimg.cn/mw690/a53846c3ly1ferazza54yj21e40hwju0.jpg" alt=""></p>
+<p><img src="http://wx2.sinaimg.cn/mw690/a53846c3ly1ferazzmxttj21e80cg78i.jpg" alt=""></p>
+<p>Not End</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
