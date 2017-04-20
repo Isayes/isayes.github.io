@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 学会 UGUI 之 Toggle &amp; Toggle Group | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 学会 UGUI 之 Toggle &amp; Toggle Group"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">U3D 游戏开发</a></li>
+    
+      <li><a href="/pages/internet">网络</a></li>
+    
+      <li><a href="/pages/graphics">图形学</a></li>
+    
+      <li><a href="/pages/programming">程序</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/pages/unity3d/ugui/005/index.html"># 学会 UGUI 之 Toggle &amp; Toggle Group</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="Toggle"><a href="#Toggle" class="headerlink" title="Toggle #"></a>Toggle #</h2><p><img src="http://wx3.sinaimg.cn/mw690/a53846c3gy1feszshgxngj20ci08w0t5.jpg" alt=""></p>
+<p>The Toggle control is a checkbox that allows the user to switch an option on or off.</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/a53846c3gy1feszsi33iwj20eg0m0tas.jpg" alt=""></p>
+<p>属性：</p>
+<p>Interactable → Will this component will accept input?<br>将此组件将接受输入吗？</p>
+<p>Transition → Properties that determine the way the control responds visually to user actions.<br>属性确定控件针对对用户操作方式的的响应方式。</p>
+<p>Navigation → Properties that determine the sequence of controls.<br>属性确定控件的顺序。</p>
+<p>Toggle Transition → The way the toggle reacts graphically when its value is changed. The options are None (ie, the checkmark simply appears or disappears) and Fade (ie, the checkmark fades in or out).<br>当它的值被更改，切换方式以图形方式反应。选项是 None （ie，复选标记只是出现或消失）和淡入淡出（即复选标记消失或缩小）。</p>
+<p>Graphic → The image used for the checkmark.<br>用于复选标记的图像。</p>
+<p>Group → The Toggle Group (if any) that this Toggle belongs to.<br>此开关属于的开关切换组（如果有）。</p>
+<p>事件：</p>
+<p>On Value Changed → A UnityEvent that is invoked when the Toggle is clicked. The event can send the current state as a bool type dynamic argument.<br>当这个 Toggle 被点击的时候会触发一个事件（其值更改就会处理开关切换的响应），这个事件发送当前状态，此状态以 bool 类型的动态参数传递。</p>
+<h2 id="Toggle-Group"><a href="#Toggle-Group" class="headerlink" title="Toggle Group #"></a>Toggle Group #</h2><p><img src="http://wx1.sinaimg.cn/mw690/a53846c3gy1feszsitfb3j20f802yjrn.jpg" alt=""></p>
+<p>A Toggle Group is not a visible UI control but rather a way to modify the behavior of a set of Toggles. Toggles that belong to the same group are constrained so that only one of them can switched on at a time - pressing one of them to switch it on automatically switches the others off.</p>
+<p>开关切换组是不可见的 UI 控件，但是可以在要修改其内一组单选按钮的行为。同一组的 Toggle 属于同一个约束的 Group，其中同一时刻只有一个 Toggle 能被切换状态，点击触发选择其中之一的同时时将自动取消其他 Toggle 的状态。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

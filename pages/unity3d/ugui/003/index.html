@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 学会 UGUI 之 Visual Components | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 学会 UGUI 之 Visual Components"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">U3D 游戏开发</a></li>
+    
+      <li><a href="/pages/internet">网络</a></li>
+    
+      <li><a href="/pages/graphics">图形学</a></li>
+    
+      <li><a href="/pages/programming">程序</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/pages/unity3d/ugui/003/index.html"># 学会 UGUI 之 Visual Components</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p>With the introduction of the UI system, new Components have been added that will help you create GUI specific functionality. This section will cover the basics of the new Components that can be created.</p>
+<p>有新的组件和游戏对象已添加到 uGUI，允许和容易的创建 GUI 特定功能。这一节将介绍新的游戏物体被创建的基础。</p>
+<h2 id="Text"><a href="#Text" class="headerlink" title="Text"></a>Text</h2><p><img src="http://wx4.sinaimg.cn/mw690/a53846c3gy1fet0ojcdvrj20ee0jk75z.jpg" alt=""></p>
+<p>The Text component, which is also known as a Label, has a Text area for entering the text that will be displayed. It is possible to set the font, font style, font size and whether or not the text has rich text capability.</p>
+<p>Text 组件也被称为是一个标签，有一个 Text 区域用于输入将显示的文本。它是可以设置的字体、字体样式、字体大小和是否使用 RichText 的能力。</p>
+<p>There are options to set the alignment of the text, settings for horizontal and vertical overflow which control what happens if the text is larger than the width or height of the rectangle, and a Best Fit option that makes the text resize to fit the available space.</p>
+<p>文本的对齐方式 alignment 和自动换行 Wrap 模式等选项设置。自动换行模式指定如果太大，无法容纳标签的文本时将会发生什么。自动换行选项意味着文本将换行到下一行上，但是必须是有空间显示，否则任何超出矩形的文本将被清除不予显示了，还有 Overflow 溢出不换行的，一行放不下在举行外面显示。垂直上有 truncate 截断。ResizeBounds 选项，使适合文本的大小，自动、动态的标签。最后的 Best 选项缩放文本大小以适合的标签高宽，然后它像被包装一样。</p>
+<h2 id="Image"><a href="#Image" class="headerlink" title="Image"></a>Image</h2><p><img src="http://wx3.sinaimg.cn/mw690/a53846c3gy1fet0ojymcqj20f407e0te.jpg" alt=""></p>
+<p>An Image has a Rect Transform component and an Image component. A sprite can be applied to the Image component under the Target Graphic field, and its colour can be set in the Color field. A material can also be applied to the Image component. The Image Type field defines how the applied sprite will appear, the options are:</p>
+<p>切换到一个有 Rect Transform 组件和 Image 组件的对象上。一个精灵 sprite 可以应用于 Image 组件下 SourceImage 字段，Color 字段中设置主颜色。一种材料还可以用于 Image 组件。图像类型字段定义了如何显示应用的精灵，选项有：</p>
+<p>Simple - Scales the whole sprite equally.<br>Simple 简单 - 同样大小显示整个精灵。</p>
+<p>Sliced - Utilises the 3x3 sprite division so that resizing does not distort corners and only the center part is stretched.<br>Sliced 切割 - 利用 3 x 3 精灵分割，以便调整不变形的角落的大小。</p>
+<p>Tiled - Similar to Sliced, but tiles (repeats) the center part rather than stretching it. For sprites with no borders at all, the entire sprite is tiled.<br>Tiled 平铺 - 类似于 Slices，重复的精灵游戏物体的边界内。</p>
+<p>Filled - Shows the sprite in the same way as Simple does except that it fills in the sprite from an origin in a defined direction, method and amount.<br>Filled 填充 - 除了定义从原点开始填补的方向、方法和数量之外显示精灵的方式和 Simple 的方式相同。</p>
+<p>The option to Set Native Size, which is shown when Simple or Filled is selected, resets the image to the original sprite size.</p>
+<p>Images can be imported as UI sprites by selecting Sprite( 2D / UI) from the ‘Texture Type’ settings. Sprites have extra import settings compared to the old GUI sprites, the biggest difference is the addition of the sprite editor. The sprite editor provides the option of 9-slicing the image, this splits the image into 9 areas so that if the sprite is resized the corners are not stretched or distorted.</p>
+<p>Images 可以作为 uGUI 精灵导入，通过从 TextureType 选择设置 Sprite (2D / uGUI）。与旧的 GUI 精灵相比 Sprites 有了扩展，最大的区别是增加了 sprite editor。sprite editor 为图像提供的 9 切片选项，这将图像分成 9 个地区所以，为了是调整精灵大小时角落不拉伸或扭曲。</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/a53846c3gy1feszt2tfjzj20f2092mxn.jpg" alt=""></p>
+<p>Raw Image</p>
+<p>The Image component takes a sprite but Raw Image takes a texture (no borders etc). Raw Image should only be used if necessary otherwise Image will be suitable in the majority of cases.</p>
+<p>Image 组件需要一个精灵，但 Raw Image 需要的是纹理 (无边界等)。使用 Raw Image 是有必要，除非为图像会在大多数情况下适用。</p>
+<p>Raw Image 控件向用户显示一个非交互式的图像。这可以用于装饰、图标等，图像也可以从一个脚本来反映在其他控件中的更改。Raw Image 控件是类似于 image 控件，但并没有关于图片动画的选项和准确地归档控制矩形。但是，Raw Image 可以显示任何纹理，image 只能显示一个精灵纹理。</p>
+<p>Mask</p>
+<p>A Mask is not a visible UI control but rather a way to modify the appearance of a control’s child elements. The mask restricts (ie, “masks”) the child elements to the shape of the parent. So, if the child is larger than the parent then only the part of the child that fits within the parent will be visible.</p>
+<p>Mask 是不可见的 UI 控件，但它是一个可以修改控件子元素的显示的方式。Mask 限制在父对象内子元素的形状。所以，如果孩子是大于父，然后只有在父内的部分将可见。</p>
+<p>Mask 的一个常见用途是显示大 Image 的一小部分，使用说 Panel 对象（menu: GameObject&gt; Create UI &gt; Panel）作为一个“frame”。您可以通过首先使 Image 对象成为 Panel 子对象。你应该定位图像的区域，应是可见的是直接在面板区域后面。</p>
+<p>Effects</p>
+<p>Visual components can also have various simple effects applied, such as a simple drop shadow or outline. See the Effects reference page for more information.</p>
+<p>Effects 组件允许将简单的效果添加到文本和图像的图形，如影子和轮廓线。Shadow、Outline、Position as UV1</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title># 学会 UGUI 之 准备 | Notes.HF</title>
+  <title># 学会 UGUI 之 Scrollbar | Notes.HF</title>
   <meta name="author" content="HuFei">
   
   <meta name="description" content="Notes of Daily Learning">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="# 学会 UGUI 之 准备"/>
+  <meta property="og:title" content="# 学会 UGUI 之 Scrollbar"/>
   <meta property="og:site_name" content="Notes.HF"/>
 
   
@@ -64,21 +64,24 @@
     <header>
       
   
-    <h1 class="title"><a href="/pages/unity3d/ugui/000/index.html"># 学会 UGUI 之 准备</a></h1>
+    <h1 class="title"><a href="/pages/unity3d/ugui/007/index.html"># 学会 UGUI 之 Scrollbar</a></h1>
   
 
       
     </header>
     <div class="entry">
       
-        <p>UGUI 是 Unity 自带的 UI 系统，从官方 Documentation 了解到 UI 系统包括以下部分：Canvas, Basic Layout, Visual Components, Interaction Components, Animation Integration, Auto Layout, Rich Text, <strong>UI Reference</strong>, <strong>UI How Tos</strong>, <strong>Immediate Mode GUI(IMGUI)</strong>。 如图所示：</p>
-<p><img src="http://wx3.sinaimg.cn/mw690/a53846c3ly1fesfmeintuj209108274b.jpg" alt=""></p>
-<p>其中 UI Reference 包括 Rect Transform, <strong>Canvas Components</strong> (包括 Canvas、Canvas Scaler、Canvas Group、Canvas Renderer), <strong>Visual Components</strong>【包括 Text、Image、Raw Image、Mask、RextMask2D、UI Effect Components(包括 Shadow、Outline、Position as UV1)】, <strong>Interaction Components</strong>【包括 Selectable Base Class(包括 Transition Options、Navigation Options)、Button、Toggle、Toggle Group、Slider、Scrollbar、Dropdown、Input Field、Scroll Rect】, <strong>Auto Layout</strong>（包括 Layout Element、Content Size Fitter、Aspect Ratio Fitter、Horizontal Layout Group、Vertical Layout Group、Grid Layout Group）。 如图所示：</p>
-<p><img src="http://wx3.sinaimg.cn/mw690/a53846c3ly1fesfm9do9tj20860nd0td.jpg" alt=""></p>
-<p>UI How Tos 包括 Resigning UI for Multiple Resolutions、 Making UI elements fit the size of their content、 Creating a World Space UI、 Creating UI elements from scripting、 Creating Screen Transitions。 如图所示：</p>
-<p><img src="http://wx2.sinaimg.cn/mw690/a53846c3ly1fesfma46iwj20860593yj.jpg" alt=""></p>
-<p>Immediate Mode GUI(IMGUI) 包括： IMGUI Basics、 Controls、 Customization、 IMGUI Layout Modes、 Extending IMGUI、 GUI Skin (IMGUI System)、 GUI Style (IMGUI System)。如图所示：</p>
-<p><img src="http://wx1.sinaimg.cn/mw690/a53846c3ly1fesfmaqpe4j208805a0sq.jpg" alt=""></p>
+        <p><img src="https://docs.unity3d.com/uploads/Main/UI_ScrollbarExample.png" alt=""></p>
+<p>The Scrollbar control allows the user to scroll an image or other view that is too large to see completely. Note that the similar Slider control is used for selecting numeric values rather than scrolling. Familiar examples include the vertical Scrollbar at the side of a text editor and the vertical and horizontal pair of bars for viewing a section of a large image or map.</p>
+<p>滚动条控件允许用户滚动图像或其他太大的，可以完全看到的视图。请注意类似的滑块控件用于选择数字值，而不是滚动。熟悉的例子包括在一个文本编辑器的一侧和垂直和水平两竖线用于查看较大的图像或地图的一个部分的垂直滚动条。</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/a53846c3gy1feszskn8uwj20eg0nognt.jpg" alt=""></p>
+<p>属性：</p>
+<p>Fill Rect → The graphic used for the background area of the control.<br>用于控件的背景区域的图形。</p>
+<p>Handle Rect → The graphic used for the sliding “handle” part of the control<br>用于控制滚动“handle”部分的图形</p>
+<p>Direction → The direction in which the Scrollbar’s value will increase when the handle is dragged. The options are Left To Right, Right To Left, Bottom To Top and Top To Bottom.<br>当拖动句柄时，滚动条的值会增加的方向。选项是左到右，右到左，底部到顶部和顶部到底部。</p>
+<p>Value → Initial position value of the Scrollbar, in the range 0.0 to 1.0.<br>范围 0.0到 1.0的滚动条的初始位置值。</p>
+<p>Size → Fractional size of the handle within the Scrollbar, in the range 0.0 to 1.0.<br>很小的大小，滚动条的手柄内的，在范围 0.0到 1.0。</p>
+<p>Number Of Steps → The number of distinct scroll positions allowed by the Scrollbar.<br>独特的滚动位置滚动条所允许的数目。</p>
 
       
     </div>

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 学会 UGUI 之 Slider | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 学会 UGUI 之 Slider"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">U3D 游戏开发</a></li>
+    
+      <li><a href="/pages/internet">网络</a></li>
+    
+      <li><a href="/pages/graphics">图形学</a></li>
+    
+      <li><a href="/pages/programming">程序</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/pages/unity3d/ugui/006/index.html"># 学会 UGUI 之 Slider</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p><img src="http://wx3.sinaimg.cn/mw690/a53846c3gy1feszsk2r5aj20by02m747.jpg" alt=""></p>
+<p>The Slider control allows the user to select a numeric value from a predetermined range by dragging the mouse. Note that the similar ScrollBar control is used for scrolling rather than selecting numeric values. Familiar examples include difficulty settings in games and brightness settings in image editors.</p>
+<p>滑块控件允许用户通过拖动鼠标从一个预先确定的范围选择一个数字值。熟悉的例子包括在游戏中困难设置和在图像编辑器中亮度设置。</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/a53846c3gy1feszsjclqhj20ek0py0v6.jpg" alt=""></p>
+<p>属性：</p>
+<p>Fill Rect → The graphic used for the fill area of the control.<br>用于填充控件的区域的图形。</p>
+<p>Handle Rect → The graphic used for the sliding “handle” part of the control<br>用于控制滑动 “handle” 部分的图形。</p>
+<p>Direction → The direction in which the slider’s value will increase when the handle is dragged. The options are Left To Right, Right To Left, Bottom To Top and Top To Bottom.<br>当拖动句柄时，滑块的值会增加的方向。选项是左到右，右到左，底部到顶部和顶部到底部。</p>
+<p>Min Value → The value of the slider when the handle is at its extreme lower end (determined by the Direction property).<br>句柄在其极端的下端（由方向属性确定）时滑块的值。</p>
+<p>Max Value → The value of the slider when the handle is at its extreme upper end (determined by the Direction property).<br>句柄在其极端的上端（由方向属性确定）时滑块的值。</p>
+<p>Whole Numbers → Should the slider be constrained to integer values?<br>应该限制为整数值滑块吗？</p>
+<p>Value → Current numeric value of the slider. If the value is set in the inspector it will be used as the initial value, but this will change at runtime when the value changes.<br>滑块当前的数值。如果设置的值在inspector中被作为初始值，但在运行时这个值随着更改变为值更改后的值。</p>
+<p>事件：</p>
+<p>On Value Changed → A UnityEvent that is invoked when the current value of the Slider has changed. The event can send the current value as a float type dynamic argument. The value is passed as a float type regardless of whether the Whole Numbers property is enabled.<br>当拖动滑块的数字值发生更改时调用。值是响应函数传递的 float 类型，无论是否启用了整个 Whole Numbers 属性。</p>
+<p>PS： 滑块的值是由句柄的位置确定的。值从最小值到最大值处理按照拖动的距离的比例增加。默认行为是为滑块以增加从左到右，但使用 Direction 方向属性它也可扭转这种行为。还可以设置滑块以垂直增加通过选择底部到顶部、顶部到底部的方向属性。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
