@@ -71,7 +71,10 @@
     </header>
     <div class="entry">
       
-        <h2 id="标准着色器的概念"><a href="#标准着色器的概念" class="headerlink" title="标准着色器的概念 #"></a>标准着色器的概念 #</h2><p>Unity 5 里面采用了一套全新的 Shader 叫做标准着色器（Standard Shader），这套 Shader 使用了基于物理的光照计算，而老版本的那些 Shader 已经被 Unity 不推荐使用了，Unity 5 认为我们大多数情况下都应该使用 Standard Shader。</p>
+        <p>学习笔记记于 2017-04-24</p>
+<p>学习资料参考了：</p>
+<p><a href="http://forum.china.unity3d.com/thread-897-1-1.html" target="_blank" rel="external">http://forum.china.unity3d.com/thread-897-1-1.html</a><br><a href="https://yq.aliyun.com/articles/10736" target="_blank" rel="external">https://yq.aliyun.com/articles/10736</a><br><a href="http://blog.csdn.net/poem_qianmo/article/details/49556461" target="_blank" rel="external">http://blog.csdn.net/poem_qianmo/article/details/49556461</a><br><a href="https://docs.unity3d.com/Manual/shader-StandardShader.html" target="_blank" rel="external">https://docs.unity3d.com/Manual/shader-StandardShader.html</a></p>
+<h2 id="标准着色器的概念"><a href="#标准着色器的概念" class="headerlink" title="标准着色器的概念 #"></a>标准着色器的概念 #</h2><p>Unity 5 里面采用了一套全新的 Shader 叫做标准着色器（Standard Shader），这套 Shader 使用了基于物理的光照计算，而老版本的那些 Shader 已经被 Unity 不推荐使用了，Unity 5 认为我们大多数情况下都应该使用 Standard Shader。</p>
 <p>Unity 5 包含了若干的 Standard Shaders，它们共同组成了一个完整的 PBS 光照明模型，且非常易于使用。</p>
 <p><code>PBS 的意思是 Physically Based Shading “基于物理的着色”，以某种方式模拟现实中材质和光照的相互作用。PBS 在需要光照和材质更加直观和逼真地协同工作的场合下优势非常明显，PBS 是创建一种友好方式来实现在不同光照条件下的逼真效果，模拟光线在现实中的行为，而不是使用多个特定的模型来模拟。为了实现这种效果它要遵循物理原理，包括：能量守恒，即物体反射出去的光量不可能超过所接收的光量；Fresnel 反射，即所有表面反射在掠射角处更加强烈；物体表面如何自我遮挡等；</code></p>
 <p>物理渲染和光照计算的最大区别就是：当今流行的 lambert blinn phone 基本上是基于模拟的模型，就是尽可能的去模拟我们看上去的物体发射的颜色，用于欺骗我们的眼睛；而基于物理的光照计算则是依据了光线传播的物体特性，更加贴近于真实的光照情况，虽然在实现上用了一些近似计算；所以物理渲染在表现自然界的物体上尤其看上去更加真实。</p>
@@ -107,8 +110,6 @@
 <p>标准着色器对应材质的编辑器外观不同于一般的 Shader，就是因为在 Shader 末尾书写了如下的代码：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用特定的自定义编辑器 UI 界面  </span></span><br><span class="line">CustomEditor <span class="string">"StandardShaderGUI"</span></span><br></pre></td></tr></table></figure>
 <p>End.</p>
-<p>学习资料参考：</p>
-<p><a href="http://forum.china.unity3d.com/thread-897-1-1.html" target="_blank" rel="external">http://forum.china.unity3d.com/thread-897-1-1.html</a><br><a href="https://yq.aliyun.com/articles/10736" target="_blank" rel="external">https://yq.aliyun.com/articles/10736</a><br><a href="http://blog.csdn.net/poem_qianmo/article/details/49556461" target="_blank" rel="external">http://blog.csdn.net/poem_qianmo/article/details/49556461</a><br><a href="https://docs.unity3d.com/Manual/shader-StandardShader.html" target="_blank" rel="external">https://docs.unity3d.com/Manual/shader-StandardShader.html</a></p>
 <p>PS：关于 PBS 技术，知乎上有一个专栏，专门介绍 PBS 技术的一些相关原理:</p>
 <ul>
 <li><a href="http://zhuanlan.zhihu.com/graphics/20091064" target="_blank" rel="external">基于物理着色（一）</a></li>
