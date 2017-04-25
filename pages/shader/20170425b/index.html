@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title># 对标准着色器 Standard Shader 的使用（一） | Notes.HF</title>
+  <title># 对标准着色器 Standard Shader 的使用（二） | Notes.HF</title>
   <meta name="author" content="HuFei">
   
   <meta name="description" content="Notes of Daily Learning">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="# 对标准着色器 Standard Shader 的使用（一）"/>
+  <meta property="og:title" content="# 对标准着色器 Standard Shader 的使用（二）"/>
   <meta property="og:site_name" content="Notes.HF"/>
 
   
@@ -64,41 +64,14 @@
     <header>
       
   
-    <h1 class="title"><a href="/pages/shader/20170425b/index.html"># 对标准着色器 Standard Shader 的使用（一）</a></h1>
+    <h1 class="title"><a href="/pages/shader/20170425b/index.html"># 对标准着色器 Standard Shader 的使用（二）</a></h1>
   
 
       
     </header>
     <div class="entry">
       
-        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面 #"></a>写在前面 #</h2><p>Unity 5 的 Standard Shader 适用于各种材质的物体。为什么不同的材质看起来会是如此的不同呢？</p>
-<p>材质和光的交互可以分成漫发射和高光反射两个部分，其中漫发射对应了次表面散射的结果，而高光反射对应了表面发射的结果。通过对金属材质和非金属材质的分析，我们可以得到它们的漫反射和高光反射的一些特点。</p>
-<p>金属材质：// 几乎没有漫反射，因为所有被吸收的光都会被自由电子立刻转化为其他形式的能量； // 有非常强烈的高光反射； // 高光反射通常是有颜色的，例如金子的反光颜色为黄色；</p>
-<p>非金属材质：// 大多数角度高光反射的强度比较弱，但是在掠射角时高光反射强度反而会增强，即菲涅尔现象；// 高光反射的颜色比较单一； // 漫反射的颜色多种多样；</p>
-<p>真实的材质大多混合了上面的这些特性，Unity 提供的工作流就是为了更加方便地让我们针对以上特性来调整材质效果。</p>
-<h2 id="使用标准着色器"><a href="#使用标准着色器" class="headerlink" title="使用标准着色器 #"></a>使用标准着色器 #</h2><p>Unity 官方提供了两个非常有参考价值的校准表格，即示例项目 Shader Calibration Scene</p>
-<p><img src="http://wx1.sinaimg.cn/mw690/a53846c3gy1fey92g3fh7j21580jakg2.jpg" alt=""></p>
-<p>它们分别对应金属工作流和高光反射工作流使用的参考属性值，方便我们针对不同类型的材质来调整参数。</p>
-<p>下图是金属工作流使用的校准表格 UnityMetallicChart</p>
-<p><img src="http://wx4.sinaimg.cn/mw690/a53846c3gy1fey92itoiyj20yg1cqqrx.jpg" alt=""></p>
-<p>Albedo 定义物体的整体颜色，即我们视觉上认为的物体颜色；</p>
-<p>金属材质的亮度一般在 186 ~ 255 之间， 非金属的亮度范围通常在 50 ~ 243 之间；</p>
-<p>Metallic 定义物体表面看起来是否更像金属或非金属；<br>例如，把金属材质的 Metallic 值设为 1，表明该物体几乎完全是一个金属材质；把塑料材质的 Metallic 值设为 0，表明物体几乎没有任何金属特性。</p>
-<p>Smoothness 是 Metallic 属性的附属值，定义从视觉上看该表面的光滑程度；<br>例如，Metallic 属性使用一张纹理，这张纹理的 A 通道就对应了表面的 Smoothness 值，此时纹理的 GB 通道被忽略。Smoothness 越大金属表面越光滑，反之对应于非金属表面越粗糙。</p>
-<p>下图是高光反射工作流使用的校准表格 UnitySpecularChart</p>
-<p><img src="http://wx3.sinaimg.cn/mw690/a53846c3gy1fey92kw14mj20yg1cqkcz.jpg" alt=""></p>
-<p>高光反射工作流使用了不同含义的 Albedo 属性，这里是定义材质表面的漫发射强度；<br>例如，对于非金属材质，它的值是视觉上认为的物体颜色；对于金属材质，它的值非常接近黑色，因为金属材质几乎不存在次表面散射的现象。</p>
-<p>使用 Specular 替代了上述的 Metallic 属性，定义了表面的高光反射强度；<br>例如，非金属材质的 Specular 值通常使用一个灰度值范围在 0~55 的深灰色，以表明非金属的高光反射比较弱；金属材质则通常使用视觉上认为的金属的颜色作为 Specular 值。</p>
-<p>Smoothness 是 Specular 的一个子属性，定义了从视觉上看该表面的光滑程度；<br>例如，使用一张纹理为 Specular 属性赋值，那么纹理的 RGB 通道 对应了 Specular 属性值，A 通道对应了 Smoothness 属性值。</p>
-<div align="center">—– 并不华丽的分割线 —–</div>
-
-<p>还可为 Standard Shader 选择它使用的渲染模式，即材质面板上的 Render Mode。</p>
-<p>Standard Shader 支持 4 种渲染模式，分别是 Opaque、Cutout、Fade 和 Transparent。</p>
-<p>Opaque 用于渲染最常见的不透明物体，是默认的渲染方式；<br>Cutout 渲染模式下，Albedo 属性中纹理的 A 通道会成为一个掩码纹理，子属性 Alpha Cutoff 将是透明度测试时使用的阈值；<br>Transparent 模式用于玻璃这样的材质，Albedo 属性的 A 通道用于控制材质的透明度；当材质的透明值不断降低时，它的反射仍然能被保留；<br>Fade 模式与 Transparent 模式类似，但是不同的是，当材质的透明值不断下降时，该材质的所有渲染效果都会逐渐从屏幕上淡出；</p>
-<p>要想得到可信度更高的渲染结果，我们需要对不同的材质使用合适的属性值，尤其是一些重要的属性值，例如 Albedo、Metallic、Specular。</p>
-<p>要想让整个场景的渲染结果令人满意，尤其包含了复杂光照的场景，仅仅有这些使用了 PBS 的材质还不够，还需要使用 Unity 提供的其他一些重要技术，例如 HDR 格式的 Skybox、全局光照、反射探针、光照探针、HDR 和屏幕后处理等。</p>
-<p>End.</p>
-
+        
       
     </div>
     <footer>
