@@ -88,7 +88,7 @@
 <p>随着光强的增加，非线性方式计算的表面会更亮一些。这导致了光照在表面很多地方曝光过度，而且给场景模型一个褪色（变白色了）的感觉。当你用线性渲染时，表面颜色仍然随着光照强度线性增加的，这样就使表面材质和颜色更接近现实。</p>
 <p><img src="https://docs.unity3d.com/uploads/Main/LinearRendering-Infinite3DHeadScan.png" alt=""></p>
 <p>(3) 混合</p>
-<p>混合是在帧缓冲区发生的，当使用Gamma Rendering，这表示颜色之间混合是在非线性空间下计算的。然而这是不正确的。</p>
+<p>混合是在帧缓冲区发生的，当使用 Gamma Rendering，这表示颜色之间混合是在非线性空间下计算的。然而这是不正确的。</p>
 <p><img src="https://docs.unity3d.com/uploads/Main/LinearRendering-BlendingLinearGamma.png" alt=""></p>
 <p>上图是在 Linear Space 中混合结果，颜色之间过度不是很明显。下图是 Gamma Space 中混合结果，颜色交界处出现了明显的其它颜色，颜色更亮，出现褪色的现象。</p>
 <p>(4) Mipmaps</p>
