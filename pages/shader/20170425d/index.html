@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 对线性空间和线性渲染的调研 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 对线性空间和线性渲染的调研"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">U3D 游戏开发</a></li>
+    
+      <li><a href="/pages/shader">Shader</a></li>
+    
+      <li><a href="/pages/graphics">图形学</a></li>
+    
+      <li><a href="/pages/programming">程序</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/pages/shader/20170425d/index.html"># 对线性空间和线性渲染的调研</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p>学习资料来自：</p>
+<ul>
+<li><a href="https://docs.unity3d.com/Manual/LinearRendering-LinearOrGammaWorkflow.html" target="_blank" rel="external">https://docs.unity3d.com/Manual/LinearRendering-LinearOrGammaWorkflow.html</a></li>
+</ul>
+<p>学习笔记记于 2017/04/25</p>
+<p>线性渲染就是渲染场景所有输入都是线性的。线性渲染保证了在 Shader 中输入与输出都是在正确的颜色空间得出的正确结果。</p>
+<p>如果开启了线性渲染（Linear Rendering），Unity 会把输入纹理设置为 sRGB 模式，这种模式下硬件在对纹理进行采样时会自动将其转换到线性空间中；并且也会设置一个 sRGB 格式的 buffer，此时 GPU 会在 Shader 写入 Color Buffer 前自动进行伽马校正。如果此时开启了混合，在每次混合时，之前 buffer 中存储的颜色值会先重新转换回线性空间中，然后再进行混合，完成后再进行伽马校正，最后把校正后的混合结果写入 Color Buffer 中。这里需要注意，Alpha 通道是不会参与伽马校正的。</p>
+<p><a href="/pages/shader/20170425c">对伽马校正的调研在这里</a></p>
+<p>sRGB (standard Red Green Blue) 是由 Microsoft 影像巨擎共同开发的一种彩色语言协议，微软联合爱普生、HP 惠普等提供一种标准方法来定义色彩，让显示、打印和扫描等各种计算机外部设备与应用软件对于色彩有一个共通的语言。sRGB 是 RGB 的一种特定类型。sRGB 很流行，但它的色域很有限。它使用的 Encoding Gamma 大约是 0.45（1/2.2），这个值为了配合 Display Gamma 为 2.5 的设备工作的，这样两次 Gamma 矫正后产生偏差为 0.45 * 2.5 = 1.125，从而在视觉上进行了补偿。sRGB 模式是在近代的 GPU 上才有的东西。如果不支持 sRGB，我们就需要自己在 Shader 中进行伽马校正。</p>
+<p>Linear Rendering 就是在 Shader 中所有计算会在线性空间下进行，Gamma Rendering 就是在 Shader 中不进行转换到线性空间下，直接计算。计算方程式不同，也就意味例如光照表面会有不同的响应曲线和图片效果，表现不相同。</p>
+<p>(1) Light Falloff</p>
+<p>光照表现一般受光源的距离和法线两个因素影响（在同等光强下）。首先当我们用 Linear Rendering 时，执行 Gamma 矫正将会使光照范围变大。第二种会使边缘模糊，分不清界限，这更准确的表现了表面光照强度下降。</p>
+<p><img src="https://docs.unity3d.com/uploads/Main/LinearRendering-LightingSphereLinearGamma.png" alt=""></p>
+<p>（2）表面响应强度</p>
+<p>随着光强的增加，非线性方式计算的表面会更亮一些。这导致了光照在表面很多地方曝光过度，而且给场景模型一个褪色（变白色了）的感觉。当你用线性渲染时，表面颜色仍然随着光照强度线性增加的，这样就使表面材质和颜色更接近现实。</p>
+<p><img src="https://docs.unity3d.com/uploads/Main/LinearRendering-Infinite3DHeadScan.png" alt=""></p>
+<p>(3) 混合</p>
+<p>混合是在帧缓冲区发生的，当使用Gamma Rendering，这表示颜色之间混合是在非线性空间下计算的。然而这是不正确的。</p>
+<p><img src="https://docs.unity3d.com/uploads/Main/LinearRendering-BlendingLinearGamma.png" alt=""></p>
+<p>上图是在Linear Space中混合结果，颜色之间过度不是很明显。下图是Gamma Space中混合结果，颜色交界处出现了明显的其它颜色，颜色更亮，出现褪色的现象。</p>
+<p>(4) Mipmaps</p>
+<p>计算纹理 Mipmap 是种线性计算，需要对某个方形区域内像素取平均值，如果纹理存储在非线性空间，那么计算时也是在非线性空间里计算，这样就会得到错误的结果。正确的做法是先转换到线性空间在计算 Mipmap。</p>
+<p>(5) Lightmapping</p>
+<p>切换 Linear 和 Gamma 方式，需要重新烘焙相关的 Lightmapping。</p>
+<p>End.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
