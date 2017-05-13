@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>对 ProtoBuf 的调研 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="对 ProtoBuf 的调研"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">游戏开发</a></li>
+    
+      <li><a href="/pages/shader">Shader</a></li>
+    
+      <li><a href="/pages/graphics">图形学</a></li>
+    
+      <li><a href="http://blog.csdn.net/heartyhu">CSDN</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/pages/unity3d/note20170430/index.html">对 ProtoBuf 的调研</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p>学习资料来自：<br><a href="http://www.voidcn.com/blog/linshuhe1/article/p-6167718.html" target="_blank" rel="external">http://www.voidcn.com/blog/linshuhe1/article/p-6167718.html</a><br><a href="http://blog.csdn.net/kkxsj/article/details/51963968" target="_blank" rel="external">http://blog.csdn.net/kkxsj/article/details/51963968</a></p>
+<p>学习笔记记于：2017/04/30</p>
+<p>进公司呆了一个礼拜，终于接到项目的活了，让我根据策划提供的需求和一个表格进行场景切换部分的开发，项目 leader 告诉了我有一个导表工具叫做 ProtoBuf，作为一名刚接触 Unity 开发的实习生，我头一次听说这东西，leader 给我演示了一下基本过程，我了解的似懂非懂，于是在此对该工具做一下简单调研与实践。</p>
+<h1 id="何为-ProtoBuf"><a href="#何为-ProtoBuf" class="headerlink" title="何为 ProtoBuf #"></a>何为 ProtoBuf #</h1><p>ProtoBuf 是 Google 公司发布的一个开源的项目，是一款方便而又通用的数据传输协议。<br>我们在 Unity 中可以借助 ProtoBuf 来进行对数据存储和网络协议两个方面的开发，这里我想要调研的是数据存储部分的操作，也就是：将 .xls 表格数据通过 ProtoBuf 进行序列化，并在 Unity 中进行使用。<br>为了将 Excel 表格中的数据转化为正确的格式，我们需要一个元数据，用以描述表格中每一列对应的类型和含义，而后由转表工具根据元数据中的描述，生成对应语言（如 c++，c#，python 等）的数据结构。为此我们选用 ProtoBuf，其可以根据定义的 .proto 文件生成数种语言版本的数据结构。</p>
+<h1 id="何为序列化反序列化"><a href="#何为序列化反序列化" class="headerlink" title="何为序列化反序列化 #"></a>何为序列化反序列化 #</h1><p>序列化 (Serialization)：将数据结构或对象转换成二进制串的过程；<br>反序列化（Deserialization）：将在序列化过程中所生成的二进制串转换成数据结构或者对象的过程；<br>序列化数据无处不在，我们为什么要序列化数据。我们要存储或者传输数据时，需要将当前数据对象转换成字节流便于网络传输或者存储。当我们需要再次使用这些数据时，需要将接收到的或者读取的字节流进行反序列化，重建我们的数据对象。协议处理一般就是选择的 ProtoBuf。</p>
+<h1 id="何为数值表转换"><a href="#何为数值表转换" class="headerlink" title="何为数值表转换 #"></a>何为数值表转换 #</h1><p>在游戏中，数值体系决定了游戏的平衡性，尤其是对于竞技类游戏，如 RTS、MOBA 等至关重要。对于数值策划而言，Excel 表格工具无疑是一个理想的数值表制作工具，其功能强大且操作友好。那么问题来了，我们是否可以直接在游戏中使用 Excel 作为数值的数据库呢？从技术的角度上讲是可以的，但没人这么做，因为这将会在游戏中引入大量只用于解析 Excel 文件的库，且其解析效率也是一个问题（相对于直接读取二进制文件并反序列化而言）。所以通常的做法是将 Excel 表格在离线的时候先转化为其它格式（如 json，binary，xml 等），再在游戏中加载这些转化后的数据。</p>
+<h2 id="使用-ProtoBuf-注意的几点"><a href="#使用-ProtoBuf-注意的几点" class="headerlink" title="使用 ProtoBuf 注意的几点 #"></a>使用 ProtoBuf 注意的几点 #</h2><p>对导表环境的配置可以参考：<br><a href="http://www.voidcn.com/blog/linshuhe1/article/p-6167718.html" target="_blank" rel="external">http://www.voidcn.com/blog/linshuhe1/article/p-6167718.html</a><br>获得 protoc.exe 的两个方法：<br>（1）下载并编译 protobuffer 的源码，由于编译该源码需要再下载 googlemock 和 googletest；<br>（2）在 <a href="https://github.com/google/protobuf/releases中下载protoc-3.0.0-beta-3-win32.zip（注意要下3.0.0以后的版本）。" target="_blank" rel="external">https://github.com/google/protobuf/releases中下载protoc-3.0.0-beta-3-win32.zip（注意要下3.0.0以后的版本）。</a><br>获得 protogen：<br>（1）可以在 <a href="https://github.com/mgravell/protobuf-net" target="_blank" rel="external">https://github.com/mgravell/protobuf-net</a> 下载源码自己编译（略麻烦）；<br>（2）也可以在 <a href="https://code.google.com/archive/p/protobuf-net/downloads" target="_blank" rel="external">https://code.google.com/archive/p/protobuf-net/downloads</a> 上下载编译好的包（反正只要用 protogen 来把 .proto 转成 .cs）<br>借助 xls_deploy_tool.py 将 Excel 转化成 .proto 文件和数据文件：</p>
+<p>导表外部工具 <a href="https://github.com/jameyli/tnt/tree/master/python" target="_blank" rel="external">xls_deploy_tool.py</a> 是腾讯魔方工作室 jameyli 同学的作品，其思路是先通过 xls 的前 4 行定义对应的 .proto 结构，借助 xlrd 组件解析生成 .proto 文件；进而通过 protoc 根据 .proto 生成 python 的协议结构；最后将 xls 文件从第 4 行开始读取，填入到一个协议生成的对象列表中，再将其序列化到一个数据文件，实现了 xls 数据到 protobuf 序列化数据格式的转化。<br>protoc.exe 和 protogen.exe：通过上面的工具，我们得到了两个文件：存储数据的 .data 文件和用于解析数据的 .proto 文件，但是我们在真正使用解析类来进行数据文件的解析时，必须是高级语言，当然 protobuf-net 提供很多种高级语言的支持。就像我们在 Unity 中我们使用的是 C# 语言，这需要两个工具来实现，一个是 protobuf-2.5.0 中的 protoc.exe 将 .proto 文件转换为 “FileDescriptorSet” 中间格式；另一个是使用 protobuf-net 中的 protogen.exe，将中间格式的文件转换为最终状态，即高级语言的解析类 .cs 文件。可以到 github 上下载 protobuf-net 的源码：protobuf-net，下载后解压到本地，然后进入到解压后 protobuf-net-master\protobuf-net 目录下，通过 Visual Studio 打开 protobuf-net.csproj</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/a53846c3gy1ff53qlz2uej20um0fok1k.jpg" alt=""></p>
+<p>编译完成后在当前目录下面的 bin\Release 目录下，生成了编译后的文件，其中我们需要的是 protobuf-net.dll：</p>
+<p><img src="http://wx2.sinaimg.cn/mw690/a53846c3gy1ff53qmnuhaj20wu0b646a.jpg" alt=""></p>
+<p>至此，将 PB 集成进 Unity 工程的工序就完成了，接下来就是集成的脚本。<br>公司项目中已经有了编译好的 ProtoGen 文件目录，如下图：</p>
+<p><img src="http://wx4.sinaimg.cn/mw690/a53846c3gy1ff51vblb0lj20lv0f9q48.jpg" alt=""></p>
+<p>下面是建立表格的格式.xls</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># 说明:</span><br><span class="line">#   excel 的前四行用于结构定义, 其余则为数据，按第一行区分, 分别解释：</span><br><span class="line">#       required 必有属性</span><br><span class="line">#       optional 可选属性</span><br><span class="line">#           第二行: 属性类型</span><br><span class="line">#           第三行：属性名</span><br><span class="line">#           第四行：注释</span><br><span class="line">#           数据行：属性值</span><br><span class="line">#       repeated 表明下一个属性是repeated,即数组</span><br><span class="line">#           第二行: repeat的最大次数, excel中会重复列出该属性</span><br><span class="line">#           2011-11-29 做了修改 第二行如果是类型定义的话，则表明该列是repeated</span><br><span class="line">#           但是目前只支持整形</span><br><span class="line">#           第三行：无用</span><br><span class="line">#           第四行：注释</span><br><span class="line">#           数据行：实际的重复次数</span><br><span class="line">#       required_struct 必选结构属性</span><br><span class="line">#       optional_struct 可选结构属性</span><br><span class="line">#           第二行：结构元素个数</span><br><span class="line">#           第三行：结构名</span><br><span class="line">#           第四行：在上层结构中的属性名</span><br><span class="line">#           数据行：不用填</span><br><span class="line"></span><br><span class="line">#    1  | required/optional | repeated  | required_struct/optional_struct   |</span><br><span class="line">#       | ------------------| ---------:| ---------------------------------:|</span><br><span class="line">#    2  | 属性类型          |           | 结构元素个数                      |</span><br><span class="line">#    3  | 属性名            |           | 结构类型名                        |</span><br><span class="line">#    4  | 注释说明          |           | 在上层结构中的属性名              |</span><br><span class="line">#    5  | 属性值            |           |                                   |</span><br></pre></td></tr></table></figure>
+<p>如下图所示：</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/a53846c3gy1ff51vcddpbj21kw0qfahq.jpg" alt=""></p>
+<p>Unity 导入库文件：<br>将几个文件添加到 Unity 工程中，将 .data 文件放在 Assets\StreamingAssets\DataConfig 目录下，将 protobuf-net.dll 和 goods_info.cs 放在 Assets 目录下：</p>
+<p><img src="http://wx2.sinaimg.cn/mw690/a53846c3gy1ff53qo2km9j20om0n845r.jpg" alt=""></p>
+<p>创建一个 Test.cs 测试脚本，在脚本中 using Protobuf 用于导入 protobuf-net.dll 中的库，然后使用 using tnt_deploy 导入导表生成的 .cs 表格数据解析类，脚本具体代码内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line">using System.Collections;</span><br><span class="line">using ProtoBuf;</span><br><span class="line">using System.IO;</span><br><span class="line">using tnt_deploy;</span><br><span class="line"></span><br><span class="line">public class Test : MonoBehaviour &#123;</span><br><span class="line">    void Start () &#123;</span><br><span class="line">        GOODS_INFO_ARRAY goods_infos = ReadOneDataConfig&lt;goods_info_array&gt;(&quot;goods_info&quot;);</span><br><span class="line">        Debug.Log(&quot;goods_id==================&quot; + goods_infos.items[0].goods_id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private T ReadOneDataConfig&lt;t&gt;(string FileName)</span><br><span class="line">    &#123;</span><br><span class="line">        FileStream fileStream;</span><br><span class="line">        fileStream = GetDataFileStream(FileName);</span><br><span class="line">        if (null != fileStream)</span><br><span class="line">        &#123;</span><br><span class="line">            T t = Serializer.Deserialize&lt;t&gt;(fileStream);</span><br><span class="line">            fileStream.Close();</span><br><span class="line">            return t;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return default(T);</span><br><span class="line">    &#125;</span><br><span class="line">    private FileStream GetDataFileStream(string fileName)</span><br><span class="line">    &#123;</span><br><span class="line">        string filePath = GetDataConfigPath(fileName);</span><br><span class="line">        if (File.Exists(filePath))</span><br><span class="line">        &#123;</span><br><span class="line">            FileStream fileStream = new FileStream(filePath, FileMode.Open);</span><br><span class="line">            return fileStream;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">    private string GetDataConfigPath(string fileName)</span><br><span class="line">    &#123;</span><br><span class="line">        return Application.streamingAssetsPath + &quot;/DataConfig/&quot; + fileName + &quot;.data&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 Unity 中新建一个场景，将 Test.cs 挂载在 Main Camera 主相机上，运行场景，看到打印结果，说明解析表格数据成功：</p>
+<p><img src="http://wx2.sinaimg.cn/mw690/a53846c3gy1ff53qoog5hj20hi03kdgj.jpg" alt=""></p>
+<p>在 Unity 中使用时，因为 iOS 不允许 JIT（Just In Time），只允许 AOT（Ahead Of Time），使用 protobuf-net\Full\unity\ 下的 protobuf-net.dll 拷到 Unity 工程的 Assets/Plugins 目录下的方法会报错。所以使用比较简单粗暴的方法，就是直接把源代码代替 protobuf-net.dll，拷到 Unity 工程的 Assets\Plugins 目录下。（由于编译 protobuf-net 代码需要 unsafe 编译，所以还需要在 Assets 文件夹放入 “smcs.rsp” 文件，里面加入一行 -unsafe 作为编译参数。）<br>虽然导表环境的配置过程比较繁琐，但是配置完成之后的工作效率却很高，而且 proto 具有突出的通用性，可以应用于各种语言环境。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

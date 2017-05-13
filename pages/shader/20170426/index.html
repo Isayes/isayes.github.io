@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>对 PBR 和 PBS 的调研 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="对 PBR 和 PBS 的调研"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">游戏开发</a></li>
+    
+      <li><a href="/pages/shader">Shader</a></li>
+    
+      <li><a href="/pages/graphics">图形学</a></li>
+    
+      <li><a href="http://blog.csdn.net/heartyhu">CSDN</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/pages/shader/20170426/index.html">对 PBR 和 PBS 的调研</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p>学习资料来自:</p>
+<p><ul></ul></p>
+<p><li>冯乐乐《Unity Shader 入门精要》</li></p>
+<p><li><a href="http://www.cnblogs.com/geniusalex/p/5343449.html" target="_blank" rel="external">http://www.cnblogs.com/geniusalex/p/5343449.html</a></li></p>
+<p><li><a href="https://docs.unity3d.com/Manual/StandardShaderMaterialParameterAlbedoColor.html" target="_blank" rel="external">https://docs.unity3d.com/Manual/StandardShaderMaterialParameterAlbedoColor.html</a></li></p>
+<p><li><a href="https://docs.unity3d.com/Manual/StandardShaderMaterialParameterEmission.html" target="_blank" rel="external">https://docs.unity3d.com/Manual/StandardShaderMaterialParameterEmission.html</a></li><br></p>
+<p>学习笔记记于 2017/04/26</p><br><h2 id="概念"><a href="#概念" class="headerlink" title="概念 #"></a>概念 #</h2><p>PBR 是一种新的渲染模式，英文全称 Physically Based Rendering, 而 PBS 就是与之对应的材质，全称 Physically Based Shader。PBS 是一个基于物体表面材质属性的着色方法。与之前的 Blinn-Phong 等算法不同。PBS 通过对物体表面的材质属性与周围光照信息来进行着色计算。PBS 着色系统中，一个物体不仅受到光源的影响，还会受到周围环境的影响。这会使得整个场景更加真实。</p><br><p>对于传统的 Lambert 光照模型、Phong 光照模型和 Blinn-Phong 光照模型而言，它们的缺点很明显，即它们都是经验模型。如果画面的渲染质量需要更高，则这些经验模型就显得不能满足我们的要求。</p><br><p>基于物理的渲染技术（Physically Based Shading，PBS）被逐渐应用于实时渲染中，PBS 的目的是为了对光和材质之间的行为进行更加真实的建模。Unity 5 引入了一个名为 Standard Shader 的的着色器，可在不同材质之间通用，该着色器使用了基于物理的光照模型。</p><br><p>想要使用 PBS 实现出色的渲染效果，并不是纹理 + 一个 Shader 这么简单的问题。 程序员甚至还可以自己构建一个 PBS 的渲染框架。</p><br><p>Unity 5 内置工具可以实现一个不错的渲染效果，我们可以使用，虽然里面牵扯到许多复杂的光照模型。</p><br><h2 id="PBS-理论基础"><a href="#PBS-理论基础" class="headerlink" title="PBS 理论基础 #"></a>PBS 理论基础 #</h2><h3 id="（1）光"><a href="#（1）光" class="headerlink" title="（1）光"></a>（1）光</h3><p>物理学中，光是一种电磁波。光由太阳或其他光源发射出来，与场景中的对象相交，一些光线被吸收 absorption，另一些光线被散射 scattering，光线被某个感应器例如我们的眼睛吸收成像。</p><br><p>材质与光线相交主要有两种物理现象：散射 和 吸收 （有的还有自发光现象）。</p><br><p>光线被吸收，是因为光转化成其他的能量，吸收光的能量但是不改变光的传播方向。<br>光线被散射，不改变光的能量，但是改变光线传播方向。</p><br><p>在光的传播过程中，影响光的重要特性是材质的折射率（refractive index）。在均匀的介质中，光沿直线传播，如果光在传播时介质的折射率发生了改变，光的传播方向就会发生变化。</p><br><p>理想情况下，光在不同介质的边界会被分割成两个方向：反射方向和折射方向。有多少百分比的光会被反射，另一部分被折射是由菲涅尔等式来描述的。</p><br><p><img src="http://wx2.sinaimg.cn/mw690/a53846c3gy1ff0zb1smuej20ty0eamz0.jpg" alt=""></p><br><p>不存在绝对的光滑平面，被认为是光滑物体的表面的微表面的法线方向变化角度小，就使得物体的高光反射更加清晰，粗糙表面则相反，即高光反射效果更加模糊。如下图所示，左图光滑的微平面的法线变化较小，反射光线的方向变化也更小；右图粗糙表面的法线变化较大，反射光线的方向变化也更大。</p><br><p><img src="http://wx2.sinaimg.cn/mw690/a53846c3gy1ff0zb2gm04j20wq07w794.jpg" alt=""></p><br><p>被微表面折射的光被折射到物体的内部，一部分被介质吸收，一部分又被散射到外部。金属材质的吸收系数很高，所有被折射的光往往会被立即吸收，被该金属内部的自由电子转化成其他形式的能量。非金属材质会表现出吸收和散射两种现象，这些散射出去的光被称为 “次表面散射光” subsurface-scattered light。如下图所示，蓝色的就是一条由微表面折射的光的传播路径</p><br><p><img src="http://wx1.sinaimg.cn/mw690/a53846c3gy1ff0zb328p7j20oo09kq64.jpg" alt=""></p><br><h3 id="（2）双向反射分布函数-BRDF"><a href="#（2）双向反射分布函数-BRDF" class="headerlink" title="（2）双向反射分布函数 BRDF"></a>（2）双向反射分布函数 BRDF</h3><p>BRDF，Bidirectional Reflectance Distribution Function。</p><br><p>我们用辐射率（radiance）来量化光。</p><br><p>辐射率是单位面积、单位方向上光源的辐射通量，用 L 表示，被认为是对单一光线的亮度和颜色评估。</p><br><p>在渲染中，我们通常会基于表面的入射光线的入射幅度 Li 来计算出射辐射率 Lo，这个过程往往被称为是着色（shading）过程。</p><br><p>要得到出射辐射率的 L(out)，我们需要知道物体表面一点如何和光进行交互，这个过程要使用 BRDF 来定量分析。</p><br><ul><br><li>当给定入射角度后，BRDF 可以给出所有出射方向上的反射和散射光线的相对分布情况；</li><br><li>当给定观察方向（即出射方向）后，BRDF 可以给出从所有入射方向到该出射方向的光线分布；</li><br><li>当一束光线沿着入射方向 I 到达表面某点时，f(I, v) 表示了有多少部分的能量被反射到了观察方向 v 上；</li><br></ul><br><p>基于物理渲染技术中，第一个重要的等式：反射等式；</p><br><p><img src="http://wx1.sinaimg.cn/mw690/a53846c3gy1ff0zb4xp33j20d001mwez.jpg" alt=""></p><br><p>上面的公式看起来很复杂，但是在游戏渲染中，通常是和一些精确光源打交道，而不是计算所有入射光线在半球面上的积分。</p><br><p>精确光源是指那些方向确定、大小为无限小的光源，例如，常见的点光源、聚光灯等。使用精确光源的最大好处在于，我们可以大大简化上面的反射等式。计算它在某个观察方向 v 上的出射辐射率：I 表示它的方向，c 表示它的颜色。</p><br><p><img src="http://wx2.sinaimg.cn/mw690/a53846c3gy1ff0zb0lf9wj20bu022wex.jpg" alt=""></p><br><p>这个式子使用了一个特定的 BRDF 值来替代积分操作，简化了计算。</p><br><p>BRDF 决定了着色过程是否是基于物理的，这可以由 BRDF 是否满足两个特性来判断：它是否满足交换律和能量守恒。</p><br><p>f(I,v) = f(v,I)</p><br><p>能量守恒要求：表面反射的能量不能超过入射的光能。</p><br><p><img src="http://wx1.sinaimg.cn/mw690/a53846c3gy1ff0zb13p32j20bw028jrt.jpg" alt=""></p><br><p>BRDF 可以用来描述两种不同的物理现象：表面反射 和 次表面散射。用于描述表面反射的部分被称为 高光反射项（specular term），用于描述次表面散射的部分被称为漫反射项（diffuse term）。如下图，黄色为高光反射，蓝色为漫反射。</p><br><p><img src="http://wx1.sinaimg.cn/mw690/a53846c3gy1ff0zb4fq9pj20le0cotbn.jpg" alt=""></p><br><h3 id="（3）PBS"><a href="#（3）PBS" class="headerlink" title="（3）PBS"></a>（3）PBS</h3><p>PBS 有一个大前提，即它必须满足光能传播过程中的能量守恒。能量守恒体现在三个方面。</p><br><ol><br><li>一个对象反射出来的光照信息，不可能超过它接受到的信息。也就是说，全反射是一个物体的极限。</li><br><li>一个物体越光亮，那么它的颜色信息应该越少。（可以看出，reflection 和 diffuse 应该是一个插值关系）。</li><br><li>一个物体越平滑，那么它的高亮点会越小，越亮。</li><br></ol><br><p>如下图所示：图中所有的点，光照计算的方式一模一样。 // 粗糙的表面，受到的光照影响后，亮的面积会多些。 // 越平滑的表面，高亮点越小，越亮。 // 点 A 的光照信息来自摄像机方向。 // 点 B 的光照信息主要来自天空的蓝色。 // 点 C 的光照信息主要来自地面。</p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderEnergyConservation.png" alt=""></p><br><p>在 Unity 5 中，默认的材质均被 Standard Shader 和 Standard （Specular setup) Shader 替代。 我们可以认为，Standard 系列的 Shader 就是 Unity3D 中的 PBS 实现。</p><br><p>若我们在 Unity 5 中新建一个空场景，你会发现有一个默认的天空盒。此时，我们再新建一个 Sphere 放在原点。 默认情况下，这个球的材质使用的就是 Standard Shader。 如下图所示，它受天空盒影响，上下呈现出不同的颜色。假如你更改天空盒的材质，那么这个球也会跟着变化。</p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderChangingSkyboxesEffect.gif?_=5168632" alt=""></p><br><p>PBS 的原理只是一种指导思想，不同的引擎的实现还是有细微的区别。在此，我们先来看看 Unity3D 中,PBS 的实现细节。请先看一张 Standard Shader 的材质参数图。</p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderRubberAsMetallicOrSpecular.png" alt=""></p><br><p><strong>Albedo：</strong></p><br><p>Albedo 与 Diffuse 的区别是，Albedo 我们认为，它是一个只拥有颜色信息的“平面”贴图，即不带任何 AO，SHADOW 等光影信息。一个物体的 Alpha 信息，也是由这个提供。 Albedo + Tint Color 构成了物体的 Base Color 颜色值。</p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderParameterAlbedoColor.png" alt=""></p><br><p>A range of black to white albedo values</p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderAlbedoGraduationTable.svg" alt=""></p><br><p><strong>Metallic &amp; Specluar &amp; Smoothness ：</strong></p><br><p>Unity3D 提供了 Standard 和 Standard(Specular Setup) 两种着色方式。 无论是哪种着色方式，都是控制高光反射结果的。</p><br><p>Specular 通过直接赋与颜色的方式来决定高光反射强度。而 Metallic 则通过一个 0~1 的值，来决定金属的反射强度。</p><br><p>不管是在 Metallic 还是 Specular 模式下，一但使用了贴图来决定高光反射效果。引擎将会采用贴图中的值，设置的 Metallic 因子，或者 Specular Color 均会无效。在这种情况下，二者是等价的。但是，二者的效果是不一样的。 Metallic 的反射比 Specular 要多一些。</p><br><p>Smoothness 则决定了一个物体的光滑程度。即使一个物体表面高光很强烈。若它是一个不光滑的物体，那么其反射会呈不规则的方向分布，会将光能分散到不同的地方。那么到达人眼中的反射光就会少。整体的反射效果就会变得很弱。</p><br><p>当 Metallic 或者 Specular 被赋予贴图后。Smoothness 值会失效。 转而采用 Matallic 或者 Specular 贴中的 Alpha 通道作为 Smoothness 值。</p><br><p><strong>Normal Map：</strong></p><br><p>Normal Map 是 Bump Mapping 的一种特例化。 它主要是通过贴图为光照计算时提供更细节的法线信息。使物体低模物体表面具有高度的细节效果。</p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderParameterNormalMap.png" alt=""></p><br><p><img src="https://docs.unity3d.com/uploads/Main/BumpMapLowAndHighBumpiness.png" alt=""></p><br><p><strong>Height Map：</strong></p><br><p>Heightmap 比 Normal Map 更上一层楼，Normal Map 是通过赋与物体表面更多的法线信息，来造成光照上的细节增强，而 Normal Map 有一个缺点就是，当视线与表面平行时，就失去的法线效果。而 Height Map 则直接对某些顶点进行位移。由此也可以看出来，Height Map 的效率开销会比 Normal Map 高，要更据情况选择使用。</p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderParameterHeightmap.png" alt=""></p><br><p>高度图是一张灰度图，白色表示突出，黑色表示凹陷。</p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderHeightmapTexture.png" alt=""></p><br><p>下面的图展示了<br>左：普通效果； // 中：Normal Map 效果； // 右：Height Map 效果；</p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderParallaxMap.jpg" alt=""></p><br><p><strong>Occlusion Map：</strong></p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderParameterOcclusion.png" alt=""></p><br><p>Occlusion Map 用于决定一个模型各部位受到间隔光照的影响情况。 间隔光照一般来自于 Ambient 环境光和环境反射。</p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderOcclusionMapTexture.png" alt=""></p><br><p><strong>Emission：</strong></p><br><p>表示一个物体的自发光程度。默认是纯黑，如果为这个物体赋值了非黑色的材质。那么这个物体即使在黑暗的场景下，也会有亮光。 我们可以简单的认为，计算公式像这样：FinalColor = Color + Emission</p><br><p>它一般用来做一些显示器等会进行自发光的物体材质，如下图所示。</p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderEmissiveBakedEffect.png" alt=""></p><br><p><strong>Detail Mask &amp; Secondary Maps：</strong></p><br><p>Secondary Maps 用于在物体的表面增加细节。我们可以为一个物体再赋值一套 Albedo 和 Normal Map。经测试，第一套 Albedo 和第二套 Albedo 的叠加算法如下：</p><br><p><code>AlbedoFinal = Albedo0.rgb  <em> Albedo1.a + Albedo0.rgb </em> Albedo1.rgb</code></p><br><p>Detail Mask 则用于第一套贴图和第二套贴图的混合。具体公式如下。</p><br><p><code>Albedo0.rgb = Albedo0.rgb <em> (1 - DetailMask.a)</em></code></p><br><p><code>Albedo1.rgb = Albedo1.rgb  DetailMask.a</code></p><br><p><code>AlbedoFinal = Albedo0.rgb  <em> Albedo1.a + Albedo0.rgb </em> Albedo1.rgb</code></p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderDetailNotAppliedYet.png" alt=""></p><br><p><strong>Fresnel：</strong></p><br><p>即为菲涅尔效果。物体的表面与视线的夹角的不同，会导致眼睛看到的从物体反射出来的光线的反射量不同。</p><br><p>同一视角下，不同光滑程度的物体菲涅尔效果的差别。</p><br><p><img src="https://docs.unity3d.com/uploads/Main/StandardShaderFresnelGraduationTable.png" alt=""></p><br><p>目前的 Standard Shader 并没有直接为大家提供控制菲涅尔反射效果的因子。而是通过 Smoothness 因子间接控制。</p><br><h2 id="PBS-适合什么样的游戏"><a href="#PBS-适合什么样的游戏" class="headerlink" title="PBS 适合什么样的游戏 #"></a>PBS 适合什么样的游戏 #</h2><p>PBS 并不意味着游戏画面需要追求和照片一样真实的效果，事实上很多游戏都不需要可以去追求与照片一样的真实感，玩家眼中的真实感大多也并不是如此。</p><br><p>PBS 优点在于：方便流水线作业，做金属材质更方便出效果了，而且用同一套东西便于控制整个场景的 draw call；还有一个好处是 PBS 保能量，所以做好的材质可以在各个光照条件下直接用，节约成本(譬如你有一套材质库，做完之后在各个项目里拿来就用)。我们只需要一个万能的 Shader 就可以渲染相当一大部分类型的材质，而不是使用传统的做法为每种材质写一个特定的 Shader。PBS 可以保证在各种光照条件下，材质都可以自然地和光源进行交互，而不需要我们反复地调整材质参数。</p><br><p>但是使用 PBS 需要考虑代价，它需要更复杂的光照配合，例如大量使用光照探针和反射探针。PBS 也需要开启 HDR 以及一些必不可少的屏幕特效，例如抗锯齿、Bloom 和色调映射。如果屏幕特效对当前游戏来说需要消耗过多的性能，那么 PBS 就不适合当前的游戏，我们应该使用传统的 Shader 来渲染游戏。</p><br><p>美术资源的制作过程和使用传统的 Shader 有很大不同，普通的法线纹理 + 高光反射纹理的组合不再使用，我们需要创建更细腻复杂的纹理集，包括金属值纹理、高光反射纹理、粗糙度纹理、遮挡纹理，有些还需要使用额外的细节纹理来给材质添加更多的细节表面。</p><br><p>除了使用图片扫描的传统辅助方法之外，这些纹理的制作通常还需要更专业的工具来绘制，例如 Allegorithmic Substance Painter 和 Quixel Suite。</p><br><p>关于移动端对于 PBS 的支持怎么样，有一个知乎问答是这样的：其实用不用 PBS 不是看程序，主要看美术成本，因为画贴图的方法和原来的思路有所不同，要进行方法上的转变，具体可以看这篇 <a href="https://www.marmoset.co/posts/pbr-texture-conversion/" target="_blank" rel="external">PBR Texture Conversion</a></p><br><p>虽然 Standard 提供的参数中，如果不进行设置，Unity3D 会进行优化处理，避免额外开销。但 Standard Shader 基于 PBS 的着色方式，在计算间接光照的时候有大量的开销。并且像素着色器的复杂度，也远远高于传统的着色模式。因此，在手机上要慎用。在 PC 上，游戏项目也需要进行一定的优化或者根据主次关系进行材质 LOD。</p><br><p>Standard Shader 仅提供了渲染层级的效果展示。面对游戏中的若干需求，还是需要进行一些定制化。这就要求我们需要将 Builtin Shaders 下载下来，在 Standard Shader 基础上进行修改。</p><br><p>对于手机项目，建议自已根据项目需求进行材质编写，去除不必要的间接光照计算。</p><br><p>End.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
