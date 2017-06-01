@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Notes.HF</title>
+  <title>给 Shader 添加遮罩 | Notes.HF</title>
   <meta name="author" content="HuFei">
   
   <meta name="description" content="Notes of Daily Learning">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="给 Shader 添加遮罩"/>
   <meta property="og:site_name" content="Notes.HF"/>
 
   
@@ -64,16 +64,19 @@
     <header>
       
   
-    <h1 class="title"><a href="/pages/shader/index.html"></a></h1>
+    <h1 class="title"><a href="/pages/shader/20170601/index.html">给 Shader 添加遮罩</a></h1>
   
 
       
     </header>
     <div class="entry">
       
-        <h2 id="着色器-Shader"><a href="#着色器-Shader" class="headerlink" title="# 着色器 Shader"></a># 着色器 Shader</h2><!-- [<font size="3">对 TCP 和 UDP 协议的简单调研](/pages/articles/note2017040802)
-[<font size="3">对 HTTP 协议的简单调研](/pages/articles/note2017040901) -->
-<font size="3"><br>2017/06/01 <a href="/pages/shader/20170601">给 Shader 添加遮罩</a><br>2017/04/26 <a href="">对 标准着色器 Standard Shader 官方源码的分析（一）</a><br>2017/04/26 <a href="/pages/shader/20170426">对 PBS 和 PBR 的调研</a><br>2017/04/25 <a href="/pages/shader/20170425d">对 线性空间和线性渲染的调研</a><br>2017/04/25 <a href="/pages/shader/20170425c">对 伽马空间和伽马校正的调研</a><br>2017/04/25 <a href="/pages/shader/20170425b">对 标准着色器 Standard Shader 的使用（二）</a><br>2017/04/25 <a href="/pages/shader/20170425a">对 标准着色器 Standard Shader 的使用（一）</a><br>2017/04/24 <a href="/pages/shader/20170424">对 标准着色器 Standard Shader 的调研</a><br>2017/04/23 <a href="/pages/shader/20170423">对 着色器 Shader 的简单认知</a><br><br><a href="http://www.cnblogs.com/isayes/p/6532578.html" target="_blank" rel="external">一个最简单的顶点/片元着色器</a><br><a href="http://www.cnblogs.com/isayes/p/6531898.html" target="_blank" rel="external">在表面着色器中控制顶点变换</a><br><a href="http://www.cnblogs.com/isayes/p/6532585.html" target="_blank" rel="external">绘制点直线网格等基本图形</a><br><a href="http://www.cnblogs.com/isayes/p/6532594.html" target="_blank" rel="external">用鼠标绘制自由多边形</a><br><a href="http://www.cnblogs.com/isayes/p/6532591.html" target="_blank" rel="external">绘制朱利亚集合 Julia 奇幻图形</a><br><a href="http://www.cnblogs.com/isayes/p/6532596.html" target="_blank" rel="external">闪烁的光晕 Glow 亮瞎你的眼</a><br><a href="http://www.cnblogs.com/isayes/p/6532598.html" target="_blank" rel="external">逐顶点/像素漫反射光照</a><br></font>
+        <p>第一步：在 Properties 里添加 <code>_Mask (&quot;Mask (RGB)&quot;, 2D) = &quot;white&quot; {}</code></p>
+<p>第二步：在 Pass 里添加声明：<code>sampler2D _Mask;</code></p>
+<p>第三步：在片元着色器里给颜色乘以 mask 的 alpha 通道：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">half4 mask = tex2D(_Mask, i.uv);</span><br><span class="line">return tex * mask.a;</span><br></pre></td></tr></table></figure>
+<p>上面的 i.uv 是在结构体 v2f 里声明的，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct v2f &#123;</span><br><span class="line">    fixed2 uv : TEXCOORD0;</span><br><span class="line">    half4 vertex : SV_POSITION;</span><br><span class="line">    float4 color : COLOR;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
       
     </div>
