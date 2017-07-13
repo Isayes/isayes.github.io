@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># The Precompute Process | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# The Precompute Process"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">Unity</a></li>
+    
+      <li><a href="/pages/unreal">Unreal</a></li>
+    
+      <li><a href="/pages/shader">Shader</a></li>
+    
+      <li><a href="/pages/graphics">CG</a></li>
+    
+      <li><a href="/pages/cpp">C++</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+      <li><a href="/pages/translate">翻译</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/pages/translate/content/003/index.html"># The Precompute Process</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <h1 id="预计算过程"><a href="#预计算过程" class="headerlink" title="# 预计算过程"></a># 预计算过程</h1><p>In Unity, precomputed lighting is calculated in the background - either as an automatic process, or it is initiated manually. In either case, it is possible to continue working in the editor while these processes run behind-the-scenes.</p>
+<p>在 Unity 中，预计算照明是在后台运行的，要么是一个自动过程，要么是一个手动启动的。在这两种情况下，当这些进城在后台执行的时候，还可以继续在编辑器中工作。</p>
+<p>When the precompute process is running, a blue progress bar will appear in the bottom right of the Editor. There are different stages which need to be completed depending on whether Baked GI or Precomputed Realtime GI is enabled. Information on the current process is shown on-top of the progress bar.</p>
+<p>当预计算过程在执行的时候，编辑器右下方会出现一个蓝色的进度条。取决于是否启用了 Baked GI 或者 预计算实时 GI，将会有不同的计算需要完成。当前进程的信息显示在进度条的顶部。</p>
+<p><img src="" alt=""></p>
+<p>（Progress bar showing the current state of Unity’s precompute.）（进度条显示了当前 Unity 的预计算状态。）</p>
+<p>In the example above, we can see that we are at task 5 of 11 which is, ‘Clustering’ and there are 108 jobs remaining before that task is complete and the precompute moves on to task 6. The various stages are listed below:</p>
+<p>在上面的例子中，可以看到，正在执行到任务 5/11，也就是集群，在执行到任务 6 之前还有 108 个工作任务。 下面列出了不同阶段：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Precomputed Realtime GI			Baked GI</span><br><span class="line">01 - Create Geometry		01 - Create Geometry</span><br><span class="line">02 - Layout Systems			02 - Atlassing</span><br><span class="line">03 - Create Systems			03 - Create Baked Systems</span><br><span class="line">04 - Create Atlas			04 - Baked Resources</span><br><span class="line">05 - Clustering			    05 - Bake AO</span><br><span class="line">06 - Visibility			    06 - Export Baked Texture</span><br><span class="line">07 - Light Transport		07 - Bake Visibility</span><br><span class="line">08 - Tetrahedralize Probes	08 - Bake Direct</span><br><span class="line">09 - Create ProbeSet		09 - Ambient and Emissive</span><br><span class="line">							10 - Create Bake Systems</span><br><span class="line">Probes						11 - Bake Runtime</span><br><span class="line">							12 - Upsampling Visibility</span><br><span class="line">01 - Ambient Probes			13 - Bake Indirect</span><br><span class="line">02 - Baked/Realtime 		14 - Final Gather</span><br><span class="line">		Ref. Probes			15 - Bake ProbesSet</span><br><span class="line">							16 - Compositing</span><br></pre></td></tr></table></figure>
+<h2 id="Starting-a-Precompute-开始一个预计算"><a href="#Starting-a-Precompute-开始一个预计算" class="headerlink" title="## Starting a Precompute 开始一个预计算"></a>## Starting a Precompute 开始一个预计算</h2><p>Only static geometry is considered by Unity’s precomputed lighting solutions. To begin the lighting precompute process we need at least one GameObject marked as ‘static’ in our scene. This can either be done individually, or by shift-selecting multiple GameObjects from the hierarchy panel.</p>
+<p>只有静态的几何体考虑使用 Unity 的预计算光照方案。为了开始进行光照的预计算过程，我们至少需要有一个 GameObject 在场景中标记为 “static”。这可以单独被完成，或者通过层次结构面板 Hierarchy 中选择多个 GameObjects 来实现。</p>
+<p>From the Inspector panel, the Static checkbox can be selected (Inspector&gt;Static). This will set all of the GameObject’s ‘static options’, or ‘flags’, including navigation and batching, to be static, which may not be desirable. For Precomputed Realtime GI, only ‘Lightmap Static’ needs to be checked.</p>
+<p>在 Inspector 检视面板中，有一个“Static” 复选框可以被选中（Inspector&gt;Static）。这将设置所有的 GameObject 的“静态选项”，或者标志，包括导航和批处理，都设置了 “static” ，这可能是不可取的。 对于预计算的实时光照 GI，只需要把 “Lightmap” 勾选。</p>
+<p>For more fine-grained control, individual static options can be set from the drop-down list accessible to the right of the Static checkbox in the Inspector panel. Additionally, objects can also be set to Static in the Object area of the lighting window.</p>
+<p>对于更细粒度的控制，可以从检查器面板中静态复选框的右下拉列表中设置单个静态选项。此外，还可以将对象设置为在照明窗口的对象区域中设置为静态。</p>
+<p>If your scene is set to Auto (Lighting&gt;Scene&gt;Auto), Unity’s lighting precompute will now begin automatically. Otherwise it will need to be started manually as described below.        </p>
+<p>如果你的场景设置成自动（Lighting&gt;Scene&gt;Auto），Unity 的光照预计算就会自动启动。否则，它会像下面描述的那样需要手动启动。</p>
+<h2 id="Auto-Manual-Precompute-自动、手动的预计算"><a href="#Auto-Manual-Precompute-自动、手动的预计算" class="headerlink" title="## Auto/Manual Precompute 自动、手动的预计算"></a>## Auto/Manual Precompute 自动、手动的预计算</h2><p>If ‘Auto’ is checked from the bottom of Unity’s Lighting panel (Lighting&gt;Scene&gt;Auto), then this precompute will begin automatically as a background process whenever changes are made to static geometry within your scene.</p>
+<p>如果从 Unity 的灯光面板(Lighting&gt;Scene&gt;Auto)的底部勾选了“Auto”，那么这个预计算将自动作为一个后台过程自动开始，不管你的场景中的静态几何体发生了什么变化。</p>
+<p>However, if Auto is not selected, you will need to manually start a precompute by clicking the ‘Build’ button next to it. This will begin the precompute in much the same way, while giving you control over when this process starts.</p>
+<p>但是，如果没有选择 Auto，则需要手动启动预计算，并单击旁边的 “Build” 按钮。这将以同样的方式开始预计算，同时可以让你控制这个进程何时开始。</p>
+<p>Manually initiating a precompute will cause all aspects of your scene lighting to be evaluated and (re)computed. If you wish to selectively recalculate Reflection probes by themselves, this can be done via the drop-down menu next to the Build button (Lighting&gt;Scene&gt;Build).</p>
+<p>手动初始化一个预计算将会使你的场景照明的所有方面都得到评估和(重新计算)。如果您希望有选择地重新计算反射探测，那么可以通过 Build 按钮旁边的下拉菜单来完成这项工作(Lighting&gt;Scene&gt;Build)。</p>
+<h2 id="GI-Cache-GI-缓存"><a href="#GI-Cache-GI-缓存" class="headerlink" title="## GI Cache GI 缓存"></a>## GI Cache GI 缓存</h2><p>In either Baked GI or Precomputed Realtime GI, Unity ‘caches’ (stores) data about your scene lighting in the ‘GI Cache’, and will try to reuse this data whenever possible to save time during precompute. The number and nature of the changes you have made to your scene will determine how much of this data can be reused, if at all.</p>
+<p>在烘焙 GI 或预计算的实时 GI 中，Unity 会’缓存’(存储)关于你在“GI缓存”中的场景照明的数据，并将尝试在可能的情况下重用这些数据，以节省在预计算期间的时间。你对你的场景所做的更改的数量和性质将决定这些数据有多少可以被重用，如果有的话。</p>
+<p>This cache is stored outside of your Unity project and can be cleared using (Preference&gt;GI Cache&gt;Clear Cache). Clearing this means that all stages of the precompute will need to be recalculated from the beginning and this can therefore be time consuming. However in some cases, where perhaps you need to reduce disk usage, this may be helpful.</p>
+<p>此缓存存储在你的 Unity 项目之外，并且可以使用(Preference&gt;GI Cache&gt;Clear Cache)清除。清除这意味着预计算的所有阶段都需要从一开始重新计算，因此需要花费大量时间。但是，在某些也许需要减少磁盘使用情的况下，这可能是有帮助的。</p>
+<p>End.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

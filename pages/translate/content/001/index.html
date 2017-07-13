@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title># 日记 - 记一段感悟 | Notes.HF</title>
+  <title># Introduction to Lighting and Rendering | Notes.HF</title>
   <meta name="author" content="HuFei">
   
   <meta name="description" content="Notes of Daily Learning">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="# 日记 - 记一段感悟"/>
+  <meta property="og:title" content="# Introduction to Lighting and Rendering"/>
   <meta property="og:site_name" content="Notes.HF"/>
 
   
@@ -68,22 +68,25 @@
     <header>
       
   
-    <h1 class="title"><a href="/pages/others/make-a-diary.html"># 日记 - 记一段感悟</a></h1>
+    <h1 class="title"><a href="/pages/translate/content/001/index.html"># Introduction to Lighting and Rendering</a></h1>
   
 
       
     </header>
     <div class="entry">
       
-        <p>真实的我们可能会和现在的我们看上去差距甚远，或者根本不存在。<br>我始终坚信人类是更高级物质制作的虚拟程序，Ta 们掌握了无与伦比的技术，以至于我们生活在楚门的世界却还无法得知出口，只是一直在探索太空探索海洋探索探索探索却逃不出去！<br>怪不得很多事情就像是命中注定，因为程序就是这么写的能咋滴？</p>
+        <h1 id="介绍照明和渲染"><a href="#介绍照明和渲染" class="headerlink" title="# 介绍照明和渲染"></a># 介绍照明和渲染</h1><p>Modern game lighting makes extensive use of ‘global illumination’.</p>
+<p>现在游戏的光照系统广泛使用了“全局光照”。</p>
+<p>Global illumination, or ‘GI’, is a term used to describe a range of techniques and mathematical models which attempt to simulate the complex behaviour of light as it bounces and interacts with the world. Simulating global illumination accurately is challenging and can be computationally expensive. Because of this, games use a range of approaches to handle these calculations beforehand, rather than during gameplay.</p>
+<p>全局光照 GI，是用来描述一系列技术或数学模型的术语，模拟与世界交互的光照的复杂行为。准确地模拟出全局光照是具有挑战性的并且计算量高昂。正因为如此，游戏会在这之前就通过一系列方法先做好计算工作，而不是在游戏运行的过程中进行计算。</p>
+<p><img src="https://unity3d.com/sites/default/files/lightingintroduction.png" alt=""></p>
+<p>In this document we will give you an overview of how GI works in Unity. We will walk you through the different lighting techniques available, explain how to setup your project for lighting and then explore the various tools at your disposal when considering how to light a scene.</p>
+<p>在这个文档中我们将会向你概述在 Unity 中 GI 是如何工作的。我们将带你领略不同的照明技术，解释给你的项目设置照明，然后在考虑如何在场景中加入光照时探索各种工具。</p>
+
       
     </div>
     <footer>
       
-        
-          <div id="readmore" class="alignright">
-            <a href="/pages/others/make-a-diary.html#more" class="more-link">Read More</a>
-          </div>
         
         
       
