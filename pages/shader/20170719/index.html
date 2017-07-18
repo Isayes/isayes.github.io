@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 对深度的调研 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 对深度的调研"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/pages/unity3d">Unity</a></li>
+    
+      <li><a href="/pages/unreal">Unreal</a></li>
+    
+      <li><a href="/pages/shader">Shader</a></li>
+    
+      <li><a href="/pages/graphics">CG</a></li>
+    
+      <li><a href="/pages/cpp">C++</a></li>
+    
+      <li><a href="/pages/virtualreality">VR</a></li>
+    
+      <li><a href="/pages/translate">翻译</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/pages/shader/20170719/index.html"># 对深度的调研</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p>什么是深度：深度其实就是该像素点在3d世界中距离摄像机的距离。离摄像机越远，则深度值（Z值）越大。</p>
+<p>什么是深度缓存：深度缓存中存储着准备要绘制在屏幕上的像素点的深度值。如果启用了深度缓冲区，在绘制每个像素之前，OpenGL 会把该像素的深度值和深度缓存的深度值进行比较。如果新像素深度值&lt;深度缓存深度值，则新像素值会取代原先的；反之，新像素值被遮挡，其颜色值和深度将被丢弃。(深度主要起的是比较的作用)</p>
+<p>什么是深度测试：在深度测试中，默认情况是将要绘制的新像素的z值与深度缓冲区中对应位置的z值进行比较，如果比深度缓存中的值小，那么用新像素的颜色值更新深度缓存中对应像素的颜色值。</p>
+<p>为什么需要深度测试：在不使用深度测试的时候，如果我们先绘制一个距离较近的物体，再绘制距离较远的物体，则距离远的物体因为后绘制，会把距离近的物体覆盖掉，这样的效果并不是我们所希望的。而有了深度缓冲以后，绘制物体的顺序就不那么重要了，都能按照远近（Z值）正常显示，这很关键。</p>
+<p>Unity 先将渲染队列中较前的进行渲染，然后再执行 ZWrite，ZTest：</p>
+<p>1.当 ZWrite 为On时，ZTest 通过时，该像素的深度才能成功写入深度缓存，同时因为 ZTest 通过了，该像素的颜色值也会写入颜色缓存。  </p>
+<p>2.当 ZWrite 为On时，ZTest 不通过时，该像素的深度不能成功写入深度缓存，同时因为 ZTest 不通过，该像素的颜色值不会写入颜色缓存。  </p>
+<p>3.当 ZWrite 为Off时，ZTest 通过时，该像素的深度不能成功写入深度缓存，同时因为 ZTest 通过了，该像素的颜色值会写入颜色缓存。  </p>
+<p>4.当 ZWrite 为Off时，ZTest 不通过时，该像素的深度不能成功写入深度缓存，同时因为 ZTest 不通过，该像素的颜色值不会写入颜色缓存。  </p>
+<p>可以看到，像素的深度能否成功写入深度缓存，条件是 ZWrite 为 On，ZTest 通过；</p>
+<p>写入深度缓存的作用就是为 ZTest 的比较做准备。</p>
+<p>Unity ZWrite 默认值为 On，ZTest 默认值为 LEqual，所以近处物体会遮挡远处物体。</p>
+<p>当 ZTest 取值为 Off 时，表示的是关闭深度测试，等价于取值为 Always，而不是 Never！Always 指的是直接将当前像素颜色(不是深度)写进颜色缓冲区中；而 Never 指的是不要将当前像素颜色写进颜色缓冲区中，相当于消失。</p>
+<hr>
+<p>颜色缓冲区（<code>COLOR_BUFFER</code>）就是帧缓冲区（<code>FRAME_BUFFER</code>），你需要渲染的场景最终每一个像素都要写入该缓冲区，然后由它在渲染到屏幕上显示。</p>
+<p>深度缓冲区（<code>DEPTH_BUFFER</code>）与帧缓冲区对应，用于记录上面每个像素的深度值，通过深度缓冲区，我们可以进行深度测试，从而确定像素的遮挡关系，保证渲染正确。深度缓冲要么保留前面的深度值，要么取决于当前深度函数，例如，深度函数是 <code>CompareFunction.LessEqual</code> 时，只有小于当前深度值才会被保留，否则被抛弃，这就是深度测试，每次绘制像素时都会进行深度测试。当对一个像素进行深度测试时，它的颜色会被写入渲染目标，而深度会被写入深度缓冲。</p>
+<p>深度缓冲区原理就是把一个距离观察平面(近裁剪面)的深度值(或距离)与窗口中的每个像素相关联。</p>
+<p>在不使用深度测试的时候，如果我们先绘制一个距离较近的物体，再绘制距离较远的物体，则距离远的物体因为后绘制，会把距离近的物体覆盖掉，这样的效果并不是我们所希望的。而有了深度缓冲以后，绘制物体的顺序就不那么重要了，都能按照远近（Z值）正常显示，这很关键。</p>
+<p>模版缓冲（<code>STENCIL_BUFFER</code>）与深度缓冲大小相同，通过设置模版缓冲每个像素的值，我们可以指定在渲染的时候只渲染某些像素，从而可以达到一些特殊的效果。</p>
+<hr>
+<p><img src="http://img.blog.csdn.net/20160728205053508?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>通过这个流程可以发现，ZTest 在管线中的作用是决定深度缓冲与颜色缓冲的更新与否以及如何更新，与实际物体的渲染顺并没有关系。所以即便Z较小的物体，也可能绘制在 Z 较大的物体后面，而这是由物体所在的 RenderQueue 决定的。</p>
+<p>RenderQueue 的索引越小，越优先绘制，也就是会优先走上面的流程，对深度缓冲和颜色缓冲有优先的访问权（当然有放弃的权利 ZWrite=Off）。<br>所以当判断物体之间遮挡以及透明混合的时候，按照物体之间 RenderQueue 的顺序，依次走上面的流程，判断深度缓冲和颜色缓冲的变化情况，即可推断出实际效果。</p>
+<hr>
+<p>什么是阴影面剔除：Culling 阴影面剔除是一种优化技术。所有的多边形都有正反两面，而你永远只能看见其中一面，不信的话拿张纸板或者一面镜子看看你能不能同时看到两面。通常多边形面向屏幕里面的背面，我们看不见，所以会将该面剔除。<br>Cull Off 关闭阴影面剔除<br>Cull Back 剔除背面<br>Cull Front 剔除正面</p>
+<hr>
+<p><img src="http://img.blog.csdn.net/20160117211925682?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>其中一个 cube 里面包含一个圆体，为何会呈现上面的样子呢，引擎是这么去做的：</p>
+<p>1.由于我设置的队列是透明队列，所以引擎保证绘制顺序是从远到近。当然对当前这个例子来说，不论是从远到近还是从近到远，绘制结果都是一样的。那么我们假定先画 cube，再画圆体。</p>
+<p>2.注意，1中所谓的画，并不是真的直接在屏幕上直接画出来，而是在考虑接下来的步骤的时候的处理顺序。</p>
+<p>3.首先顶点着色器执行完毕，然后开始进行深度测试和背面剔除。背面剔除就是如果这个面试朝后的，那么摄像机就看不到，所以不用画。我们主要看下深度测试。所谓深度测试，就是将当前的深度值和深度缓冲中的深度值进行比较，以确定是否要剔除还是保留当前的绘制片段。你可以简单理解成，最靠近摄像机的才会被绘制。但是这种抽象的理解不利于你去理解一些特殊的效果（后面会提到），所以还是要明确下具体的步骤：</p>
+<p>绘制 cube 的时候，深度缓冲中的是底部的 Plane,毫无疑问，cube 是更靠近摄像机的，所以深度缓冲更新为 cube 的深度。</p>
+<p>绘制圆体的时候，深度缓冲中的是 cube 的深度，那么圆体的上部分没有被遮住，所以绘制，下面的被遮住了，所以不绘制。此时，屏幕中有一部分的深度缓冲被更新成圆体的深度。</p>
+<p>这样整个过程就结束了。然后看下shader中涉及深度的指令：ZTest 和 ZWrite.</p>
+<p>ZTest 就是指定如何进行深度测试，比如你可以指定不论如何 永远绘制，那么这个物体将永远是不剔除的，当然有可能还是会被挡住，这就是因为所谓的永远不剔除只是在过程上不去剔除它，但绘制的时候，如果后面绘制的物体覆盖住了它，它还是会被挡住（可能描述的不够清楚，但我是为了说明不要从字面的意思去理解这个指令，而要理解它对绘制过程的影响，这样对后面的效果才会明白如何做到的）。</p>
+<p>ZWrite 就是表示是否写入深度缓冲，比如刚才，我们屏幕上的深度缓冲的更新，就是因为 ZWrite 是默认开启的。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
