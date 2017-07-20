@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 对 Unity 本地动画的调研 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 对 Unity 本地动画的调研"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/fighting/gamedev">Game Development</a></li>
+    
+      <li><a href="/fighting/finance">Finance Knowlodge</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/fighting/gamedev/008/index.html"># 对 Unity 本地动画的调研</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0. 写在前面 #"></a>0. 写在前面 #</h2><p>Unity 提供了大量的资源创建工具, 特别是动画工具(即,本地动画特征集), 其中包括了 : 刚体动画的 Unity 编辑器, Shuriken 粒子系统. 本文整理总结了 Unity 本地 Animation 窗口及动画粒子系统的使用之理论知识.</p>
+<p>Animation Editor 可生成 Animation Clip 数据, 并且可以定义一段时间内的关键帧测绘变化集, 同时兼容了 Mecanim System.</p>
+<p>Particle System 完全采用了过程方式, 且不会将动画数据保存至关键帧中. 相反, 通过 <code>Object Inspector</code> 中 <code>Shuriken Editor</code> 的图示输入数据, 动画在运行期间基于动态方式生成, 粒子系统具有较大的灵活度.</p>
+<h2 id="1-Animation-窗口"><a href="#1-Animation-窗口" class="headerlink" title="1. Animation 窗口 #"></a>1. Animation 窗口 #</h2><p>Animation 窗口是一类全功能动画编辑器, 针对 GameObject 的数值属性生成预制脚本关键帧, 例如定位,旋转和缩放行为. Animation 可以实现随时间变化的动画效果, 并将最终动画数据保存为 Project 面板中的独立或自包含资源文件中(动画剪辑).</p>
+<p>当创建新的动画剪辑时, Unity 实际上在场景后执行多个处理操作, Unity 生成两个资源文件, 即 Animation Clip 资源文件(包括全部关键帧数据)以及一个 Animation Controller 资源文件(连接至 Mecanim 系统).</p>
+<p>Animator 组件将添加至场景中的 Camera 对象中, 并引用 Animation Controller 资源文件, 当启动场景时负责自动播放动画剪辑数据.</p>
+<p>当 Animation Clip 资源文件创建完毕之后, 还需要对动画加以定义. Unity 可对任意数值属性记录关键帧数据. 数值表示的某一对象上的任意字段均可实现一段时间内的动画和混合效果.</p>
+<h2 id="2-多个对象的动画行为"><a href="#2-多个对象的动画行为" class="headerlink" title="2. 多个对象的动画行为 #"></a>2. 多个对象的动画行为 #</h2><p>如果动画剪辑添加至父对象中, 可以对其子对象上的全部通道实现动画效果, 进而对多对象动画进行控制.</p>
+<h2 id="3-调用动画函数"><a href="#3-调用动画函数" class="headerlink" title="3. 调用动画函数 #"></a>3. 调用动画函数 #</h2><p>将动画链接至脚本文件或游戏逻辑中. 若动画到达特定的帧或时刻, 包括动画开始或结束的时候, 即使在完全不同的对象中, 也往往会出现特定的行为. 存在多种方式处理此类需求条件, 其中一种常用方案就是 : 在脚本中运行某一函数.</p>
+<p>为了创建动画和脚本间的连接, 需要使用到相关事件.</p>
+<h2 id="4-粒子系统"><a href="#4-粒子系统" class="headerlink" title="4. 粒子系统 #"></a>4. 粒子系统 #</h2><p>粒子系统主要负责生成特效和动画, 其中多个组件以一致的方式运动, 比如雨水,雪,花火,尘埃等. 除此之外, 粒子系统还可以模拟缺少具体形状的事物, 比如幽灵,全息图像等.</p>
+<p>Unity 5 中内置了预制粒子系统. 粒子系统可以丰富游戏画面的观感以及氛围.</p>
+<p>全部粒子系统包含 3 个主要功能 :</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 发射元素, 各粒子系统都包含一个粒子发射器, 并于发射点处生成新的粒子.</span><br><span class="line">2. 粒子自身</span><br><span class="line">3. 粒子生命周期, 当一个粒子被发射的时候, 会有一个运动生命周期, 以此定义其存在的时间, 进而定义其在生命周期内的行为, 包括运动方式和行进速度等等.</span><br></pre></td></tr></table></figure>
+<p>当在场景中选取粒子系统之后, 可以根据 <code>Shuriken Editor</code> 查看属性, 在 <code>Object Inspector</code> 中显示为 <code>Particle System</code> 组件. 该编辑器划分为多个不同的分类, 其中, 全局属性控制通用属性以及所选粒子系统的行为.</p>
+<p>系统中的各个粒子共享同一个渲染器, 并且有相同外观. 粒子的外观设置由 <code>Shuriken Editor</code> 和 <code>Renderer</code> 部分加以控制. 其中, <code>Render Mode</code> 控制粒子的显示方式, 且主要包含两种类型 : Billboard 和 Mesh. 其中, Billboard 粒子由包含纹理的四边形网格构成; Mesh 粒子则由更为复杂的网格构成, 相应地, 用户可以采用导入至当前项目中的任意网格. 除了 <code>Render Mode</code> 设置之外, 一般还需要使用到材质并赋予粒子网格上.</p>
+<p>默认情况下, 粒子通过闪现和隐匿方式生存,消失. 此时系统整体之间缺乏应有的过渡, 因而真实感稍差, 对此可通过 <code>Color over Lifetime</code> 修改粒子在其生命周期内颜色变化的方式. 粒子的有效内容包含了 Alpha 通道.</p>
+<p>End.</p>
+<p><code>学习自 : Book &lt;&lt;Unity Animation Essentials&gt;&gt;</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

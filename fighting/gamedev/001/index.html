@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># Unity UGUI 按钮绑定事件的 4 种方式 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# Unity UGUI 按钮绑定事件的 4 种方式"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/fighting/gamedev">Game Development</a></li>
+    
+      <li><a href="/fighting/finance">Finance Knowlodge</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/fighting/gamedev/001/index.html"># Unity UGUI 按钮绑定事件的 4 种方式</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p>UGUI 可视化创建以及关联事件很方便, 动态创建可以利用创建好的 Prefab 进行实例化, 只是在关联事件上有些复杂, 本文总结了几种给按钮绑定事件的关联方式.</p>
+<h2 id="1-可视化创建及事件绑定"><a href="#1-可视化创建及事件绑定" class="headerlink" title="1. 可视化创建及事件绑定 #"></a>1. 可视化创建及事件绑定 #</h2><p>Step 1 : 通过 Hierarchy 面板创建 <code>UI &gt; Button</code>.</p>
+<p><img src="http://wx4.sinaimg.cn/mw690/a53846c3gy1fcfo8xobhwj20dw07cglx.jpg" alt=""></p>
+<p>Step 2 : 创建一个脚本 TestClick.cs, 定义了一个 Click 的 public 方法.</p>
+<p>Step 3 : 选中 Hierarchy 中的 Button, <code>Add Component</code> 脚本 TestClick.cs</p>
+<p>Step 4 : 在 <code>Button(Script)</code> 关联 TestClick 脚本里的 Click 方法.</p>
+<p><img src="http://wx1.sinaimg.cn/mw690/a53846c3gy1fcfo8wu4uyj20lm0lw76q.jpg" alt=""></p>
+<p>Step 5 : Done.</p>
+<p>TestClick.cs</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TestClick</span> : <span class="title">MonoBehaviour</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Click</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		Debug.Log (<span class="string">"Button Clicked. TestClick."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-通过直接绑定脚本来绑定事件"><a href="#2-通过直接绑定脚本来绑定事件" class="headerlink" title="2. 通过直接绑定脚本来绑定事件 #"></a>2. 通过直接绑定脚本来绑定事件 #</h2><p>Step 1 : 通过 Hierarchy 面板创建 <code>UI &gt; Button</code>.</p>
+<p>Step 2 : 创建一个 ClickHandler.cs 脚本, 定义了一个私有方法 OnClick(), 并在 Start() 方法里为 Button 添加点击事件的监听,作为参数传入 OnClick 方法.</p>
+<p>Step 3 : 将 ClickHandler 绑定在 Button 对象上.</p>
+<p><img src="http://wx3.sinaimg.cn/mw690/a53846c3gy1fcfo8wxoijj20lo09kq3l.jpg" alt=""></p>
+<p>Step 4 : Done.</p>
+<p>ClickHandler.cs</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> UnityEngine.UI;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ClickHandler</span> : <span class="title">MonoBehaviour</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Start</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		Button btn = <span class="keyword">this</span>.GetComponent&lt;Button&gt; ();</span><br><span class="line">		btn.onClick.AddListener (OnClick);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnClick</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		Debug.Log (<span class="string">"Button Clicked. ClickHandler."</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-通过-EventTrigger-实现按钮点击事件"><a href="#3-通过-EventTrigger-实现按钮点击事件" class="headerlink" title="3. 通过 EventTrigger 实现按钮点击事件 #"></a>3. 通过 EventTrigger 实现按钮点击事件 #</h2><p>UGUI 系统中 Button 默认只提供了 OnClick 的调用方法, 有时候我们还需要监听鼠标进入事件 (MouseIn) 和鼠标滑出事件 (MouseOut). 就需要借助 UI 系统中的 EventTrigger 脚本来实现.</p>
+<p>Step 1 : 通过 Hierarchy 面板创建 <code>UI &gt; Button</code>.</p>
+<p>Step 2 : 创建一个 EventTriggerHandler.cs 脚本, 利用 UnityEngine.EventSystems.EventTrigger 添加监听事件.</p>
+<p>Step 3 : 绑定 EventTriggerHandler.cs 脚本到 Button 上.</p>
+<p><img src="http://wx1.sinaimg.cn/mw690/a53846c3gy1fcfo8wunp4j20lo0c4wfj.jpg" alt=""></p>
+<p>Step 4 : Done.</p>
+<p>EventTriggerHandler.cs</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> UnityEngine.UI;</span><br><span class="line"><span class="keyword">using</span> UnityEngine.EventSystems;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要 EventTrigger 脚本的支援</span></span><br><span class="line">[RequireComponent(<span class="keyword">typeof</span>(UnityEngine.EventSystems.EventTrigger))]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">EventTriggerHandler</span> : <span class="title">MonoBehaviour</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Use this for initialization</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Start</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		Button btn = <span class="keyword">this</span>.GetComponent&lt;Button&gt; ();</span><br><span class="line">		EventTrigger trigger = btn.gameObject.GetComponent&lt;EventTrigger&gt; ();</span><br><span class="line">		EventTrigger.Entry entry = <span class="keyword">new</span> EventTrigger.Entry ();</span><br><span class="line">		<span class="comment">// 鼠标点击事件</span></span><br><span class="line">		entry.eventID = EventTriggerType.PointerClick;</span><br><span class="line">		<span class="comment">// 鼠标进入事件 entry.eventID = EventTriggerType.PointerEnter;</span></span><br><span class="line">		<span class="comment">// 鼠标滑出事件 entry.eventID = EventTriggerType.PointerExit;</span></span><br><span class="line">		entry.callback = <span class="keyword">new</span> EventTrigger.TriggerEvent ();</span><br><span class="line">		entry.callback.AddListener (OnClick);</span><br><span class="line">		<span class="comment">// entry.callback.AddListener (OnMouseEnter);</span></span><br><span class="line">		trigger.triggers.Add (entry);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnClick</span>(<span class="params">BaseEventData pointData</span>)</span>&#123;</span><br><span class="line">		Debug.Log (<span class="string">"Button Clicked. EventTrigger.."</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnMouseEnter</span>(<span class="params">BaseEventData pointData</span>)</span>&#123;</span><br><span class="line">		Debug.Log (<span class="string">"Button Enter. EventTrigger.."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-通过-MonoBehaviour-实现事件类接口来实现事件的监听"><a href="#4-通过-MonoBehaviour-实现事件类接口来实现事件的监听" class="headerlink" title="4. 通过 MonoBehaviour 实现事件类接口来实现事件的监听 #"></a>4. 通过 MonoBehaviour 实现事件类接口来实现事件的监听 #</h2><p>Step 1 : 通过 Hierarchy 面板创建 <code>UI &gt; Button</code>.</p>
+<p>Step 2 : 创建一个 EventHandler.cs 脚本.</p>
+<p>Step 3 : 将脚本绑定在 Button 对象上.</p>
+<p><img src="http://wx2.sinaimg.cn/mw690/a53846c3gy1fcfo8wb4dej20lo09a74w.jpg" alt=""></p>
+<p>Step 4 : Done.</p>
+<p>EventHandler.cs</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line">using UnityEngine.UI;</span><br><span class="line">using UnityEngine.EventSystems;</span><br><span class="line"></span><br><span class="line">public class EventHandler : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IDragHandler &#123;</span><br><span class="line"></span><br><span class="line">	public void OnPointerClick(PointerEventData eventData)&#123;</span><br><span class="line">		if(eventData.pointerId == -1)&#123;</span><br><span class="line">			Debug.Log ("Left Mouse Clicked.");</span><br><span class="line">		&#125; else if(eventData.pointerId == -2)&#123;</span><br><span class="line">			Debug.Log ("Right Mouse Clicked.");</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void OnPointerEnter(PointerEventData eventData)&#123;</span><br><span class="line">		Debug.Log ("Pointer Enter..");</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void OnPointerExit(PointerEventData eventData)&#123;</span><br><span class="line">		Debug.Log ("Pointer Exit..");</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void OnPointerDown(PointerEventData eventData)&#123;</span><br><span class="line">		Debug.Log ("Pointer Down..");</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void OnDrag(PointerEventData eventData)&#123;</span><br><span class="line">		Debug.Log ("Dragged..");</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>UGUI  如何判断 UI 元素被点击时是鼠标的哪个按键, 上面的代码中我们可以根据 eventData.pointerId 来监听是鼠标左键还是右键. 但是每个 UI 元素都创建一个 MonoBehaviour 来监听各个事件显然不好, 下面是通过利用 Delegate 和 Event 来做一个通用类 UIEventListener 来处理事件 (观察者模式).</p>
+<p>UIEventListener.cs</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line">using UnityEngine.UI;</span><br><span class="line">using UnityEngine.EventSystems;</span><br><span class="line"></span><br><span class="line">public class UIEventListener : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler &#123;</span><br><span class="line"></span><br><span class="line">	// 定义事件代理</span><br><span class="line">	public delegate void UIEventProxy(GameObject gb);</span><br><span class="line"></span><br><span class="line">	// 鼠标点击事件</span><br><span class="line">	public event UIEventProxy OnClick;</span><br><span class="line"></span><br><span class="line">	// 鼠标进入事件</span><br><span class="line">	public event UIEventProxy OnMouseEnter;</span><br><span class="line"></span><br><span class="line">	// 鼠标滑出事件</span><br><span class="line">	public event UIEventProxy OnMouseExit;</span><br><span class="line"></span><br><span class="line">	public void OnPointerClick(PointerEventData eventData)&#123;</span><br><span class="line">		if (OnClick != null)</span><br><span class="line">			OnClick (this.gameObject);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void OnPointerEnter(PointerEventData eventData)&#123;</span><br><span class="line">		if (OnMouseEnter != null)</span><br><span class="line">			OnMouseEnter (this.gameObject);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void OnPointerExit(PointerEventData eventData)&#123;</span><br><span class="line">		if (OnMouseExit != null)</span><br><span class="line">			OnMouseExit (this.gameObject);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>TestEvent.cs</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> UnityEngine.UI;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TestEvent</span> : <span class="title">MonoBehaviour</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Start</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		Button btn = <span class="keyword">this</span>.GetComponent&lt;Button&gt; ();</span><br><span class="line">		UIEventListener btnListener = btn.gameObject.AddComponent&lt;UIEventListener&gt; ();</span><br><span class="line"></span><br><span class="line">		btnListener.OnClick += <span class="keyword">delegate</span>(GameObject gb) &#123;</span><br><span class="line">			Debug.Log(gb.name + <span class="string">" OnClick"</span>);</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		btnListener.OnMouseEnter += <span class="keyword">delegate</span>(GameObject gb) &#123;</span><br><span class="line">			Debug.Log(gb.name + <span class="string">" OnMouseEnter"</span>);</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		btnListener.OnMouseExit += <span class="keyword">delegate</span>(GameObject gb) &#123;</span><br><span class="line">			Debug.Log(gb.name + <span class="string">" OnMOuseExit"</span>);</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>TestEvent 脚本绑定在 Button 上即可.<br><img src="http://wx2.sinaimg.cn/mw690/a53846c3gy1fcfo8whtpoj20lq09eq3k.jpg" alt=""></p>
+<hr>
+<p>Project 结构</p>
+<p><img src="http://wx2.sinaimg.cn/mw690/a53846c3gy1fcfo8w7btyj20dw09k755.jpg" alt=""></p>
+<p>代码 : <a href="https://github.com/Isayes/Unity-Practice/tree/master/UGUI/001/Scripts" target="_blank" rel="external">Here</a></p>
+<p>End.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 对渲染管线的调研 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 对渲染管线的调研"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/fighting/gamedev">Game Development</a></li>
+    
+      <li><a href="/fighting/finance">Finance Knowlodge</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/fighting/gamedev/014/index.html"># 对渲染管线的调研</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="1-渲染管线是什么"><a href="#1-渲染管线是什么" class="headerlink" title="1. 渲染管线是什么"></a>1. 渲染管线是什么</h2><p>渲染管线, 英文 Rendering Pipeline, 我们可以将其理解为一个流程, 即我们告诉 GPU 一堆数据, 最后得出来一副二维图像, 这堆数据包括 “视点 / 三维物体 / 光源 / 光照模型 / 纹理” 等元素.</p>
+<p>渲染管线可以理解为一种流水线, 是对 “从得到模型数据到绘制出图像” 这一过程的称呼. 渲染管线是实时渲染技术的底层工具, 图像中物体的位置及形状是通过它们的几何描述|环境特征|以及该环境中虚拟摄像机的摆放位置来决定的. 物体的外观受到了材质属性|灯源|贴图以及渲染模式的影响.</p>
+<p>在图形学中, 渲染管线主要分为三个大阶段 : 应用程序阶段 | 几何阶段 | 光栅化阶段 .</p>
+<h2 id="2-为什么要有渲染管线"><a href="#2-为什么要有渲染管线" class="headerlink" title="2. 为什么要有渲染管线"></a>2. 为什么要有渲染管线</h2><p>渲染管线是在显示器上为了显示出图像而经过的一系列必要操作. 主要步骤有 : 本地坐标 → 视图坐标 → 背面坐标 → 光照 → 裁剪 → 投影 → 视图变换 → 光栅化.</p>
+<h2 id="3-对渲染管线的使用"><a href="#3-对渲染管线的使用" class="headerlink" title="3. 对渲染管线的使用"></a>3. 对渲染管线的使用</h2><h3 id="3-1-应用程序阶段"><a href="#3-1-应用程序阶段" class="headerlink" title="3.1. 应用程序阶段 #"></a>3.1. 应用程序阶段 #</h3><p>这个阶段主要和 CPU 及内存打交道, 把该计算的都计算好了之后, 这个阶段的末端就把这些计算好的数据通过数据总线传给图形硬件以供渲染 (时间瓶颈), 作为我们进一步处理的源数据进行几何阶段, 这些数据一般包括 顶点坐标|法向量|纹理坐标|纹理 等等.</p>
+<p>应用程序阶段通过高级编程语言进行开发, 主要任务是识别出潜在可视的网格实例, 并把它们及其材质呈交给图形硬件以供渲染. 该阶段负责驱动 GPU 管道, 有三个角色 :</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 可见性判别 : 仅把可见或至少潜在可见的物体提交给 GPU , 以免浪费宝贵的资源去渲染看不见的物体.</span><br><span class="line">2. 提交几何图元到 GPU 以供渲染 : 调用渲染调用接口, 把子网格材质对传送至 GPU 进行下一步操作, 或者建立 GPU 命令表. 场景如果需要多步骤渲染, 则需要多次提交, 所提交的几何图元应该有适当的排序以及性能优化.</span><br><span class="line">3. 控制着色器参数以及渲染状态.</span><br></pre></td></tr></table></figure>
+<p>很多经典的算法都是在这个阶段进行的, 比如 碰撞检测|场景图建立|空间八叉树更新|视锥裁剪 等等.</p>
+<h3 id="3-2-几何阶段"><a href="#3-2-几何阶段" class="headerlink" title="3.2. 几何阶段 #"></a>3.2. 几何阶段 #</h3><p>几何阶段基于 GPU 进行计算, 主要负责顶点坐标变换|光照|裁剪|投影以及屏幕映射, 该阶段的末尾得到经过变换和投影之后的顶点坐标|颜色|以及纹理坐标. 其主要工作可以概括为 : 变换三维顶点坐标 和 光照计算.</p>
+<p>三维顶点坐标为什么需要变换? 场景中的每个模型都可以用一个向量来确定它的位置, 但是如何让计算机根据这些坐标把模型正确的有层次的画在二维屏幕上, 这就需要去变换三维顶点坐标, 最终目的就是让 GPU 可以将这些三维数据绘制到二维屏幕上, 并让二维画面看起来有 3D 效果.</p>
+<p>根据顶点坐标变换的顺序, 主要有如下几个坐标空间 : 局部坐标系(或称自身坐标系|建模坐标系)|世界坐标系|观察坐标系|视口坐标系(屏幕坐标系)等等.</p>
+<p>几何阶段处理结束后, 送到光栅化阶段是一堆三角形面片, 所以几何阶段中还需要对顶点进行图元装配. 图元装配, 就是指根据顶点原始的连接关系, 还原出模型的网格结构. 网格由顶点和索引组成, 在之前的流水线中是对顶点的处理, 而在这个阶段是根据索引将顶点连接在一起, 组成线|面单元. 然后对超出视口之外的三角形进行裁剪 (视口裁剪), 如果有一个三角形其中一个顶点位于画面外, 另外两个顶点位于画面内, 我们将看到一个四边形, 这个四边形又被划分为两个小的三角形.</p>
+<p>裁剪是一个大概念 : 包括 视域裁剪 (应用程序阶段) | 视口裁剪 | 背面剔除 | 遮挡裁剪 (光栅化阶段).</p>
+<h3 id="3-3-光栅化阶段"><a href="#3-3-光栅化阶段" class="headerlink" title="3.3. 光栅化阶段 #"></a>3.3. 光栅化阶段 #</h3><p>管道的最终阶段为合并阶段或者混合阶段, Nvidia 称之为光栅运算阶段, 光栅化的目的是计算出每个像素的颜色值. 这个阶段把几何阶段送来的三角形转化为片段, 并对片段进行着色. 经历了这阶段之后，像素的颜色值被写入帧缓存中</p>
+<p>片段经过裁剪测试| Alpha 测试|模板测试|深度测试|融合 等等处理之后, 最终和帧缓冲混合. 光栅化的过程大致如下图所示 :</p>
+<p><img src="http://images2015.cnblogs.com/blog/1098699/201702/1098699-20170201190955745-1985319276.png" alt="光栅化过程"></p>
+<p><strong>背面剔除 → </strong></p>
+<p>对于实时交互的图形应用程序而言, 图形渲染速度和效率是非常重要的. 渲染的时候应该尽量减少不必要的操作. 剔除是一种通过避免渲染背对观察者的几何体面来提高性能的优化措施. 所有的几何体都包含正面和反面. 剔除基于大多数对象都是封闭的事实, 如果你有一个立方体, 你不会看到背离你的那一面 (总是有一面在你的前方), 因此我们不需要绘制出背面, 因此也被称为背面剔除.</p>
+<p><strong>Alpha 测试 → </strong></p>
+<p>纹理的颜色中含有 Alpha 分量, Alpha 分量主要用于指定像素的透明度. Alpha 测试指的是将一个像素点的 Alpha 值和一个固定值比较, 如果比较的结果失败, 像素就不会被写到显示输出中.</p>
+<p><strong>模板测试 → </strong></p>
+<p>模板缓存与深度测试缓存|后台缓存 (或颜色缓存, 最终显示在屏幕上的缓冲区) 的大小 (分辨率) 完全一致, 模板缓存中的像素点与后台缓存的像素点是一一对应的, 模板缓存允许我们动态地有针对性地决定是否将某个像素写入后台缓存中.  模板缓存用于获得某种特效, 如镜面效果或者阴影效果. 在实现镜面效果时, 我们在 “镜子”这块区域中绘制某个特定物体的映像, 而使用模板缓存来阻止物体映像在 “非镜子” 的区域中进行绘制. 为了进行这种阻止, 就需要使用模板测试. 判断是否将某个像素写入后台缓存的决策过程, 称为模板测试.</p>
+<p><strong>深度测试 → </strong></p>
+<p>当两个物体有前后位置关系时, 位于前面的物体会将后面的物体部分或全部遮挡, 为了优化考虑, GPU 不应该绘制被遮挡的片段, 这种行为称为遮挡剔除.</p>
+<p>深度缓存是一个只含有特定像素的深度信息而不含图像数据的表面, 深度缓存为最终绘制图像中的每一个像素都保留了一个深度项. 所以, 当绘制的图形的分辨率为 640 <em> 480 时, 深度缓存中将有 640 </em> 480 个深度项. 深度缓存用于计算每个像素的深度值并进行深度测试, 深度测试的基本内容是依据深度值让处于同一位置的不同像素进行竞争, 以选出该写入该位置的像素, 距离摄像机最近的像素获胜, 并被写入深入缓存的对应位置上. 这样做是合理的, 因为距离摄像机最近的像素一定会将位于其后方的像素遮挡.</p>
+<p><strong>Alpha 融合 → </strong></p>
+<p>融合技术能使我们将当前要进行的光栅化的像素的颜色与先前已经光栅化并处于同一位置的像素进行合成, 即将正在处理的图元颜色值与存储中后台缓存中的像素颜色值进行合成. 利用该技术我们可以获得各种各样的效果, 尤其是透明效果. 不过值得注意的是, 为了在场景中绘制透明物体, 通常需要对物体按照由后向前的顺序进行混合处理, 如果按照任意顺序进行处理将会产生严重的失真. 所以在 Blending 操作之前要来一次 Depth Test.</p>
+<p><strong>抖动处理 → </strong></p>
+<p>在低位深度的图像中, 由于颜色总数的限制, 有些颜色无法显示出来, 为了模拟出那些颜色以提高显示效果, 广泛采用了一种称为抖动处理的方法, 也称为半色调处理. 它是指用交替的点图案去模拟在图像中不能使用的颜色的过程. 单色图象是最简单的格式, 一般由黑色和白色组成, 在一些单色图象如黑白照片和有深浅的图案中, 会使用各种灰度, 这种图象常被称为灰度图象 (Grayscale Image). 由于人眼会把一个很细致的黑白相间的图案解释成灰色, 所以灰度图象也可使用单色文件格式, 数据仍然可以是黑和白. 使用黑色或某一种单色的点获得连续的该色灰度的过程就是抖动处理. 抖动处理被更多的用在那些低位数彩色图象文件中, 与不采用这种处理相比, 它具有更好的显示效果.</p>
+<h2 id="4-本文参考资料"><a href="#4-本文参考资料" class="headerlink" title="4. 本文参考资料"></a>4. 本文参考资料</h2><p>→ <a href="http://blog.shuiguzi.com/2015/04/28/Shader_2/" target="_blank" rel="external">瞎聊 Unity Shader 系列之二：渲染管线</a><br>→ <a href="http://www.ceeger.com/forum/read.php?tid=10970&amp;fid=2" target="_blank" rel="external">学习shader之前必须知道的东西之计算机图形学（一）渲染管线 </a><br>→ <a href="http://www.cnblogs.com/QG-whz/p/4644213.html" target="_blank" rel="external">浅谈 GPU图形固定渲染管线</a></p>
+<p>End.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

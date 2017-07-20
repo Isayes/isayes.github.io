@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 对 Unity 动态加载资源的调研 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 对 Unity 动态加载资源的调研"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/fighting/gamedev">Game Development</a></li>
+    
+      <li><a href="/fighting/finance">Finance Knowlodge</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/fighting/gamedev/011/index.html"># 对 Unity 动态加载资源的调研</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="1-三种方式"><a href="#1-三种方式" class="headerlink" title="1. 三种方式 #"></a>1. 三种方式 #</h2><p>(1) 通过 Resources 模块, 调用它的 load 函数 :<br>可以直接 load 并返回某个类型的 Object, 前提是要把这个资源放在 Resources 命名的文件夹下, Unity 不管有没有场景引用, 都会将其全部打包至安装包中. <code>Resources.Load();</code></p>
+<p>(2) 通过 bundle 的形式 :<br>将资源打成 asset bundle 放在服务器或本地磁盘, 然后使用 WWW 模块 get 下来, 然后从这个 bundle 中 load 某个 object. <code>AssetBundle</code></p>
+<p>(3) 通过 AssetDatabase.loadasset :<br>这种方式只在 Editor 范围内有效, 游戏运行时没有这个函数, 通常是在开发中调用使用的. <code>AssetDatabase 资源数据库</code></p>
+<h2 id="2-各方式的对比"><a href="#2-各方式的对比" class="headerlink" title="2. 各方式的对比 #"></a>2. 各方式的对比 #</h2><p>(1) Resources 的方式需要把所有资源全部打包到安装包中, 对游戏的分包发布(微端)和版本升级(patch)是不利的, Unity 推荐的方式是不用它, 都用 bundle 的方式替代;</p>
+<p>(2) Bundle 的方式把资源打成几个小的 bundle, 用哪个就 load 哪个, 这样还能分包发布和 patch, 但是在开发过程中, 有时候不可能更新一个资源就打一次 bundle;</p>
+<p>(3) 既然在开发的过程中不可能每更新一个资源就打一次 bundle, 所以在 Editor 的环境下就可以使用 AssetDatabase 来模拟, 通常需要我们封装一个 dynamic resource 的 loader 模块, 在不同的环境下做不同实现.</p>
+<h2 id="3-动态资源的存放"><a href="#3-动态资源的存放" class="headerlink" title="3. 动态资源的存放 #"></a>3. 动态资源的存放 #</h2><p>有时候需要存放一些自己的文件在磁盘上, 例如想把几个 bundle 放在初始的安装里, Unity 有一个 Streaming Asset 的概念, 用于提供存储接口的访问. 需要在编辑器建立一个 StreamingAssets 名字的文件夹, 把需要放在客户磁盘上的动态文件放在这个文件夹下, 这样, 安装之后这些文件就会在用户磁盘的指定位置, 这个位置可以通过 Application.streamingAssetsPath 来得到.</p>
+<p>Not End.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

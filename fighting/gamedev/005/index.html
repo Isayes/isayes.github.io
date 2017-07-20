@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 对 Unity 颠球动作的实现 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 对 Unity 颠球动作的实现"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | 笔记 · 专注 3D 游戏开发</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/fighting/gamedev">Game Development</a></li>
+    
+      <li><a href="/fighting/finance">Finance Knowlodge</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/fighting/gamedev/005/index.html"># 对 Unity 颠球动作的实现</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <h2 id="左右移动盘子的脚本"><a href="#左右移动盘子的脚本" class="headerlink" title="左右移动盘子的脚本 #"></a>左右移动盘子的脚本 #</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MovePlate</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 控制左右移动的盘子的速度, 默认 10.0</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">float</span> speed = <span class="number">10.0</span>f;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Update</span> (<span class="params"></span>)</span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="comment">// 得到水平方向的输入, 左右键控制移动方向, 按下右方向该函数返回正值, 反之负值</span></span><br><span class="line">		<span class="keyword">float</span> h = Input.GetAxis (<span class="string">"Horizontal"</span>);</span><br><span class="line">		<span class="comment">// 移动脚本绑定的游戏对象, 移动的距离</span></span><br><span class="line">		transform.Translate (Vector3.right * h * speed * Time.deltaTime);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>脚本效果 :</p>
+<p><img src="http://images2015.cnblogs.com/blog/1098699/201703/1098699-20170310165832217-2008210471.gif" alt=""></p>
+<h2 id="控制乒乓球弹跳逻辑的脚本"><a href="#控制乒乓球弹跳逻辑的脚本" class="headerlink" title="控制乒乓球弹跳逻辑的脚本 #"></a>控制乒乓球弹跳逻辑的脚本 #</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">BallController</span> : <span class="title">MonoBehaviour</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 控制球和盘子发生碰撞时候的受力大小</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">float</span> thrust = <span class="number">40.0</span>f;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Rigidbody rb;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Use this for initialization</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Start</span> (<span class="params"></span>)</span><br><span class="line">	</span>&#123;</span><br><span class="line">		rb = GetComponent&lt;Rigidbody&gt; ();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 当球下落到 y 值小于 -10 时, 销毁 Ball 对象并退出程序</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Update</span> (<span class="params"></span>)</span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (transform.position.y &lt; <span class="number">-10</span>) &#123;</span><br><span class="line">			Destroy (gameObject);</span><br><span class="line">			Application.Quit ();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 处理碰撞体间碰撞的事件</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">OnCollisionEnter</span> (<span class="params">Collision collision</span>)</span><br><span class="line">	</span>&#123;</span><br><span class="line">		<span class="comment">// 为刚体组件添加了一个位于 XY 平面上随机方向和大小的力</span></span><br><span class="line">		rb.AddForce (<span class="keyword">new</span> Vector3 (Random.Range (<span class="number">-0.2</span>f, <span class="number">0.2</span>f), <span class="number">1.0</span>f, <span class="number">0</span>) * thrust);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="让摄像机始终对着目标"><a href="#让摄像机始终对着目标" class="headerlink" title="让摄像机始终对着目标 #"></a>让摄像机始终对着目标 #</h2><p>Unity 官方案例原书中的 “Import Package → Scripts” 在我的新版 Unity 编辑器里面没有找到, 经探索, 发现新的 SmoothFollow.cs 是在 “Import Package → Utility” 里. 此脚本是 Unity 自带的资源, 主要功能是让摄像机始终对着目标对象(Target 属性指定, 这里为 Ball).</p>
+<p><img src="http://images2015.cnblogs.com/blog/1098699/201703/1098699-20170310170023514-473984478.png" alt=""><br><img src="http://images2015.cnblogs.com/blog/1098699/201703/1098699-20170310165941357-1734308863.png" alt=""></p>
+<p>左右移动方向键接住球后随机向左或向右弹跳, 但摄像机保持了始终对着球.</p>
+<p>最终效果 :</p>
+<p><img src="http://images2015.cnblogs.com/blog/1098699/201703/1098699-20170310165903092-1204943304.gif" alt=""></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
