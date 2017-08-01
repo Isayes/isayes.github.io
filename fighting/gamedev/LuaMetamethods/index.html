@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># Lua Metamethods # | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# Lua Metamethods #"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | personal website | 3D Game Developer</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/fighting/gamedev">Game Development</a></li>
+    
+      <li><a href="/fighting/finance">Finance Knowlodge</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/fighting/gamedev/LuaMetamethods/index.html"># Lua Metamethods #</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--- This is a brief introduction to the concepts of Lua metamethods.</span></span><br><span class="line"><span class="comment">--- # Metamethods</span></span><br><span class="line"><span class="comment">--- Lua has a powerful extension mechanism which allows you to overload certain operations on Lua objets. Each overloaded</span></span><br><span class="line"><span class="comment">--- object has a metatable of function metamethods associated with it; these are called when appropriate, similar to</span></span><br><span class="line"><span class="comment">--- the concept of operator overloading from many other languages.</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">--- A metatable is a regular Lua table containing a set of metamethods, which are associated with events in Lua. Events</span></span><br><span class="line"><span class="comment">--- occur when Lua executes certain operations, like addition, string concatenation, comparisons etc. Metamethods are</span></span><br><span class="line"><span class="comment">--- regular Lua functions which are called when a specific event occurs. The events have names like "add" and "concat"</span></span><br><span class="line"><span class="comment">--- which correspond with string keys in the metatable like "__add" and "__concat". In this case to add(+) or concatenate</span></span><br><span class="line"><span class="comment">--- (..) two Lua Objects.</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">--- # Metatables</span></span><br><span class="line"><span class="comment">--- We use the function setmetatable() to make a table act as a metatable for a certain object.</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> x = &#123; value = <span class="number">5</span> &#125; <span class="comment">-- creating local table x containing one key, value of value 5</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> mt = &#123;</span><br><span class="line">    __add = <span class="function"><span class="keyword">function</span><span class="params">(lhs, rhs)</span></span></span><br><span class="line">        <span class="comment">-- "add" event handler</span></span><br><span class="line">        <span class="keyword">return</span> &#123; value = lhs.value + rhs.value &#125;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">setmetatable</span>(x, mt) <span class="comment">-- use "mt" as the metatable for "x"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> y = x + x</span><br><span class="line"><span class="built_in">print</span>(y.value) <span class="comment">--&gt; 10 print(y) will just give us the table code i.e table:&lt;some tablecode&gt;</span></span><br><span class="line"><span class="keyword">local</span> z = y + y <span class="comment">--&gt; error, y doesn't have our metatable. this can be fixed by setting the metatable of the new object inside the metamethod</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- When the addition operator finds that its operands aren't numbers, it tries checking if one of them has a metatable</span></span><br><span class="line"><span class="comment">--- with an _add key. In this case it does, so it runs the function stored under that key in the metatable, equivalent</span></span><br><span class="line"><span class="comment">--- to this: " local y = (getmetatable(x).__add(x,x)) -- x+x "</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">--- Metatables are still triggered with math operators if one of the operands is a number. And the left operand is</span></span><br><span class="line"><span class="comment">--- always the first parameter to the function, and the right operand is always the second. This means that the table</span></span><br><span class="line"><span class="comment">--- that has the metamethod might not necessarily be the first parameter to the metamethod.</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">--- # More events</span></span><br><span class="line"><span class="comment">--- The following are notes on other of the metamethod events that Lua handles.</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">--- ## __index</span></span><br><span class="line"><span class="comment">--- This is a very commonly used and versatile metamethod, it lets you run a custom function or use a "fallback" table</span></span><br><span class="line"><span class="comment">--- if a key in a table doesn't exist. If a function is used, its first parameter will be the table that the lookup</span></span><br><span class="line"><span class="comment">--- failed on, and the second parameter will be the key. If a fallback table is used, rememeber that it can trigger an</span></span><br><span class="line"><span class="comment">--- __index metamethod on it if it has one, so you can create long chains of fallback tables.</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> func_example = <span class="built_in">setmetatable</span>(&#123;&#125;, &#123; __index = <span class="function"><span class="keyword">function</span><span class="params">(t, k)</span></span></span><br><span class="line">    <span class="comment">-- &#123;&#125; an empty table, and after the comma, a custom function failsafe</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"key does not exist."</span></span><br><span class="line"><span class="keyword">end</span> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> fallback_tbl = <span class="built_in">setmetatable</span>(&#123;</span><br><span class="line">    foo = <span class="string">"bar"</span>,</span><br><span class="line">    [<span class="number">123</span>] = <span class="number">446</span>,</span><br><span class="line">&#125;, &#123; __index = func_example &#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> fallback_example = <span class="built_in">setmetatable</span>(&#123;&#125;, &#123; __index = fallback_tbl &#125;) <span class="comment">-- &#123;&#125; again an empty table, but this time with a fallback failsafe</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(func_example[<span class="number">1</span>]) <span class="comment">--&gt; key doesn't exist</span></span><br><span class="line"><span class="built_in">print</span>(fallback_example.foo) <span class="comment">--&gt; bar</span></span><br><span class="line"><span class="built_in">print</span>(fallback_example[<span class="number">123</span>]) <span class="comment">--&gt; 456</span></span><br><span class="line"><span class="built_in">print</span>(fallback_example[<span class="number">456</span>]) <span class="comment">--&gt; key doesn't exist</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- # __newindex</span></span><br><span class="line"><span class="comment">--- This metamethod is called when you try to assign to a key in a table, and that key doesn't exist(contains nil).</span></span><br><span class="line"><span class="comment">--- If the key exists, the metamethod is not triggered.</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> t = &#123;&#125;</span><br><span class="line"><span class="keyword">local</span> m = <span class="built_in">setmetatable</span>(&#123;&#125;, &#123; __newindex = <span class="function"><span class="keyword">function</span><span class="params">(table, key, value)</span></span></span><br><span class="line">    t[key] = value</span><br><span class="line"><span class="keyword">end</span> &#125;)</span><br><span class="line"></span><br><span class="line">m[<span class="number">123</span>] = <span class="number">456</span></span><br><span class="line"><span class="built_in">print</span>(m[<span class="number">123</span>]) <span class="comment">--&gt; nil</span></span><br><span class="line"><span class="built_in">print</span>(t[<span class="number">123</span>]) <span class="comment">--&gt; 456</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- # Comparsion operators</span></span><br><span class="line"><span class="comment">--- __eq is called when the == operator is used on two tables, the reference equality check failed, and both tables</span></span><br><span class="line"><span class="comment">--- have the same __eq metamethod(!).</span></span><br><span class="line"><span class="comment">--- __lt is called to check if one object is "less than" another. Unlike __eq, it's not an error if the two objects have</span></span><br><span class="line"><span class="comment">--- differnent __lt metamethods, the one on the left will be used.</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">--- That's all you need for all of the comparison operators to work with your object. But there will be some cases where</span></span><br><span class="line"><span class="comment">--- both __lt and __eq will need to be called by the same operator. To avoid this, you can optionally add the __le</span></span><br><span class="line"><span class="comment">--- (less than or equal to) metamethod. Now only one of the metamethods will be called with any of the comparison operators.</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">--- For example, we can improve the example at the top of the page like this:</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> mt</span><br><span class="line">mt = &#123;</span><br><span class="line">    __add = <span class="function"><span class="keyword">function</span><span class="params">(lhs, rhs)</span></span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">setmetatable</span>(&#123; value = lhs.value + rhs.value &#125;, mt)</span><br><span class="line">    <span class="keyword">end</span>,</span><br><span class="line">    __eq = <span class="function"><span class="keyword">function</span><span class="params">(lhs, rhs)</span></span></span><br><span class="line">        <span class="keyword">return</span> lhs.value == rhs.value</span><br><span class="line">    <span class="keyword">end</span>,</span><br><span class="line">    __lt = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        <span class="keyword">return</span> lhs.value &lt; rhs.value</span><br><span class="line">    <span class="keyword">end</span>,</span><br><span class="line">    __le = <span class="function"><span class="keyword">function</span><span class="params">(lhs, rhs)</span></span></span><br><span class="line">        <span class="keyword">return</span> lhs.value &lt;= rhs.value</span><br><span class="line">    <span class="keyword">end</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- # __metatable</span></span><br><span class="line"><span class="comment">--- __metatable is for protecting metatables. If you do not want a program to change the contents of a metatable, you</span></span><br><span class="line"><span class="comment">--- set its __metatable field. With that, the program cannot access the metatable(and therefore cannot change it).</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">--- end.</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
