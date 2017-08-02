@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># Lua Object Oriented Programming, Again # | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# Lua Object Oriented Programming, Again #"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | personal website | 3D Game Developer</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/fighting/gamedev">Game Development</a></li>
+    
+      <li><a href="/fighting/finance">Finance Knowlodge</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/fighting/gamedev/LuaOOP/index.html"># Lua Object Oriented Programming, Again #</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--- # Object Oriented Programming</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">--- A table in Lua is an object in more than one sense. Like objects, tables have a state. Like objects, tables have</span></span><br><span class="line"><span class="comment">--- an identity (a selfness) that is independent of their values; specifically, two objects(tables) with the same</span></span><br><span class="line"><span class="comment">--- value are different objects, whereas an object can have different values at different times, but it is always</span></span><br><span class="line"><span class="comment">--- the same object. Like objects, tables have a life cycle that is independent of who created them or where they</span></span><br><span class="line"><span class="comment">--- were created.</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">--- Objects have their own operations. Tables also can have operations:</span></span><br><span class="line"></span><br><span class="line">Account = &#123; balance = <span class="number">0</span> &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Account.withdraw</span><span class="params">(v)</span></span></span><br><span class="line">    Account.balance = Account.balance - v</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- This definition creates a new function and stores it in field 'withdraw' of the 'Account' object. Then, we can call</span></span><br><span class="line"><span class="comment">--- it as "Account.withdraw(100.00)"</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">--- This kind of function is almost what we call a 'method'. However, the use of the global name 'Account' inside the</span></span><br><span class="line"><span class="comment">--- function is a bad programming practice. First, this function will work only for this particular object. Second,</span></span><br><span class="line"><span class="comment">--- even for this particular object the function will work only as long as the object is stored in that particular</span></span><br><span class="line"><span class="comment">--- global variable, if we change the name of this object, 'withdraw' does not work any more:</span></span><br><span class="line"></span><br><span class="line">a = Account</span><br><span class="line">Account = <span class="keyword">nil</span></span><br><span class="line">a.withdraw(<span class="number">100.0</span>) <span class="comment">-- error</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- Such behavior violates the previous principle that objects have independent life cycles.</span></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">--- A more flexible approach is to operate on the 'receiver' of the operation. For that, we would have to define our</span></span><br><span class="line"><span class="comment">--- method with an extra parameter, which tells the method on which object it has to operate. This parameter usually</span></span><br><span class="line"><span class="comment">--- has the name 'self' or this:</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Account.withdraw</span><span class="params">(self, v)</span></span></span><br><span class="line">    self.balance = self.balance - v</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- Now, when we call the method we have to specify on which object it has to operate:</span></span><br><span class="line"></span><br><span class="line">a1 = Account</span><br><span class="line">Account = <span class="keyword">nil</span></span><br><span class="line"><span class="comment">-- ...</span></span><br><span class="line">a1.withdraw(a1, <span class="number">100.00</span>) <span class="comment">-- OK</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- With the use of a self parameter, we can use the same method for many objects:</span></span><br><span class="line"></span><br><span class="line">a2 = &#123; balance = <span class="number">0</span>, withdraw = Account.withdraw &#125;</span><br><span class="line">a2.withdraw(a2, <span class="number">260.00</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">--- This use of a 'self' parameter is a central point in any object-oriented language. Most OO languages have this</span></span><br><span class="line"><span class="comment">--- mechanism partly hidden from the programmer, so that she does not have to declare this parameter(although she</span></span><br><span class="line"><span class="comment">--- still can use the name self or this inside a method). Lua can also hide this parameter, using the colon operator.</span></span><br><span class="line"><span class="comment">--- We can rewrite the previous method definition as</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Account:withdraw</span><span class="params">(v)</span></span></span><br><span class="line">    self.balance = self.balance - v</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- and the method call as</span></span><br><span class="line">a:withdraw(<span class="number">100.00</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">--- The effect of the colon is to add an extra hidden parameter in a method definition and to add an extra argument in</span></span><br><span class="line"><span class="comment">--- a method call. The colon is only a syntactic facility, although a convenient one; there is nothing really new here.</span></span><br><span class="line"><span class="comment">--- We can define a function with the dot syntax and call it with the colon syntax, or vice-versa（反之亦然）, as long</span></span><br><span class="line"><span class="comment">--- as we handle the extra parameter correctly:</span></span><br><span class="line"></span><br><span class="line">Account = &#123;</span><br><span class="line">    balance = <span class="number">0</span>,</span><br><span class="line">    withDraw = <span class="function"><span class="keyword">function</span><span class="params">(self, v)</span></span></span><br><span class="line">        self.balance = self.balance - v</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Account:deposit</span><span class="params">(v)</span></span></span><br><span class="line">    self.balance = self.balance + v</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">Account.deposit(Account, <span class="number">200.00</span>)</span><br><span class="line">Account:withdraw(<span class="number">100.00</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">--- Now our objects have an identity, a state, and operations over this state. They still lack a class system,</span></span><br><span class="line"><span class="comment">--- inheritance, and privacy. Let us tackle the first problem : How can we create several objects with similar</span></span><br><span class="line"><span class="comment">--- behaviour? Specifically, how can we create serveral accounts?</span></span><br><span class="line"><span class="comment">--- end.</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
