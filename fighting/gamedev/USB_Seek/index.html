@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># Understanding Steering Behaviours - Seek | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# Understanding Steering Behaviours - Seek"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | personal website | 3D Game Developer</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/fighting/gamedev">Game Development</a></li>
+    
+      <li><a href="/fighting/finance">Finance Knowlodge</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/fighting/gamedev/USB_Seek/index.html"># Understanding Steering Behaviours - Seek</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p>Steering behaviors aim to help autonomous characters move in a realistic manner, by using simple forces that are combined to produce life-like, improvisational navigation around the characters’ environment. They are not based on complex strategies involving path planning or global calculations, but instead use local information, such as neighbors’ forces. This makes them simple to understand and implement, but still able to produce very complex movement patterns.</p>
+<p>Steering behaviors aim to help autonomous characters move in a realistic manner, by using simple forces that are combined to produce life-like, improvisational navigation around the characters’ environment. In this tutorial I will cover the basic theory behind the seek steering behavior, as well as its implementation.</p>
+<p>The ideas behind these behaviors were proposed by Craig W.Reynolds; they are not based on complex strategies involving path planning or gloabal calculations, but instead use local information, such as neighbors’ forces. This makes them simple to understand and implement, but still able to produce very complex movement patterns.</p>
+<p>Note: Although this tutorial is written using AS3 and Flash, you should be able to use the same techniques and concepts in almost any game development environment. You must have a basic understanding of math vectors.</p>
+<h2 id="Position-Velocity-and-Movement"><a href="#Position-Velocity-and-Movement" class="headerlink" title="Position, Velocity and Movement #"></a>Position, Velocity and Movement #</h2><p>The implementation of all forces involved in steering behaviors can be achieved using math vectors. Since those forces will influence the character’s velocity and position, it’s a good approach to use vectors to represent them as well.</p>
+<p>Even though a vector has a direction, it will be ignored when related to position(let’s assume the position vector is pointing to the character’s current location).</p>
+<p><img src="https://cdn.tutsplus.com/gamedev/authors/legacy/Fernando%20Bevilacqua/2012/10/08/pos_velocity_vectors.png" alt=""></p>
+<p>The figure above represents a character positioned at (x,y) with a velocity (a,b). The movement is calculated using Euler integration: ‘position = position + velocity’<br>The direction of the velocity vector will control where the character is heading to while its length (or magnitude) will control how much it will move every frame. The greater the length, the faster the character moves. The velocity vector can be truncated to ensure it will not be greater than a certain value, usually max velocity. Below is a test showing that approach.</p>
+<p>Move the mouse to move the target.<br>The red square is moving towards a target(the mouse cursor). This movement pattern illustrates the seek behavior without any steering forces being applied so far. The green line represents the velocity vector, calculated as follow: velocity = normalize(target - position) * max_velocity</p>
+<p>It’s important to notice that without the steering force, the character describes straight routes and it instantly changes its direction when the target moves, thus making an abrupt transition between the current route and the new one.</p>
+<h2 id="Calculating-Forces"><a href="#Calculating-Forces" class="headerlink" title="Calculating Forces #"></a>Calculating Forces #</h2><p>If there was only the velocity force involved, the character would follow a straight line defined by the direction of that vector. One of the ideas of steering behaviors is to influence the character’s movement by adding forces(called steering forces). Depending on those forces, the character will move in one or another direction.</p>
+<p>For the seek behavior, the addition of steering forces to the character every frame makes it smoothly adjust its velocity, avoiding sudden route changes. If the target moves, the character will gradually change its velocity vector, trying to reach the target at its new location.</p>
+<p>The seek behavior involves two forces: desired velocity and steering:</p>
+<p><img src="https://cdn.tutsplus.com/gamedev/authors/legacy/Fernando%20Bevilacqua/2012/10/08/steering_forces.png" alt=""></p>
+<p>The desired velocity is a force that guides the character towards its target using the shortest path possible(straight line between them - previously, this was the only force acting on the character). The steering force is the result of the desired velocity subtracted by the current velocity and it pushes the character towards the target as well.</p>
+<p>Those forces are calculated as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">desired_velocity = normalize(target - position) * max_velocity</span><br><span class="line">steering = desired_velocity - velocity</span><br></pre></td></tr></table></figure>
+<h2 id="Adding-Forces"><a href="#Adding-Forces" class="headerlink" title="Adding Forces #"></a>Adding Forces #</h2><p>After the steering force has been calculated, it must be added to the character(it will be added to the velocity force). The addition of the steering force to the velocity every frame will make the character smoothly abandon its old straight route and head towards the target, describing a seek path(orange curve in the figure below):</p>
+<p><img src="https://cdn.tutsplus.com/gamedev/authors/legacy/Fernando%20Bevilacqua/2012/10/08/steering_forces_seek_path.png" alt=""></p>
+<p>The addition of those forces and the final velocity/position calculation are:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">steering = truncate (steering, max_force)</span><br><span class="line">steering = steering / mass</span><br><span class="line">velocity = truncate(velocity + steering, max_speed)</span><br><span class="line">position = position + velocity</span><br></pre></td></tr></table></figure>
+<p>The steering force is truncated to ensure it will not exceed the amount of allowed forces the character can handle. Also the steering force is divided by the character mass, which produces different movement speeds for different weighted characters. Below is a test showing the seek behavior with all forces applied:</p>
+<p>Move the mouse to move the target.<br>Every time the target moves, each character’s desired velocity vector changes accordingly. The velocity vector, however, takes some time to change and start pointing at the target again. The result is a smooth movement transition.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion #"></a>Conclusion #</h2><p>Steering behaviors are great for creating realistic movement patterns. The main idea is to use local information to calculate and apply forces to create the behaviors. Even though the calculation is simple to implement, it is still able to produce very complex results.</p>
+<p>This tutorial describe the basic of steering behaviors, explaining the seek behavior. Over the next few posts, we will learn about more behaviors. Next post:Flee and Arrival.</p>
+<p>End.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
