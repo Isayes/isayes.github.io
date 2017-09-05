@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># Understanding Steering Behaviours - Flee and Arrival | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# Understanding Steering Behaviours - Flee and Arrival"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | personal website | 3D Game Developer</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/fighting/gamedev">Game Development</a></li>
+    
+      <li><a href="/fighting/finance">Finance Knowlodge</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/fighting/gamedev/USB_FleeAndArrival/index.html"># Understanding Steering Behaviours - Flee and Arrival</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p>Steering behaviors aim to help autonomous characters move in a realistic manner, by using simple forces that are combined to produce life-like, improvisational navigation around the characters’ environment. In this tutorial I will cover the flee behavior, which makes the character move away from a pursuer, and the arrival behavior, which makes the character slow down and stop as it approaches a target.</p>
+<p>Note: Although this tutorial is written using AS3 and Flash, you should be able to use the same techniques and concepts in almost any game development environment. You must have a basic understanding of math vectors.</p>
+<h2 id="Running-Away"><a href="#Running-Away" class="headerlink" title="Running Away #"></a>Running Away #</h2><p>The seek behavior described previously is based on two forces that push the character towards the target: the desired velocity and the steering.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">desired_velocity = normalize(target - position) * max_velocity</span><br><span class="line">steering = desired_velocity - velocity</span><br></pre></td></tr></table></figure>
+<p>The ‘desired_velocity’ in this case, is the shortest path betweenthe character and the target. It is calculated by subtracting the target’s position from the character’s position. The result is a force vector that goes from the character towards the target.</p>
+<p><img src="https://cdn.tutsplus.com/gamedev/authors/legacy/Fernando%20Bevilacqua/2012/10/08/steering_forces.png" alt="Seek behavior"></p>
+<p>Seek behavior<br>The flee behavior uses those same two forces, but they are adjusted to make the character run away from the target:</p>
+<p><img src="https://cdn.tutsplus.com/gamedev/authors/legacy/Fernando%20Bevilacqua/2012/10/15/steering_forces_flee.png" alt="Flee behavior"></p>
+<p>Flee behavior<br>That new ‘desired_velocity’ vector is calculated by subtracting the characer’s position from the target’s position, which produces vector that goes from the target towards the character.</p>
+<p>The resulting forces are calculated almost the same way as in the seek behavior:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">desired_velocity = normalize(position - target) * max_velocity</span><br><span class="line">steering = desired_velocity - velocity</span><br></pre></td></tr></table></figure>
+<p>The desired_velocity in that case represents the easiest excaping route the character can use to run away from the target. The steering force makes the character abandon its current route, pushing it towards the direction of the desired velocity vector.</p>
+<p>Comparing the desired velocity vector of the flee behavior with the desired velocity vector of the seek behavior, the following relation can be established:</p>
+<p>flee_desired_velocity = -seek_desired_velocity</p>
+<p>In other words, one vector is the negative of the other.</p>
+<h2 id="Adding-Escape-Forces"><a href="#Adding-Escape-Forces" class="headerlink" title="Adding Escape Forces #"></a>Adding Escape Forces #</h2><p>After the steering force is calculated it must be added to the character’s velocity vector. Since that force is pushing the character away from the target, every frame the character will stop moving towards the target and start moving away from it, producing a flee path(the orange curve in the figure below):</p>
+<p><img src="https://cdn.tutsplus.com/gamedev/authors/legacy/Fernando%20Bevilacqua/2012/10/15/steering_forces_flee_path.png" alt=""></p>
+<p>The addition of those forces and the final velocity/position calculation are handled in the same way as before. Below is a demo showing serveral characters performing the flee behavior:</p>
+<p>Move the mouse to move the target.</p>
+<p>Every character is placed at the center of the moving area with a random velocity. They will try to flee from the target(the mouse cursor). The addition of all forces makes each character smoothly abandon its current route and flee the target.</p>
+<p>Currently the target affects every character, ignoring the distance from them, it could have been limited to an “effect area”, where the character would flee only if it is close enough to the target.</p>
+<h2 id="Arrival"><a href="#Arrival" class="headerlink" title="Arrival #"></a>Arrival #</h2><p>The seek behavior, as we’ve seen, makes a character move towards a target. When it reaches the destination the steering force keeps acting on it based on the same rules, making the character “bounce” back and forth around the target.</p>
+<p>The seek behavior. Move the mouse to move the target.</p>
+<p>The arrival behavior prevents the character from moving through the target. It makes the character slow down as it approaches the destination, eventually stopping at the target.</p>
+<p>The behavior is composed of two phases. The first phase is when the character is far away from the target and it works exactly the same way as the seek behavior does(move at full speed towards the target).</p>
+<p>The second phase is when the character is close to the target, inside the “slowing area” (a circle centered at the target’s position):</p>
+<p><img src="https://cdn.tutsplus.com/gamedev/authors/legacy/Fernando%20Bevilacqua/2012/10/15/steering_forces_arrival_velocities.png" alt=""></p>
+<p>When the character enters the circle, it slows down until it stops at the target.</p>
+<h2 id="Slowing-Down"><a href="#Slowing-Down" class="headerlink" title="Slowing Down #"></a>Slowing Down #</h2><p>When the character enters the slowing area its velocity is ramped down linearly to zero. This is achieved by adding a new steering force(the arrival force) to the character’s velocity vector. The result of this addition will eventually become zero, meaning that nothing will be added to the character’s position every frame(so there will be no movement):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// If(velocity + steering) equals zero, then there is no movement</span><br><span class="line">velocity = truncate(velocity + steering, max_speed)</span><br><span class="line">position = position + velocity</span><br><span class="line">function truncate(vector:Vector3D, max:Number):void&#123;</span><br><span class="line">	var i:Number;</span><br><span class="line">	i = max / vector.length;</span><br><span class="line">	i = i&lt;1.0?i:1.0;</span><br><span class="line">	vector.scaleBy(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In order to ensure the character will gradually slow down before it stops, the velocity should not become zero immediately. The gradual slow down process is calculated based on the radius of the slowing area and the distance between the character and the target:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// Calcuate the desired velocity</span><br><span class="line">desired_velocity = target - position;</span><br><span class="line">distance = length(desired_velocity);</span><br><span class="line"></span><br><span class="line">// Check the distance to detect whether the character</span><br><span class="line">// is inside the slowing area</span><br><span class="line">if(distance &lt; slowingRadius)&#123;</span><br><span class="line">	// Inside the slowing area</span><br><span class="line">	desired_velocity = normailize(desired_velocity) * max_velocity * (distance / slowingRadius);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">	// OutSide the slowing area</span><br><span class="line">	desired_velocity = normailize(desired_velocity) * max_velocity;</span><br><span class="line">&#125;</span><br><span class="line">// Set the steering based on this</span><br><span class="line">steering  = desired_velocity - velocity;</span><br></pre></td></tr></table></figure>
+<p>If the distance is greater than slowingRadius, it means the character is far away from the target and its velocity should remain max_velocity.</p>
+<p>If the distance is less than slowingRadius, it means the charater has entered the slowing area and its velocity should be ramped down.</p>
+<p>The term distance / slowingRadius will vary from 1 (when distance equals slowingRadius) to 0 (when distance is almost zero). This linear variztion will make the velocity smoothly slow down:</p>
+<p><img src="https://cdn.tutsplus.com/gamedev/authors/legacy/Fernando%20Bevilacqua/2012/10/15/steering_forces_arrival_slowing_down_factor.png" alt=""></p>
+<p>As previously describled, the character movement is performed as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">steering = desired_velocity - velocity;</span><br><span class="line">velocity = truncate(velocity + steering, max_speed);</span><br><span class="line">position = position + velocity;</span><br></pre></td></tr></table></figure>
+<p>If the desired velocity is ramped down to zero, then the steering force becomes -velocity. As a consequence, when that steering force is added to the velocity, it will result in zero, making the character stop moving.</p>
+<p>Below is a demo showing the arrival behavior:</p>
+<p>Move the mouse to move the target.<br>What the arrival behavior does, really, is calculate a force that will be equal to -velocity, preventing the character from moving as long as that force is in place. The character’s original velocity vector does not change and it continues to work, but it is nulled by the steering addition.</p>
+<p>If the arrival steering force is lifted, the character will start moving again, using its original velocity vector.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion #"></a>Conclusion #</h2><p>The flee behavior makes the character move away from the desired target while the arrival behavior makes it slow down and stop at the target’s position. Both can be used to create smooth escape or follow movement patterns, for instance. They can also be combined to create even more complex movements.</p>
+<p>End.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
