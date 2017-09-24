@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title># 如何加快Unity3D游戏的冷启动时间 | Notes.HF</title>
+  <meta name="author" content="HuFei">
+  
+  <meta name="description" content="Notes of Daily Learning">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="# 如何加快Unity3D游戏的冷启动时间"/>
+  <meta property="og:site_name" content="Notes.HF"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Notes.HF" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Notes.HF</a></h1>
+  <h2><a href="/">notes of buaaGS1521AA9.hufei | personal website | 3D Game Developer</a></h2>
+</div>
+<nav id="main-nav">
+  <ul>
+    
+      <li><a href="/fighting/gamedev">Game Development</a></li>
+    
+      <li><a href="/fighting/finance">Finance Knowlodge</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+<div class="alignleft" style="margin-top: 15px">
+
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=Isayes&type=follow"
+  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="wrapper"><article class="page">
+  
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title"><a href="/fighting/gamedev/How2SpeedU3DColdStartTime/index.html"># 如何加快Unity3D游戏的冷启动时间</a></h1>
+  
+
+      
+    </header>
+    <div class="entry">
+      
+        <p>相比于Android或者iOS原生App，Unity3D引擎开发的游戏在冷启动时间上确实比较长。我在三星SM-N9008手机上的测试结果是一个不算大的项目，如果使用Mono后端编译，则需要10秒左右的冷启动时间，而如果使用 IL2CPP 后端编译，则冷启动时间为7秒左右。</p>
+<p>IL2CPP相比于Mono确实能够加快冷启动时间，这是可以预期的。因为在Mono编译的情况下，每个 .cs 文件都是一个 TextAsset 文件，而所有的 .cs 文件都需要在冷启动时候全部加载到内存中，这些碎片化的文件加载操作都会占用冷启动时间。关于冷启动需要加载哪些文件的分析，可以参考Unity3D游戏在启动时都默认加载哪些资源。而IL2CPP会把所有的C#代码编译成C 代码，然后再进行编译、链接等操作，这样就减少了C#、DLL所带来的开销。 </p>
+<p>在项目中我们应该怎样加快游戏的冷启动速度呢？经过调研，我总结出以下几个优化的要点：</p>
+<p>1.项目中添加一个Loading场景，这个场景会是游戏启动的第一个场景。</p>
+<p>2.在Loading场景中尽量少的依赖，尽量少的纹理依赖、AssetBundle依赖、代码依赖，总之，这个Loading场景一定要尽量少的依赖，这个场景一定要尽量简单，这样才能保证尽快的加载速度。</p>
+<p>3.在游戏中尽量少的使用Resources方式管理资源，Resources目录下面的所有资源会在ResourceManager中记录下来，而ResourceManager就是一个文件，通常是一个YAML格式的文本文件。而这个文件是会在冷启动时加载的。所以Resources目录下面的有越多的资源，那么这个ResourceManager就会越大，加载时间也会越长。</p>
+<p>4.使用Resources方式管理资源还有一个坏处，就是所有的资源都是统一管理的，这样的资源的管理粒度没办法控制。建议使用AssetBundle的方式管理，这样可以使用多个AssetBundle来管理资源。把在Loading场景中需要的最小资源集放在一个AssetBundle中，这样在冷启动时启动Loading场景时，只需要加载一个AssetBundle即可。选择合适的粒度管理AssetBundle，可以在合适的时候加载某一个AssetBundle，不使用时就可以卸载某一个AssetBundle。</p>
+<p>5.在Loading场景中，添加一个进度条，然后 同步加载 进入主场景所需要的AssetBundle，这样用户就不会感到等待时间太烦躁了。同步加载要比异步加载时间更短。</p>
+<p>6.纹理资源在游戏中一般是最大的资源，选择合适的压缩格式进行压缩，既可以减少内存占用，又能够加快资源的加载速度。压缩格式的选择要从显示效果和压缩率上进行权衡。一般在Android上使用ETC格式，在iOS上使用PVRTC格式，在某些情况下，可能还可以考虑使用Alpha通道分离技术进行压缩处理。</p>
+<p>7.代码文件可以编译成 .dll 文件， 减少大量TextAsset文件导致的碎片化加载时间。</p>
+<p>8.强烈建议使用IL2CPP后端，如果使用IL2CPP，则可以忽略第7条。</p>
+<p>转自：<a href="http://mp.weixin.qq.com/s/Mxk90KS66hL0cz0MXmPcKA" target="_blank" rel="external">http://mp.weixin.qq.com/s/Mxk90KS66hL0cz0MXmPcKA</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+<!-- hackish -->
+</div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 HuFei
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
